@@ -1,0 +1,351 @@
+\documentclass[12pt, a4paper]{book}
+\usepackage[ascii]{inputenc}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{intersections}
+\usepackage{kpfonts}
+\usepackage{dsfont}
+\pgfplotsset{compat=1.13}
+\usepackage{emptypage}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\GL}{GL}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setenumerate{}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Some fancy macros // May eventually move these into separate files or something and merge when building template
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
+\newcommand{\hess}[1]{\ensuremath{\operatorname{H}\!{#1}}} % Hessian
+\newcommand{\diff}[1]{\ensuremath{\operatorname{D}\!{#1}}} % Jacobian
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\cpl}[1]{\overline{#1}} % complement
+\renewcommand{\v}[1]{\mathbf{#1}} % vector
+\newenvironment{amatrix}[1]{% augumented matrix - make sure to have # columns less than required amount
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+%-----------------------------------------------------------------------------------------------------------------
+% Define theorem environments, along with a custom proof environment
+\usepackage[thref, thmmarks,amsmath]{ntheorem}
+\newcommand{\itref}[1]{\textit{\thref{#1}}}
+
+\newtheorem{theorem}{Thm.}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Def'n.}
+\newtheorem{corollary}[theorem]{Cor.}
+\newtheorem{proposition}[theorem]{Prop.}
+
+\theorembodyfont{\upshape}
+\newtheorem{remark}[theorem]{Rmk.}
+\newtheorem{exercise}[theorem]{Exc.}
+\newtheorem{example}[theorem]{Ex.}
+\theoremseparator{}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape}
+\theoremsymbol{$\square$}
+\newtheorem{proof}{Proof}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Define Document Variables
+\newcommand{\assignmentname}{Course Notes}
+\newcommand{\classname}{Introduction to Abstract Algebra}
+\newcommand{\semester}{BSM Fall 2018}
+
+% Define a title page for the document
+%----------------------------------------------------------------------------------------------------------------------
+% Define headings for each page
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\lhead{Alex Rutar\\arutar@uwaterloo.ca}
+\rhead{\classname: \assignmentname\\\semester}
+\cfoot{\thepage}
+\setlength{\headheight}{50pt}
+%----------------------------------------------------------------------------------------------------------------------
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+    \centering
+    \vspace{5cm}
+    {\huge\textbf{\assignmentname}\par} % Assignment Name
+    \vspace{2cm}
+    {\Large\textbf{\classname}\par} % Class
+    \vspace{3cm}
+    {\Large\textit{Alex Rutar}\par}
+
+    \vfill
+
+% Bottom of the page
+    {\large \semester \par} % Due Date
+\end{titlepage}
+%----------------------------------------------------------------------------------------------------------------------
+% \newpage\null\thispagestyle{empty}\textit{This page is left intentionally blank.}\newpage
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+\chapter{Fundamentals of Groups}
+\section{Principles}
+In general, algebraic structures require three properties:
+\begin{itemize}
+    \item A set
+    \item Operations on the set
+    \item Properties of these operations
+\end{itemize}
+We develop theories and want to look at examples to demonstrate these properties.
+This course will focus on propeties of rings and groups.
+
+\subsection{Rings}
+A ring consists of a set along with two binary operations which satisfy $(R,+,\cdot)$.
+Then for all $a,b,c\in R$,
+\begin{enumerate}[nolistsep]
+    \item $(a+b)+c=a+(b+c)$
+    \item $a+b=b+a$
+    \item $\exists 0\in R$ so that $a+0=a$
+    \item $\forall a\in R$, there exists $b\in R$ so that $a+b=0$
+    \item $(a\cdot b)\cdot c=a\cdot(b\cdot c)$
+    \item $a\cdot(b+c)=a\cdot b+a\cdot c$ and $(a+b)\cdot c=a\cdot c+b\cdot c$
+\end{enumerate}
+There are some common examples:
+\begin{enumerate}
+    \item Rings of numbers
+        \begin{enumerate}
+            \item $\Z,\Q,\R,\C$
+            \item $\Z[\sqrt{2}]=\{a+b\sqrt{2}\mid a,b\in\Z\}$ 
+            \item $\Q[\sqrt[3]{2}]=\{a+b\sqrt[3]{2}+c\sqrt[3]{4}|a,b,c\in\Q\}$
+        \end{enumerate}
+    \item Rings of polynomials
+        \[\Z[x]=\{a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0|\forall a_i\in \Z\}\]
+        $\Q[x],\R[x],\C[x],\Z[x,y]$ etc.
+    \item Rings of functions, such that $C[a,b]$
+    \item Rings of matrices $M_n(\Z)$: all $n\times n$ square matrices with integer entries (more generally matrices with any entries in a ring).
+    \item Given any set $X$, consider $\mathcal{P}(X)$ and define the symmetric difference
+        \[A\oplus B=(A\cup B)\setminus(A\cap B)\]
+        Then $(\mathcal{P}(X),\oplus,\cap$ is a ring.
+        Interestingly, $A=-A$ in this ring.
+\end{enumerate}
+A ring with identity means we have some $1\neq 0$ so that $a\cdot 1=1\cdot a=a$.
+A division ring is a ring with identity such that all nonzero elements have a multiplicative inverse.
+A field is a commutative division ring $\Q,\R,\C,\Q[\sqrt{2}]$.
+\subsection{Groups}
+\begin{definition}
+    A group is a set $G$ together with an operation $*$ which satisfies
+    \begin{enumerate}
+        \item $(a*b)*c=a*(b*c)$
+        \item $\exists e\in G:a*e=a=e*a$
+        \item $\forall a\in G\exists b\in G:a*b=e=b*a$
+    \end{enumerate}
+\end{definition}
+Here are some common examples of groups
+\begin{enumerate}
+    \item Additive groups:
+        \begin{enumerate}
+            \item If $(R,+,\cdot)$ is a ring, then $(R,+)$ is a (commutative) group.
+            \item If $V$ is a vector space, then $(V,+)$ is a group
+        \end{enumerate}
+    \item Multiplicative groups:
+        \begin{enumerate}
+            \item $R$ is a ring with identity, and write
+                \[R^\times=\{a\in R\mid \exists b\text{ s.t. }a\cdot b = 1 = b\cdot a\}\]
+                in other words the elements having a multiplicative inverse.
+                These are called the \textbf{units} of the ring, and $R^\times$ is called the \textbf{unit group} or the \textbf{multiplicative group} of $R$.
+            \item $\Z^\times=\{1,-1\}$, $\Q^\times=\Q\setminus\{0\}$ (similarly for $\R,\C$).
+            \item $M_n(\R)^\times = \GL_n(\R)=\{A\in M_n(\R)\mid \det A\neq 0\}$.
+            \item $M_n(\Z)^\times = \GL_n(\Z)=\{A\in M_n(\Z)|\det A=\pm 1\}$.
+        \end{enumerate}
+    \item Matrix groups: matrices under addition and multiplication
+    \item Composition of permutations.
+        Let $T$ be any set, and $A:T\to T$ be bijective.
+        Let $S_T$ be the collection of all permutations on $T$.
+        Then $(S_T,\circ)$ (composition action) forms a group.
+
+        We write $S_n=S_{\{1,2,\ldots,n\}}$, the group of permutations on $n$ elements.
+        We can notate the elements of $S_n$ by writing
+        \[
+            \begin{pmatrix}
+                1&2&\cdots&n\\
+                f(1)&f(2)&\cdots&f(n)
+            \end{pmatrix}
+        \]
+        Clearly $|S_n|=n!$.
+\end{enumerate}
+\subsection{The group $\Z_m$}
+\begin{definition}
+    Let $\sim$ be an equivalence relation.
+    We then define the \textbf{quotient group} $G/\sim$ given by the equivalence classes of elements in $G$.
+\end{definition}
+To construct $\Z_m$, we define $\Z_m=\Z/\sim$ where $a\sim b$ if $a\cong b\pmod{m}$.
+Since we have a division algorithm in $\Z$, for any $d\in\Z$, we can write $d=tm+r$ with $0\leq r\leq m-1$.
+Thus $\overline{d}=\overline{r}$, so we can represent $\Z_m=\{\overline{0},\overline{1},\ldots,\overline{m-1}\}$.
+As a result we usually do not bother writing $\overline{\cdot}$.
+\begin{proposition}
+    We have $\overline{a}+\overline{b}=\overline{a+b}$ and $\overline{a}\cdot\overline{b}=\overline{ab}$.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\begin{theorem}
+    $\Z_m^\times=\{\overline{a}\mid\gcd(a,m)=1\}$.
+\end{theorem}
+\begin{proof}
+    Assume $\overline{a}\in\Z^\times_m$ so there exists $\overline{x}$ with $\overline{x}\cdot\overline{a}=1$.
+    Then $\overline{xa}=\overline{1}$ so $xa\cong 1\pmod{m}$ so $m|xa-1$.
+    Let $d=\gcd(a,m)$ so $d|a$ and $d|m$.
+    Thus $d|xa-1$ and $d|xa$ so $d|1$ and $\gcd(a,m)=1$.
+
+    Conversely, suppose $\gcd(a,m)=1$.
+    Then by B\'ezout's Lemma, get $x,y$ so that $xa+ym=1$, so $xa\cong 1\pmod{1}$ and $\overline{xa}=\overline{1}$ and $\overline{x}\overline{a}=\overline{1}$ and we have our multiplicative inverse.
+\end{proof}
+We thus have $|\Z_m^\times|=\phi(m)$.
+\section{Basics of Groups}
+\subsection{Functions between Groups}
+\begin{definition}
+    Let $(G,\Diamondblack)$, $(H,\star)$ be groups.
+    A mapping $f:G\to H$ is called an \textbf{homomorphism} if
+    \[f(u\Diamondblack v)=f(u)\star f(v)\]
+    If $f$ is also a a bijection, then we call $f$ an \textbf{isomorphism}.
+\end{definition}
+\begin{proposition}
+    $G$ and $H$ are isomorphic if and only if their Cayley Tables are the same up to permutation of elements.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\section{Examples of Finite Groups}
+\subsection{Group Definitions}
+\begin{definition}
+    We say that $(G,*)$ with $*:G\times G\to G$ is a \textbf{group} if for all $a,b,c\in G$
+    \begin{enumerate}
+        \item $(a*b)*c=a*(b*c)$
+        \item $\exists e\in G:\quad a*e=a=e*a$
+        \item $\exists u\in G:\quad a*u=e=u*a$
+    \end{enumerate}
+\end{definition}
+We have our first basic proposition:
+\begin{proposition}
+    The identity and inverses are unique.
+\end{proposition}
+\begin{proof}
+    If $e,f$ are both identities, then $e=e*f=f$.
+    If $u,v$ are both inverses of $x$, then $u*(x*v)=u*e=u$ and $(u*x)*v=e*v=v$ so $u=v$.
+\end{proof}
+\begin{definition}
+    If $ab=ba$ for all $a,b\in G$ then we say that $G$ is \textbf{commutative}.
+\end{definition}
+\begin{definition}
+    Let $G$ be a group with $G=\{g_1,g_2,\ldots,g_n\}$.
+    Then the \textbf{Cayley Table} for $G$ is the matrix $M\in M_n(G)$ where $M_{ij}=g_ig_j$.
+\end{definition}
+\begin{proposition}
+    In each column or row, each element occurs exactly once.
+    Furthermore, if $M_{ij}=e$, then $M_{ji}=e$.
+\end{proposition}
+\begin{proof}
+    This follows directly by left or right cancellation, and by commutativity of the elements with their inverse.
+\end{proof}
+\subsection{Cyclic Groups}
+\begin{definition}
+    The \textbf{order of an element} $g\in G$ is $o(g):=\left\lvert\{g^d|d\in\Z\}\right\rvert$.
+    The \textbf{order of a group} $G$ is $|G|$.
+\end{definition}
+We certainly have $o(g)\leq|G|$ for any $g\in G$.
+Equality holds when $o(g)=\infty$ and $G$ is countable, or $G=\{g^d:d\in\Z\}$.
+\begin{definition}
+    A collection $H=\{g_1,g_2,\ldots,g_k\}$ \textbf{generates} $G$ if we can write any $g\in G$ as a product of elements in $H$.
+\end{definition}
+\begin{definition}
+    We say that $G$ is \textbf{cyclic} if $G=\{g^d:d\in\Z\}$ for some $g\in G$.
+    Equivalently, it is generated by a set of cardinality one.
+\end{definition}
+\begin{example}
+    Note that $\Z_{13}^\times$ is cyclic with generator $2$.
+\end{example}
+\begin{lemma}
+    If $o(g)$ is finite and $d\in\Z$, then
+    \[o(g^d)=\frac{o(g)}{\gcd(o(g),d)}\]
+\end{lemma}
+\begin{proof}
+    Let $o(g)=K$ and $t=\gcd(K,d)$ and write $K=tK_1$ and $d=td_1$ with $K_1,d_1$ coprime.
+    Thus $o(g^d)$ is the smallest positive integer $l$ with $(g^d)^l=1$.
+    But then $(g^d)^l=1\Leftrightarrow g^{dl}=1\Leftrightarrow o(g)|dl$ and $k|dl$, that is $tK_1|td_1l$ and $k_1|d_1l$.
+    Thus $K_1|l$ so the smallest positive intger $l$ is $K_1$ and $o(g^d)=K_1=\frac{o(g)}{\gcd(o(g),d)}$ as desired.
+\end{proof}
+\subsection{Permutation Groups}
+Recall that $S_n$ is the symmetric group of degree $n$, consisting of all permutations of $[n]$.
+Thus $|S_n|=n!$.
+Instead of using the matrix form, we can write the permutation group using the cycle form.
+\begin{example}
+    Write
+    \[f=\begin{pmatrix}1&2&3&4&5&6&7&8&9\\4&7&3&1&2&9&8&5&6\end{pmatrix}=(14)(2785)(3)(69)\]
+    We can also write $(14)(2785)(69)$, in other words excluding elements which map to themselves.
+\end{example}
+In general, a cycle $(a_1a_2\ldots a_k)$ indicates that $a_1f=a_2$, $a_2f=a_3$,\dots,$a_kf=a_1$.
+In $S_n$, each permutation can be expressed in a cycle form (using disjoint cycles).
+The cycle form is unique up to ordering within the cycles, and ordering among the cycles.
+\begin{example}
+    In $S_5$, the possible cycle structures are
+    \[I,(ab),(abc),(abcd),(abcde),(ab)(cd),(ab)(cde)\]
+    We then have
+    \begin{align*}
+        o(I) &= 1\\
+        o((ab)) &= 2\\
+        o((abc)) &= 3\\
+        o((abcd)) &= 4\\
+        o((abcde)) &= 5\\
+        o((ab)(cd)) &= 2\\
+        o((ab)(cde)) &= 6
+    \end{align*}
+    For $f=(abc)$, $f^2=(abc)(abc)=(acb)$, $f^3=(abc)(acb)=abc$.
+    For $f=(abcd)$, $f^2=(ac)(bd)$, $f^3=(abdc)(ac)(bd)(adcb)$, and $f^4=(abcd)(adcb)=(abcd)$.
+
+    If $f=(a_1a_2\ldots a_k)$, $o(f)=k$.
+\end{example}
+\begin{proposition}
+    Suppose $f=\gamma_1\gamma_2\ldots\gamma_i$ for disjoint cycles.
+    Then $o(f)=lcm(o(\gamma_1),o(\gamma_2),\ldots,o(\gamma_i))$.
+\end{proposition}
+\begin{proof}
+    Note that the $\gamma_i$ commute, so that
+    \begin{align*}
+        f^d=I &\Leftrightarrow (\gamma_1\gamma_2\ldots\gamma_i)^d=I\\
+              &\Leftrightarrow \gamma_1^d\gamma_2^d\ldots\gamma_i^d=I\\
+              &\Leftrightarrow \gamma_i^d=I\quad\forall i
+    \end{align*}
+    The last line holds since the $\gamma_i^d$ operates on disjoint sets.
+    Thus we have our formula, as desired.
+\end{proof}
+\subsection{Dihedral Groups}
+Fix a regular polygon with $n$ vertices.
+Let $D_n$ be the collection of rigid motions with map the regular $n-$polygon to itself.
+Since $r^n=1$ and $s^2=1$, we have
+\[D_n=\{1,r,r^2,\ldots,r^{n-1},s,sr,sr^2,\ldots,sr^{n-1}\}\]
+Thus $|D_n|=2n$.
+We can compute the oprations on $D_n$:
+\begin{align*}
+    r^a\cdot r^b &= r^{a+b}\\
+    sr^a\cdot r^b &= sr^{a+b}\\
+    r^a\cdot sr^b &= sr^{b-a}\\
+    sr^a\cdot sr^b &= r^{b-a}
+\end{align*}
+Thus $o(sr^a)=2$ and $o(r^a)$ is given by the usual formula.
+\section{Subgroups}
+\begin{definition}
+    A subset $H$ of a group $G$ is called a \textbf{subgroup} if $H$ is also a group with the same operation.
+    We write $H\leq G$.
+\end{definition}
+For example, $(\Z,+)\leq(\Q,+)\leq(\R,+)\leq(\C,+)$.
+\end{document}

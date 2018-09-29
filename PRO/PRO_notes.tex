@@ -1,0 +1,716 @@
+\documentclass[12pt, a4paper]{book}
+\usepackage[ascii]{inputenc}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{intersections}
+\usepackage{kpfonts}
+\usepackage{dsfont}
+\pgfplotsset{compat=1.13}
+\usepackage{emptypage}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+\renewcommand{\Pr}{\mathbb{P}}
+\DeclareMathOperator{\E}{\mathbb{P}}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setenumerate{}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Some fancy macros // May eventually move these into separate files or something and merge when building template
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
+\newcommand{\hess}[1]{\ensuremath{\operatorname{H}\!{#1}}} % Hessian
+\newcommand{\diff}[1]{\ensuremath{\operatorname{D}\!{#1}}} % Jacobian
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\cpl}[1]{\overline{#1}} % complement
+\renewcommand{\v}[1]{\mathbf{#1}} % vector
+\newenvironment{amatrix}[1]{% augumented matrix - make sure to have # columns less than required amount
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+%-----------------------------------------------------------------------------------------------------------------
+% Define theorem environments, along with a custom proof environment
+\usepackage[thref, thmmarks,amsmath]{ntheorem}
+\newcommand{\itref}[1]{\textit{\thref{#1}}}
+
+\newtheorem{theorem}{Thm.}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Def'n.}
+\newtheorem{corollary}[theorem]{Cor.}
+\newtheorem{proposition}[theorem]{Prop.}
+
+\theorembodyfont{\upshape}
+\newtheorem{remark}[theorem]{Rmk.}
+\newtheorem{exercise}[theorem]{Exc.}
+\newtheorem{example}[theorem]{Ex.}
+\theoremseparator{}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\square$}
+\newtheorem{proof}{Proof}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Define Document Variables
+\newcommand{\assignmentname}{Course Notes}
+\newcommand{\classname}{Introduction to Probability}
+\newcommand{\semester}{BSM Fall 2018}
+
+% Define a title page for the document
+%----------------------------------------------------------------------------------------------------------------------
+% Define headings for each page
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\lhead{Alex Rutar\\arutar@uwaterloo.ca}
+\rhead{\classname: \assignmentname\\\semester}
+\cfoot{\thepage}
+\setlength{\headheight}{50pt}
+%----------------------------------------------------------------------------------------------------------------------
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+    \centering
+    \vspace{5cm}
+    {\huge\textbf{\assignmentname}\par} % Assignment Name
+    \vspace{2cm}
+    {\Large\textbf{\classname}\par} % Class
+    \vspace{3cm}
+    {\Large\textit{Alex Rutar}\par}
+
+    \vfill
+
+% Bottom of the page
+    {\large \semester \par} % Due Date
+\end{titlepage}
+%----------------------------------------------------------------------------------------------------------------------
+% \newpage\null\thispagestyle{empty}\textit{This page is left intentionally blank.}\newpage
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+\chapter{Fundamentals}
+\section{Basic Principles}
+\subsection{Probability Spaces}
+A probability space is a triple $(\Omega,\mathcal{F},\mathbb{P})$.
+\subsection{$\Omega$}
+$\Omega$ is a set, called the sample space, and $\omega\in\Omega$ are called outcomes and $A\subset\Omega$ are called events.
+\begin{example}
+    A horserace with $3$ horses, $a$, $b$, $c$, has $\Omega=\{(a,b,c),(a,c,b),\ldots,(c,b,a)\}$.
+    Then $|\Omega|=6$ and $A=\{a\text{ wins the race}\}=\{(a,b,c),(a,c,b)\}$.
+\end{example}
+\begin{example}
+    Roll two fair dice, a white die and a yellow die.
+    Then $\Omega=\{(1,1),(1,2),\ldots,(6,6)\}$ and $|\Omega|=36$.
+\end{example}
+\begin{example}
+    Continue flipping a coin until there is a head.
+    Then
+    \[\Omega=\{(H),(T,H),(T,T,H),\ldots\}\]
+    Then define
+    \[A=\{\text{there are an even number of rolls}\}=\{(T,H),(T,T,T,H),\ldots\}\]
+\end{example}
+\begin{example}
+    Consider $\Omega=\{(x,y)\in\R^2\mid x^2+y^2\leq 100\}$.
+    Then $A=\{\text{you score 50 points}\}=\{(x,y)\mid x^2+y^2\leq 1\}$.
+\end{example}
+\begin{definition}
+    If $A\cap B=\emptyset$, we say that $A$ and $B$ are \textbf{mutually exclusive} events.
+    If $A\subset B$, we say that \textbf{$A$ implies $B$}.
+\end{definition}
+Write $A^c=\Omega\setminus A$.
+Recall distributivity, the deMorgan relations, etc.
+\subsection{$\mathcal{F}$}
+$\mathcal{F}$ is a collection of subsets of $\Omega$, which denote the events that we consider.
+\begin{itemize}[nolistsep]
+    \item If $\Omega$ is countable, then typically $\mathcal{F}$ is just the collection of all subsets of $\Omega$.
+    \item If $\Omega$ is a domain in $\R^n$, then it is a strict subset of $\R^n$.
+\end{itemize}
+In any case, $\mathcal{F}$ has to be closed under the following operations:
+\begin{enumerate}
+    \item $\Omega\in\mathcal{F}$
+    \item If $A\in\mathcal{F}$, then $A^c\in\mathcal{F}$
+    \item If $A_1,A_2,\ldots\in\mathcal{F}$, then $\bigcup\limits_{i=1}^\infty A_i\in\mathcal{F}$.
+\end{enumerate}
+in other words, that $\mathcal{F}$ is a $\sigma-$algebra.
+\subsection{$\mathbb{P}$}
+Finally, $\mathbb{P}:\mathcal{F}\to\R$ is a function that satisfies $3$ axioms:
+\begin{enumerate}
+    \item For any $A\in\mathcal{F}$, then $\mathbb{P}(A)\geq 0$
+    \item $\mathbb{P}(\Omega)=1$
+    \item ($\sigma-$additivity) Let $A_1,A_2,A_3,\ldots$ be a sequence of mutually exclusive events.
+        Then
+        \[\mathbb{P}\left(\bigcup\limits_{i=1}^\infty A_i\right)=\sum\limits_{i=1}^\infty\mathbb{P}(A_i)\]
+\end{enumerate}
+\subsection{Consequences}
+\begin{itemize}
+    \item $\mathbb{P}(A^c)+\mathbb{P}(A)=\mathbb{P}(A\cup A^c)=\mathbb{P}(\Omega)=1$.
+    \item If $A\subset B$, then $\mathbb{P}(A)\leq\mathbb{P}(B)$ since $\mathbb{P}(B)=\mathbb{P}( (A^c\cap B)\cup (A\cap B) )=\mathbb{P}(A^c\cap B)+\mathbb{P}(A\cap B)=\mathbb{P}(A^c\cap B)+\mathbb{P}(A)$
+    \item For any $A,B$, we have
+        \[\mathbb{P}(A\cup B)=\mathbb{P}( (A^c\cap B)\cup (A\cap B) \cup (A\cap B^c) )=\mathbb{P}(A^c\cap B)+\mathbb{P}(A\cap B)+\mathbb{P}(B^c\cap A)=\mathbb{P}(A)+\mathbb{P}(B)-\mathbb{P}(A\cap B)\]
+        Similarly,
+        \[\mathbb{P}(A\cup B\cup C)=\mathbb{P}(A)+\mathbb{P}(B)+\mathbb{P}(C)-\mathbb{P}(A\cap B)-\mathbb{P}(A\cap C)-\mathbb{P}(B\cap C)+\mathbb{P}(A\cap B\cap C)\]
+        which generlizes arbitrarily:
+        \[\mathbb{P}\left(\bigcup\limits_{i=1}^n A_i\right)=\sum\limits_{r=1}^n(-1)^{r+1}\sum\limits_{1\leq i_1<i_2<\cdots<i_r\leq n}\mathbb{P}(A_{i_1}\cap\cdots\cap A_{i_r})\]
+        \begin{proof}
+            We have already proved the base case for $n=2$, so assume the formula holds for a union of $n$ events.
+            Then
+            \begin{align*}
+                \mathbb{P}(A_1\cup\cdots A_n\cup A_{n+1}) &= \mathbb{P}(A_1\cup\cdots\cup A_n)+\mathbb{P}(A_{n+1})-\mathbb{P}( (A_1\cup\cdots\cup A_n)\cap A_{n+1} )
+            \end{align*}
+            We can distribute the first and third terms using the induction hypothesis, and the result follows.
+        \end{proof}
+\end{itemize}
+\begin{definition}
+    We say $D_1,D_2,\ldots$ is a \textbf{decreasing} sequence of events of $D_{k+1}\subset D_k$.
+    We say $D_1,D_2,\ldots$ is a \textbf{increasing} sequence of events of $D_{k+1}\supset D_k$.
+\end{definition}
+Let $\lim_{n\to\infty}D_n=\bigcap_{n=1}^\infty D_n$ and $\lim_{n\to\infty}I_n=\bigcup_{n=1}^\infty I_n$.
+\begin{proposition}
+    $\sigma-$additivity implies that for any increasing sequence,
+    \[\Pr\left(\lim_{n\to\infty}I_n\right)=\lim_{n\to\infty}\Pr(I_n)\]
+    and similarly for any decreasing sequence
+    \[\Pr\left(\lim_{n\to\infty}D_n\right)=\lim_{n\to\infty}\Pr(D_n)\]
+\end{proposition}
+\begin{proof}
+    Note that (2) implies (1): if $D_k$ is a decreasing sequence, then $I_k=D_k^c$ is an increasing sequence and
+    \[\left(\lim_{n\to\infty}D_n\right)^c=\left(\bigcap_{n=1}^\infty D_n\right)^c=\bigcup_{n=1}^\infty I_n=\lim_{n\to\infty}I_n\]
+    and taking probabilities,
+    \[\Pr\left(\lim_{n\to\infty}D_n\right)=1-\Pr\left(\lim_{n\to\infty}I_n\right)=1-\lim_{n\to\infty}\Pr(I_n)=\lim_{n\to\infty}\Pr(D_n)\]
+    To prove that $\sigma-$additivity implies (1), let $I_1,I_2,\ldots$ be increasing.
+    Let $A_1=I_1$ and for $k\geq 2$ let $A_k=I_k\setminus I_{k-1}$.
+    Then $A_1,A_2,\ldots$ are mutually exclusive and for any $k\geq 1$, 
+    \[\bigcup_{k=1}^K A_k=I_k\]
+    Thus
+    \[\bigcup\limits_{k=1}^\infty A_k=\lim_{n\to\infty}I_n\]
+    Now note that $\Pr(I_K)=\sum_{k=1}^K\Pr(A_k)$ while
+    \begin{align*}
+        \Pr\left(\lim_{n\to\infty}I_n\right) &= \Pr\left(\bigcup\limits_{k=1}^\infty A_k\right)\\
+                                             &= \sum\limits_{k=1}^\infty \Pr(A_k)\\
+                                             &= \lim_{K\to\infty}\sum\limits_{k=1}^K\Pr(A_k)\\
+                                             &= \lim_{K\to\infty}\Pr(I_K)
+    \end{align*}
+\end{proof}
+\subsection{Examples with Finite Uniform Probabilities}
+We assume that $\Omega=\{\omega_1,\omega_2,\dots,\omega_N\}$ and $\mathbb{P}(\{\omega_i\})=\mathbb{P}(\{\omega_j\})$.
+Then $\mathbb{P}(\{\omega_i\})=\frac{1}{N}$ and $\mathbb{P}(A)=|A|/N$.
+\begin{example}
+    In an urn there are 6 blue balls and 5 red balls.
+    Draw 3 balls out of this 11.
+    What is the change that among the 3 there are exactly 2 blue balls and 1 red ball?
+
+    Let us pretend that the balls are labelled, 1 through 11, and set $\Omega$ to be all the ordered triples of disjoint elements.
+    Then $A=\{\text{exactly 2 blue and 1 red}\}$, and note that $A=A^1\cup A^2\cup A^3$ where $A^i$ has a red in position $i$ and blue in the other two positions.
+    Now, $|A^i|=5\cdot 6\cdot5$, so $|A|=3\cdot6\cdot5\cdot 6$ and
+    \[\mathbb{P}(A)=\frac{|A|}{|\Omega|}=\frac{3\cdot 6\cdot 5\cdot 6}{11\cdot 10\cdot 9}\]
+
+    We now suppose that $\Omega=\{\Lambda\subset\{1,\ldots,11\}\mid |\Lambda|=3\}$, so $|\Omega|=\binom{11}{3}$.
+    Now
+    \[A=\{\Lambda_1\cup\Lambda_1|\Lambda_1\subset\{1,\ldots,6\},|\Lambda_1|=2,\Lambda_2\subset\{7,\ldots,11\},|\Lambda_2|=1\}\]
+    So $|A|=\binom{6}{2}\cdot 5$.
+\end{example}
+\begin{example}
+    Consider a group of $N$ people.
+    What is the chance that there is at least one pair amoung them who have the same birthday?
+
+    Define $\Omega=\{(i_1,i_2,\ldots,i_N)\mid i_j\in\{1,\ldots,365\}\}$.
+    We want $A=\{\text{there is at least one common birthday}\}$.
+    We can write
+    \[A^c=\{(i_1,\ldots,i_n)\in\Omega\mid i_j\neq i_k \forall j\neq k\}\]
+    Then $|A^c|=365\cdot 364\cdots (365-N+1)$ and
+    \[P_N=\mathbb{P}(A)=1-\mathbb{P}(A^c)=1-\frac{365\cdot364\cdots(365-N+1)}{365^N}\]
+\end{example}
+\begin{example}
+    Suppose we have $N$ people at a party.
+    The following day, everyone leaves one after another, and chooses a single phone from a pile.
+    What is the chance that nobody chooses her own phone?
+
+    Define $\Omega=\{(i_1,\ldots,i_N)\mid\text{permutations of }\{1,\ldots,N\}\}$, so $\omega=(i_1,\ldots,i_k)$ means person $k$ chooses phone $i_k$.
+    Then $|\Omega|=N!$.
+    Fix $B=\{\text{nobody picks her/his phone}\}$.
+    Define $A_1=\{\text{person 1 picks his phone}\}$, so $|A_1|=(N-1)!$, and similarly for $A_2$, etc.
+    Then $B=A_1^c\cap A_2^c\ldots\cap A_N^c=(A_1\cup \ldots\cup A_N)^c$, and $\mathbb{P}(A_i)=\frac{1}{N}$.
+    Now in general,
+    \[\Pr(A_{i_1}\cap\cdots\cap A_{i_k})=\frac{(N-k)!}{N!}\]
+    for $i_k$ distinct.
+    Thus we now have
+    \begin{align*}
+        \Pr(B) &= 1-\Pr(A_1\cup A_2\cup\ldots\cup A_n)\\
+               &= 1-\sum\limits_{r=1}^N(-1)^{r+1}\sum\limits_{1\leq i_1<i_2\cdots<i_r\leq N}\Pr(A_{i_1}\cap\cdots\cap A_{i_r})\\
+                      &= \sum\limits_{r=1}^n(-1)^{r+1}\binom{N}{r}\frac{(N-r)!}{N!}\\
+                      &= \sum\limits_{r=1}^N(-1)^{r+1}\frac{1}{r!}
+    \end{align*}
+    so that
+    \[\Pr(B)=1+\sum\limits_{r=1}^N(-1)^r\frac{1}{r!}=\sum\limits_{r=0}^N(-1)^r\frac{1}{r!}\]
+    Thus $\lim_{N\to\infty}\Pr(B)=\frac{1}{e}$.
+\end{example}
+\begin{example}[Round table seating]
+    Consider a round table with 20 seats, and 10 married couples sit.
+    What is the change that no couples sit together?
+
+    Define $\Omega=\{\text{permutations of }\{1,\ldots,20\}/\sim\}$ where $(i_1,\ldots,i_{20})\sum(i_{20},i_1,\ldots,i_{19})$.
+    Then $|\Omega|=19!$.
+    Define $B=\{\text{no couples together}=A_1^c\cap A_2^c\cap\cdots\cap A_{10}^c\}$, where
+    \[A_k=\{\text{the 8th woman sits next to her spouse}\}\]
+    so that
+    \[\Pr(B)=1-\Pr(A_1\cup\cdots\cup A_{10})\]
+    Note that
+    \[\Pr(A_i)=\frac{18!2}{19!}=\frac{2}{19}\]
+    by ``joining'' the couple together, arranging them around the table, and permuting the couple internally.
+    Thus generalizes to
+    \[\Pr(A_{i_1}\cap\cdots\cap \Pr(a_{i_r})=\frac{2^r(19-r)!}{19!}\]
+    Then by inclusion-exclusion,
+    \[\Pr(B)=1-\binom{10}{1}\cdot\frac{18!2}{19!}+\binom{10}{2}\frac{17!2^2}{19!}-\binom{10}{3}\frac{16!2^3}{19!}\cdots+\binom{10}{10}\frac{9!2^{10}}{19!}\approx 0.339\]
+\end{example}
+\begin{example}[Poker hand probabilities]
+    A poker hand is a straight if the 5 cards are of increasing value and not all of the same suit, starting with $A,2,3,4,\ldots,10$.
+
+    Define $\Omega=\{\text{5 element subsets of the 52 cards}\}$.
+    Then $|\Omega|=\binom{52}{5}$.
+    Thus
+    \[\Pr(\text{straight})=\frac{10\cdot (4^5-4)}{\binom{52}{5}}\]
+    \[\Pr(\text{full house})=\frac{13\cdot 12\cdot\binom{4}{3}\cdot\binom{4}{2}}{\binom{52}{5}}\]
+\end{example}
+\begin{example}[Bridge hand probabilities]
+    In bridge, each of the 4 players get 13 cards.
+    Let $\Omega=\{\text{13 cards that North gets}\}$.
+    \[\Pr(\text{North receives all spades})=\frac{1}{\binom{52}{13}}\]
+    \begin{align*}
+        \Pr(\text{North does not receive all 4 suits of any value})&=\\
+        \hspace{4cm}1-\Pr(\text{There is some value such that all suits are at N})
+    \end{align*}
+    Let $V_k=\{\text{North gets all four suits of value $k$}\}$.
+    Then
+    \[\Pr(V_1)=\frac{\binom{48}{9}}{\binom{52}{13}}\]
+    \[\Pr(V_1\cap V_2)=\frac{\binom{44}{5}}{\binom{52}{13}}\]
+    \[\Pr(V_1\cap V_2\cap V_4)=\frac{\binom{40}{1}}{\binom{52}{13}}\]
+    Thus
+    \[1-\Pr(V_1\cup V_2\cup\cdots\cup V_{13})=1-\frac{\binom{48}{9}}{\binom{52}{13}}\cdot 13+\binom{13}{2}\frac{\binom{44}{5}}{\binom{52}{13}}-\binom{13}{3}\frac{40}{\binom{52}{5}}\]
+    What is the change that each player receives one ace?
+    There are
+    \[\frac{52!}{13!13!13!13!}\]
+    possible hands.
+    There are $4!$ ways to arrange the aces, which gives
+    \[\Pr(E)=\frac{4!\binom{48}{12,12,12,12}}{\binom{52}{13,13,13,13}}\]
+\end{example}
+\section{Conditional Probability}
+\subsection{Basic Principles}
+Suppose we roll two fair dice.
+Then $\Pr(\text{the sum is 10})=\frac{3}{36}=\frac{1}{12}$.
+Suppose instead that the white dice is rolled first, and it turns up $6$.
+Now the probability that the sum is 10 is now $1/6$.
+\begin{definition}
+    Given an even $E$ with $\Pr(E)>0$, for any event $F$, let $\Pr(F|E)=\frac{\Pr(F\cap E)}{\Pr(E)}$.
+    We call this the \textbf{conditional probability of $F$ given $E$}.
+\end{definition}
+\begin{proposition}
+    Fix $E$ with $\Pr(E)>0$ and consider $\Pr(\cdot|E):\mathcal{F}\to\R$.
+    This function satisfies the axioms of probability.
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item $\Pr(F|E)\geq0$ for all $F\in\mathcal{F}$.
+        \item $\Pr(\Omega|E)=\frac{\Pr(E\cap\Omega)}{\Pr(E)}=1$
+        \item If $F_1,F_2,\ldots$ are mutually exclusive, then
+            \begin{align*}
+                \Pr(\bigcup\limits_{i=1}^\infty F_i|E) &= \frac{\Pr( (\bigcup_{i=1}^\infty F_i)\cap E)}{\Pr(E)}\\
+                                                      &= \frac{\Pr(\bigcup_{i=1}^\infty(E\cap F_i))}{\Pr(E)}\\
+                                                      &= \sum\limits_{n=1}^\infty\frac{\Pr(F_i\cap E)}{\Pr(e)}\\
+                                                      &= \sum\limits_{n=1}^\infty\Pr(F_n|E)
+            \end{align*}
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    We have $\Pr(E\cap F)=\Pr(F|E)\cdot \Pr(E)$, and more generally
+    \[\Pr(E_n\cap E_{n-1}\cap\cdots\cap E_1)=\Pr(E_n|E_{n-1}\cap\cdots\cap E_1)\cdots\Pr(E_3|E_2\cap E_1)\Pr(E_2|E_1)\Pr(E_1)\]
+\end{proposition}
+\begin{proof}
+    This follows by induction from the definition of conditional probability.
+\end{proof}
+\begin{example}
+    Andrew and Bob play for the college basketball team.
+    They get two T-shirts each, in closed bags.
+    Any T-shirt can be black or white, with 50-50 chance.
+    Andrew prefers black, but Bob has no preference.
+    The following day, Andrew shows up with a black shirt on.
+    What is the chance that Andrew's other shirt is black?
+\end{example}
+\begin{solution}
+    We have $\Omega=\{(B,B),(B,W),(W,B),(W,W)\}$ which is reduced to $\{(B,B),(B,W),(W,B)\}$, so the answer is $1/3$.
+    To make this transparent, consider
+    \begin{align*}
+        A_1&=\{\text{Andrew has at least one black shirt}\}\\
+        A_2&=\{\text{Both of Andrew's shirts are black}\}\\
+        A_3&=\{\text{Andrew has a black shirt on}\}
+    \end{align*}
+    so in Andrew's case, $A_1=A_3$ and $\Pr(A_2|A_3)=\Pr(A_2|A_1)$.
+\end{solution}
+\begin{example}[Polya's Urn]
+    Initially, we have two balls, 1 red, 1 blue, in the urn.
+    For the first draw, pick one, check its color, and put it back and put another ball of the same color into the urn.
+    \begin{enumerate}[nolistsep]
+        \item What is $\Pr(\text{the first three balls are red, blue, red (in this order)})$.
+    \end{enumerate}
+\end{example}
+\begin{solution}
+    \begin{enumerate}
+        \item Let $R_i,B_i$ denote the $i^{th}$ draw is red or blue respectively.
+        Then
+        \[\Pr(R_3\cap B_2\cap R_1)=\Pr(R_3|B_2\cap R_1)\Pr(B_2|R_1)\Pr(R_1)=\frac{1}{2}\frac{1}{3}\frac{1}{2}=\frac{1}{2}\]
+    \end{enumerate}
+\end{solution}
+\begin{example}
+    What is $\Pr(\text{in bridge, each of the players gets one ace})$?
+\end{example}
+\begin{solution}
+    Write
+    \begin{align*}
+        E_4&\\
+        \cap&\\
+        E_3&=\{\text{Aces of spaces, heards, and diamonds are at 3 different players.}\}\\
+        \cap&\\
+        E_2&=\{\text{Aces of spaces, hearts, and diamonds are at 2 diferent players.}\}\\
+        \cap&\\
+        E_1&=\Omega
+    \end{align*}
+    so that $\Pr(E_4)=\Pr(E_4\cap E_3\cap E_2\cap E_1)=\Pr(E_4|E_3)\Pr(E_3|E_2)\Pr(E_2|E_1)\Pr(E_1)$.
+\end{solution}
+\subsection{Bayes' Formula}
+\begin{example}
+    Consider an insurance compacy, which classifies people into accident prone drivers (30\%) and non-accident-prone drivers, (70\%).
+    For accident prone drivers, the chance of being involved in an accident within a year is 0.2, while for non-addicent-prone drivers, the chance of being involved in an accident is 0.1.
+    Now suppose we have a new policyholder.
+    \begin{enumerate}[nolistsep]
+        \item What is the probability that the policyholder is involved in an accident within a year?
+        \item The policyholder was involved in an accident?
+    \end{enumerate}
+\end{example}
+\begin{solution}
+    \begin{enumerate}
+        \item $B=\{\text{accident in 2018}\}$, $A=\{\text{the policyholder is accident prone}\}$.
+            Then
+            \[\Pr(B)=\Pr(B\cap A)+\Pr(B\cap A^c)=\Pr(B|A)\Pr(A)+\Pr(B|A^c)\Pr(A^c)=0.2\cdot 0.3+0.1\cdot 0.7=0.13\]
+        \item Now
+            \[\Pr(A|B)=\frac{\Pr(A\cap B)}{\Pr(B)}=\frac{\Pr(B|A)\Pr(A)}{\Pr(B|A)\Pr(A)+\Pr(B|A^c)\cdot\Pr(A^c)}=\frac{0.2\cdot 0.3}{0.13}=\frac{6}{13}\]
+    \end{enumerate}
+\end{solution}
+\begin{proposition}
+    Suppose $A_1,A_2,\ldots,A_n\in\mathcal{F}$ form a partition of $\Omega$.
+    Given such a partition, for any $B\in\mathcal{F}$,
+    \[\Pr(B)=\sum\limits_{i=1}^n\Pr(B\cap A_i)=\sum\limits_{i=1}^n\Pr(B|A_i)\cdot\Pr(A_i)\]
+    Then for any $k\in[n]$,
+    \[\Pr(A_k|B)=\frac{\Pr(B\cap A_k)}{\Pr(B)}=\frac{\Pr(B|A_k)\cdot\Pr(A_k)}{\sum\limits_{i=1}^n\Pr(B|A_i)\cdot\Pr(A_i)}\]
+\end{proposition}
+\begin{example}
+    Roll a fair dice.
+    There is a urn with one white ball in it.
+    If the die turns up 1,3, or 5, put one black ball ito the urn.
+    If it turns up 2 or 4, put 3 black and 5 white, and if it turns up 6, put 5 black and 5 white.
+\end{example}
+\begin{solution}
+    Write
+    \begin{align*}
+        A_1 &= \{\text{1,3 or 5 rolled}\}\\
+        A_2 &= \{\text{2 or 4 rolled}\}\\
+        A_3 &= \{\text{6 rolled}\}
+        B &= \{\text{black ball rolled}\}
+    \end{align*}
+    so that
+    \begin{align*}
+        \Pr(A_3|B) &= \frac{\Pr(B|A_3)\Pr(A_3)}{\Pr(B|A_1)\cdot \Pr(A_1)+\Pr(B|A_2)\cdot\Pr(A_2)+\Pr(B|A_3)\cdot\Pr(A_3)}\\
+                   &= \frac{5/6\cdot 1/6}{1/2\cdot 1/2+3/4\cdot1/3+5/6\cdot 1/6}\\
+                   &=\frac{5}{23}
+    \end{align*}
+\end{solution}
+\begin{example}
+    There is a blood test for a rare but serious disease.
+    Only 1/10000 people have this disease.
+    Suppose the test is 100\% effective, so if someone is tested ill, it is positive with 100\% chance.
+    Suppose there is also a 1\% chance of false positive.
+
+    A new patient is tested, and tests positive.
+    What are the odds that she has the disease?
+\end{example}
+\begin{solution}
+    Let $A=\{\text{the person is ill}\}$ and $B=\{\text{the test is positive}\}$.
+    Then
+    \[\Pr(A|B)=\frac{\Pr(B|A)\Pr(A)}{\Pr(B|A)\Pr(A)+\Pr(B|A^c)\Pr(A^c)}=\frac{1\cdot 0.0001}{1\cdot 0.0001+0.01\cdot0.9999}\]
+\end{solution}
+\begin{example}[Monty Hall paradox]
+    There are three doors: one of them hides a prize, and two hide nothing.
+    Pick a door.
+    The announcer then reveals another door not containing a prize.
+    Is it better to stay or switch?
+\end{example}
+\begin{solution}
+    Write $A_i=\P\text{door $i$ hides the price}$, and $B_2=\{\text{door $2$ is opened}\}$.
+    Then
+    \begin{align*}
+        \Pr(A_1|B_2)=\Pr(B_2|A_1)\Pr(A_1)&=\frac{\Pr(B_2|A_1)\Pr(A_1)}{\Pr(B_2|A_1)\Pr(A_1)+\Pr(B_2|A_2)\Pr(A_2)+\Pr(B_2|A_3)\Pr(A_3)}\\
+                                         &=\frac{1/2\cdot1/3}{1/2\cdot1/3+0+1/3\cdot1/3}=\frac{1}{3}
+    \end{align*}
+    but
+    \begin{align*}
+        \Pr(A_3|B_2)=\Pr(B_2|A_3)\Pr(A_3)&=\frac{\Pr(B_2|A_1)\Pr(A_1)}{\Pr(B_2|A_1)\Pr(A_1)+\Pr(B_2|A_2)\Pr(A_2)+\Pr(B_2|A_3)\Pr(A_3)}\\
+                                         &=\frac{1\cdot1/3}{1/2\cdot1/3+0+1/3\cdot1/3}=\frac{2}{3}
+    \end{align*}
+    so it is better to switch!
+\end{solution}
+\begin{example}
+    There is an inspection, which is 60\% sure of the guilt of a certain suspect.
+    The suspect is left-handed.
+    There is new evidence: the criminal is left handed.
+    Say 20\% of the population is left handed; how certain should the inspector now be?
+\end{example}
+\begin{solution}
+    Write $C=\{\text{the suspect is the criminal}\}$ and $C^c=\{\text{the criminal is someone else}\}$.
+    Then $\Pr(C)=0.6$ and $\Pr(C^c)=0.4$.
+    Let $L=\{\text{the criminal is left-handed}\}$.
+    Then
+    \[\Pr(C|L)=\frac{\Pr(L|C)\Pr(C)}{\Pr(L)}\qquad\Pr(C^c|L)=\frac{\Pr(L|C^c)\Pr(C^c)}{\Pr(L)}\]
+    Here, we can compute the ``odds'':
+    \[\frac{\Pr(C|L)}{\Pr(C^c|L)}=\frac{\Pr(L|C)\Pr(C)}{\Pr(L|C^c)\Pr(C^c)}\]
+    Now $\Pr(L|C)=1$, but $\Pr(L|C^c)=\Pr(L)=0.2$, since the probability is taken a priori.
+    Now a priori, the odds are given by $\Pr(C)/\Pr(C^c)=0.6/0.4$, scaled by the factor $\Pr(L|C)/\Pr(L|C^c)=5$ given updated information.
+    Thus $\Pr(C|L)=15/17$.
+\end{solution}
+\section{Independent Events}
+\subsection{Definitions}
+\begin{definition}
+    The events $A$ and $B$ are \textbf{independent} if $\Pr(A\cap B)=\Pr(A)\Pr(B)$.
+\end{definition}
+\begin{example}
+    Draw a card from a deck of 52.
+    Let
+    \[A=\{\text{it is a spade}\},\quad B=\{\text{it is an ace}\},\quad C=\{\text{it is a heart}\}\]
+    We have
+    \[\Pr(A)=\frac{1}{4},\quad\Pr(B)=\frac{1}{13},\quad\Pr(A\cap B)=\frac{1}{52}\]
+    so $A$ and $B$ are independent.
+    Similarly, $B$ and $C$ are independent.
+    However, $\Pr(A\cap C)=0\neq 1/4$ so $A$ and $C$ are not independent.
+\end{example}
+\begin{remark}
+    Exclusive events are quite different than independence: in fact, they are (in a sense) the opposite.
+    Let $\Pr(A)>0$.
+    Then $A$ and $B$ are independent iff $\Pr(B|A)=\Pr(B)$.
+    Similarly, $A$ and $B$ are exclusive iff $\Pr(B|A)=0$.
+\end{remark}
+\begin{example}
+    Roll two fair dice, the yellow and the white die.
+    Then
+    \begin{align*}
+        A &= \{\text{the sum is 7}\}\\
+        B &= \{\text{the sum is 10}\}\\
+        C &= \{\text{the yellow die turns up 6}\}\\
+        D &= \{\text{the white die turns up 6}\}
+    \end{align*}
+    We have $\Pr(A)=1/6$, $\Pr(C)=1/6$.
+    Then $\Pr(A\cap C)=1/36=1/6\cdot 1/6$ so $A$ and $C$ are independent.
+    Similarly, $C$ and $D$ are independent and $A$ and $D$ are independent.
+    Thus $A$, $C$, $D$ are pairwise independent but not independent as a triple.
+\end{example}
+\begin{definition}
+    The events $A_1,A_2,\ldots$ are \textbf{independent (as a collection)} if, for any choice of indices $1\leq i_1<i_2<\cdots<i_k\leq n$, then
+    \[\Pr(A_{i_1}\cap A_{i_2}\cap\cdots\cap A_{i_k})=\Pr(A_{i_1})\Pr(A_{i_2})\cdots\Pr(A_{i_k})\]
+\end{definition}
+\subsection{Independent Trials}
+We have two parameters: $n\geq 1$, which is the number of trials, and $p\in(0,1)$, which is the chance of success for an individual trial.
+Then $A_k=\{\text{the $k^\text{th}$ trial is a succes}\}$ so that $\Pr(A_k)=p$ and the events $A_1,\ldots,A_n$ are independent.
+Our framework is to consider the space $\Omega\times\Omega\times\cdots\times\Omega$.
+\begin{example}
+    Roll a fair die 10 times.
+    Then $A_k=\{\text{the $k^\text{th}$ roll is a 6}\}$.
+    Then we have
+    \begin{itemize}
+        \item $\Pr(\text{all $n$ trials are successful})=\Pr(A_1\cap \cdots\cap A_n)=p^n$
+        \item $\Pr(\text{there is at least one success})=1-(1-p)^n$
+        \item $\Pr(\text{there are exactly $k$ success out of $n$ trials})=\binom{n}{k}p^k(1-p)^{n-k}$
+    \end{itemize}
+\end{example}
+Consider the case now where $n$ is countable (infinite number of trials).
+Let $S=\{\text{all trials are successful}\}$ define and $S_n=\{\text{the first $n$ trials are successful}\}$.
+Then $S=\bigcap\limits_{n=1}^\infty S_n$ so
+\[\Pr(S)=\lim_{n\to\infty}\Pr(S_n)=\lim_{n\to\infty}p^n=0\]
+\begin{example}
+    Repeatedly roll two fair dice until the sum is either 5 or 7.
+    What is the probability that the sum is $5$ when we stop?
+
+    Let $A_i=\{\text{rolls less than $i$ are not 5 or 7, roll $i$ is 5}\}$.
+    Since $\Pr(\text{roll is 5 or 7})=1/6+1/9$, we have $\Pr(\text{roll is not})=13/18$.
+    Thus
+    \[\Pr(A_i)=\left(\frac{13}{18}\right)^{i-1}\frac{5}{18}\]
+    so that
+    \[\Pr(A)=\frac{1}{9}\sum\limits_{i=0}^\infty\left(\frac{13}{18}\right)^i=\frac{1}{9}\frac{1}{1-\frac{13}{18}}=\frac{2}{5}\]
+\end{example}
+We have an alternate solution: note that $A_1,B_1,C_1$ partition the sample space.
+By the law of total probability,
+\begin{align*}
+    \Pr(D)&=\Pr(D|A_1)\Pr(A_1)+\Pr(D|A_2)\Pr(A_2)+\Pr(D|C_1)\Pr(C_1)\\
+          &= \Pr(B_1)+\Pr(C_1)\Pr(D)
+\end{align*}
+so that
+\[\Pr(D)=\frac{\Pr(B_1)}{1-\Pr(C_1)}=\frac{\Pr(B_1)}{\Pr(A_1)+\Pr(B_1)}\]
+\subsection{Random Walks}
+We first see the gambling interpretation.
+Suppose we have two players, $A$ has initial capital $k$ and $B$ has initial capital $N-k$.
+At each round, a coin is flipped.
+If it is a head, then $B$ gives $A$ 1 dollar, and if it is a tail, $A$ gives $B$ 1 dollar.
+Repeat this until someone runs out of money.
+\begin{center}
+    \begin{tikzpicture}[nd/.style={inner sep=2pt,circle,fill=black}]
+        \node[nd,label=below:{0}] (0) at (0,0){};   
+        \node[nd,label=below:{1}] (1) at (1,0){};
+        \node[nd,label=below:{2}] (2) at (2,0){};
+        \node[nd,label=below:{3}] (3) at (3,0){};
+        \node[nd] (kb) at (4.5,0){};
+        \node[nd,label=below:{$k$}] (k) at (5,0){};
+        \node[nd] (ka) at (5.5,0){};
+        \node[nd,label=below:{$N-1$}] (Nm1) at (7,0){};
+        \node[nd,label=below:{$N$}] (N) at (8,0){};
+        \draw (0)--(1)--(2)--(3)--(k)--(Nm1)--(N);
+        \draw plot [smooth, tension=1.4] coordinates { (kb) (4.75,0.25) (k)};
+        \draw plot [smooth, tension=1.4] coordinates { (ka) (5.25,0.25) (k)};
+    \end{tikzpicture}
+\end{center}
+Let $\Pr_k^{(N)}=\Pr(\text{when starting at position $j$, the probability that eventually $A$ wins})$.
+We have $P_0=0$, $P_N=1$.
+Then for $1\leq k\leq N-1$, we have
+\[P_k=\Pr\{\text{ending at $N$ when starting at $k$}|\text{first flip is H}\}\cdot\frac{1}{2}+\Pr\{\text{end at $N$ if start at $k$}|\text{first flip is T}\}\cdot\frac{1}{2}\]
+which can be written
+\[\P_k=P_{k+1}\frac{1}{2}+P_{k-1}\frac{1}{2}\Rightarrow \frac{1}{2}\left(P_k-P_{k-1}\right)=\frac{1}{2}\left(P_{k+1}-P_k\right)\]
+so, for any $1\leq k\leq N$, $P_k-P_{k-1}=d$ and
+\[1=P_N-P_0=P_n-P_{N-1}+P_{N-1}-P_{N-2}+\cdots+(P_1-P_0)=N\cdot d\]
+so $d=1/N$ and
+\[P_k=P_k-P_0=\sum\limits_{j=1}^k(P_j-P_{j-1})=kd=\frac{k}{N}\]
+\subsection{Conditional Independence}
+\begin{definition}
+    Given $A$ with $\Pr(A)>0$, two events $B_1$ and $B_2$ are \textbf{conditionally independent} given $A$ if
+    \[\Pr(B_1\cap B_2|A)=\Pr(B_1|A)\cdot\Pr(B_2|A)\]
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}
+        \item We have a medical test for a rare disease, and $A=\{\text{the patient is sick}\}$ has $\Pr(A)=0.005$ so $\Pr(A^c)=0.995$.
+            Let $B_1=\{\text{the first test is positive}\}$, so $\Pr(B_1|A)=0.95$ and $\Pr(B_1|A^c)=0.01$.
+            Then $\Pr(A|B)\approx 0.33$.
+            But now let $B_2=\{\text{the second test is positive}\}$.
+            Now what is $\Pr(A|B_1\cap B_2)$?
+            Here, the events $B_1$ and $B_2$ are not independent, but they are conditionally independent given either $A$ or $A^c$.
+            Thus
+            \begin{align*}
+                \Pr(A|B_1\cap B_2)&=\frac{\Pr(B_1\cap B_2|A)\Pr(A)}{\Pr(B_1\cap B_2)}\\
+                                  &= \frac{\Pr(B_1|A)\Pr(B_2|A)\Pr(A)}{\Pr(B_1|A)\Pr(B_2|A)\Pr(A)+\Pr(B_1|A^c)\Pr(B_2|A^c)\Pr(A^c)}\\
+                                  &= \frac{(0.95)^2\cdot 0.005}{(0.95)^2\cdot 0.005+(0.01)^2\cdot 0.995}\\
+                                  &\approx 0.98
+            \end{align*}
+        \item Suppose
+            \begin{align*}
+                A &= \{\text{accident prone}\} & \Pr(A) &= 0.3\\
+                A &= \{\text{not accident prone}\} & \Pr(A^c) &= 0.7
+            \end{align*}
+            and let $B_{Y}=\{\text{accident in year $Y$}\}$.
+            We have seen that $\Pr(B_{2018}|A)=0.2$ and $\Pr(B_{2018}|A^c=0.1$ so $\Pr(B_{2018})=0.13$.
+            Now
+            \begin{align*}
+                \Pr(B_{2019}|B_{2018}) &= \frac{\Pr(B_{2018}\cap B_{2019})}{\Pr(B_{2018})}\\
+                                       &= \frac{\Pr(B_{2019}|A)\Pr(B_{2018}|A)\Pr(A)+\Pr(B_{2019}|A)\Pr(B_{2018}|A^c)\Pr(A^c)}{\Pr(B_{2018}|A)\Pr(A)+\Pr(B_{2018}|A^c)\Pr(A^c)}\\
+                                       &= \Pr(B_{2019}|A)\cdot\Pr(A|B_{2018})+\Pr(B_{2019}|A^c)\Pr(A^c|B_{2018})\\
+                                       &= 0.2\cdot\frac{6}{13}+0.1\cdot\frac{7}{13}\\
+                                       &\approx 0.15
+            \end{align*}
+    \end{enumerate}
+\end{example}
+\begin{example}[Laplace's Rule of Succession]
+    Suppose we have $k+1$ coins in a box, and coin $i$ turns up Heads with $\frac{i}{k}$ chance, and Tails with $\frac{k-i}{k}$ chance (for $i=0,\ldots,k$).
+    Pick one coin, and flip the coin $n$ times.
+    Assume it turned Heads every $n$ times.
+    What is the probability that it turns up $H$ on the $(n+1)^\text{st}$ flip?
+\end{example}
+\begin{solution}
+    Let $H_j=\{\text{the $j^\text{th}$ flip is H}\}$ for $j=1,2,\ldots,n,n+1$.
+    Then the events $H_j$ are not independent, but they are conditionally independent given any of the $C_i=\{\text{the $i^\text{th}$ coin is initially picke}\}$ for $i=0,\ldots,k$.
+    Moreover, $\Pr(H_j|C_k)=\frac{i}{k}$.
+    We thus have
+    \begin{align*}
+        \Pr(H_{n+1}|H_1\cap H_2\cap\cdots\cap H_n) &= \frac{\Pr(H_1\cap H_2\cap\cdots\cap H_{n+1})}{\Pr(H_1\cap\cdots\cap H_n)}\\
+                                                   &= \frac{\sum\limits_{i=0}^k\Pr\left(\bigcap_{j=1}^{n+1}H_j|C_i\right)\Pr(C_i)}{\sum\limits_{i=0}^k\Pr(\bigcap\limits_{j=1}^nH_j|C_k)\Pr(C_k)}\\
+                                                   &= \frac{\sum\limits_{i=0}^k\prod\limits_{j=1}^{n+1}\Pr(H_j|C_i)\Pr(C_i)}{\sum\limits_{i=0}^k\prod\limits_{j=1}^n\Pr(H_j|C_i)\Pr(C_i)}\\
+                                                   &= \frac{\sum\limits_{i=0}^k\left(\frac{i}{k}\right)^{n+1}\frac{1}{k+1}}{\sum\limits_{i=0}^k\left(\frac{i}{k}\right)^n\frac{1}{k+1}}\\
+                                                   &:= p(k,n)
+    \end{align*}
+    Both the numerator and denominator of $p(k,n)$ are sums of the form $\sum\limits_{i=0}^k f(i/k)\cdot 1/k$.
+    Thus as $k\to\infty$,
+    \[\lim_{k\to\infty}p(k,n)=\frac{\int_0^1 x^{n+1}\d{x}}{\int_0^1 x^n\d{x}}=\frac{\frac{1}{n+2}}{\frac{1}{n+1}}=\frac{n+1}{n+2}\]
+\end{solution}
+\begin{example}[Best prize problem]
+    Suppose we have $N$ items, each with a distinct real value.
+    Observe them sequentially.
+    After observing a prize, you can take the prize, or can abandon it (and never access it again).
+    How can you maximize the odds that you get the best prize?
+\end{example}
+\begin{solution}
+    Define a $k-$strategy for each $k=1,\ldots,N$, in which we observe the first $k$ items, and pick the first of the remaining ones that is better than the first $k$.
+    Define
+    \[P_k^{(N)}=\Pr(\text{choose the best with the $k-$strategy})\]
+    Let $B_k$ denote this event and $A_i$ be the event that the best prize is at the $i^\text{th}$ position, so $\Pr(A_i)=1/N$.
+    Note that $\Pr(B_k|A_j)=0$ for $j\leq k$, and $\Pr(B_k|A_j)=\frac{k}{j+1}$ for $j>k$.
+    Then
+    \begin{align*}
+        \Pr(B_k) &= \sum\limits_{i=1}^n\Pr(B_k|A_i)\Pr(A_i)\\
+                 &= \sum\limits_{i=k}^{N-1}\frac{k}{i}\cdot\frac{1}{N}\\
+                 &:= P_k^{(N)}
+    \end{align*}
+    We can then compute
+    \begin{align*}
+        \lim_{k/N\to x}P_k^{(N)} &= \lim_{k/N\to x}\sum\limits_{i=k}^{N-1}\frac{k/N}{i/N}\cdot\frac{1}{N}\\
+            &= \lim_{k/N\to x}x\sum\limits_{i=k}^{N-1}\frac{1}{i/N}\frac{1}{N}\\
+            &= x\int_x^1\frac{1}{y}\d{y}\\
+            &= -x\ln x := g(x)
+    \end{align*}
+    Then $g'(x)=-\ln x-1$ and $g''(x)=-\frac{1}{x}$.
+    Then $g'(x)=0\Rightarrow \ln x=-1$ so $x=1/e$ is a maximum since $g''(1/e)<0$.
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \draw[->] (0,0) -- (1.2,0) node[right] {$x$};
+            \draw[->] (0,0) -- (0,0.6) node[above] {$y$};
+            \draw[scale=1,domain=0.01:1,smooth,variable=\x,blue] plot ({\x},{-\x*ln(\x)});
+        \end{tikzpicture}
+    \end{center}
+\end{solution}
+\chapter{Random Variables}
+\section{Basics}
+\begin{definition}
+    A \textbf{random variable} is a (measurable) function $X:\Omega\to\R$.
+\end{definition}
+For example, fix $a<b\in\R$ and consider the set $\{w\in\Omega\mid\mathbb{X}(w)\in[a,b]\}\in\mathcal{F}$.
+\begin{example}
+    \begin{enumerate}
+        \item Flip three fair coins.
+            Let $Y$ denote the number of Heads.
+            Then $Y:\Omega\to\{0,1,2,3\}$.
+        \item Repeatedly roll a fair die until a 6 occurs.
+            Let $Z$ denote the number of rolls necessary.
+            Now $Z:\Omega\to\N$.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    A random variable is \textbf{discrete} if its range is countable.
+\end{definition}
+For a discrete random variable, the \textbf{probability mass function} is $p:\R\to\R$ defined by
+\[p(x)=\begin{cases} 0&\text{if $x$ is not taken by $X$}\\\Pr(X=x_i)&\text{$x=x_i$ is taken by $X$}\end{cases}\]
+In the example $\Pr(Y=0)=\frac{1}{8}$, $\Pr(Y=1)=\frac{3}{8}$, $\Pr(Y=2)=\frac{3}{8}$, $\Pr(Y=3)=\frac{1}{8}$.
+Note that $\sum\limits_{i=1}^\infty p(x_i)=1$.
+
+In the dice example, $\Pr(Z=k)=\left(\frac{5}{6}\right)^{k-1}\frac{1}{6}$ and indeed the geometric series sums to 1.
+\end{document}

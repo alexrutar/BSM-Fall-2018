@@ -1,0 +1,739 @@
+\documentclass[12pt, a4paper]{book}
+\usepackage[ascii]{inputenc}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{intersections}
+\usepackage{kpfonts}
+\usepackage{dsfont}
+\pgfplotsset{compat=1.13}
+\usepackage{emptypage}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setenumerate{}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Some fancy macros // May eventually move these into separate files or something and merge when building template
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
+\newcommand{\hess}[1]{\ensuremath{\operatorname{H}\!{#1}}} % Hessian
+\newcommand{\diff}[1]{\ensuremath{\operatorname{D}\!{#1}}} % Jacobian
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\cpl}[1]{\overline{#1}} % complement
+\renewcommand{\v}[1]{\mathbf{#1}} % vector
+\newenvironment{amatrix}[1]{% augumented matrix - make sure to have # columns less than required amount
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+%-----------------------------------------------------------------------------------------------------------------
+% Define theorem environments, along with a custom proof environment
+\usepackage[thref, thmmarks,amsmath]{ntheorem}
+\newcommand{\itref}[1]{\textit{\thref{#1}}}
+
+\newtheorem{theorem}{Thm.}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Def'n.}
+\newtheorem{corollary}[theorem]{Cor.}
+\newtheorem{proposition}[theorem]{Prop.}
+
+\theorembodyfont{\upshape}
+\newtheorem{remark}[theorem]{Rmk.}
+\newtheorem{exercise}[theorem]{Exc.}
+\newtheorem{example}[theorem]{Ex.}
+\theoremseparator{}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape}
+\theoremsymbol{$\square$}
+\newtheorem{proof}{Proof}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Define Document Variables
+\newcommand{\assignmentname}{Course Notes}
+\newcommand{\classname}{Real Functions and Measures}
+\newcommand{\semester}{BSM Fall 2018}
+
+% Define a title page for the document
+%----------------------------------------------------------------------------------------------------------------------
+% Define headings for each page
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\lhead{Alex Rutar\\arutar@uwaterloo.ca}
+\rhead{\classname: \assignmentname\\\semester}
+\cfoot{\thepage}
+\setlength{\headheight}{50pt}
+%----------------------------------------------------------------------------------------------------------------------
+\begin{document}
+\pagenumbering{roman}
+\begin{titlepage}
+    \centering
+    \vspace{5cm}
+    {\huge\textbf{\assignmentname}\par} % Assignment Name
+    \vspace{2cm}
+    {\Large\textbf{\classname}\par} % Class
+    \vspace{3cm}
+    {\Large\textit{Alex Rutar}\par}
+
+    \vfill
+
+% Bottom of the page
+    {\large \semester \par} % Due Date
+\end{titlepage}
+%----------------------------------------------------------------------------------------------------------------------
+% \newpage\null\thispagestyle{empty}\textit{This page is left intentionally blank.}\newpage
+\pagenumbering{roman}
+\tableofcontents
+\pagenumbering{arabic}
+\chapter{Basics of Abstract Measure Theory}
+Prof contact: simonp@caesar.elte.hu
+Grading: HW each week for 25\%
+Midterm 30\%
+Final 45\%
+
+\section{Review of Topology}
+\subsection{Basic Definitions}
+\begin{definition}
+    Let $X\neq\emptyset$ and $\tau\subseteq\mathcal{P}(X)$.
+    We say that $(X,\tau)$ is a \textbf{topological space} if $\tau$ satisfies the following conditions:
+    \begin{enumerate}
+        \item $\emptyset\in\tau$ $X\in\tau$
+        \item $V_1,V_2\in\tau\Rightarrow V_1\cap V_2\in\tau$
+        \item $V_\alpha\in\tau$ for all $\alpha\in I\Rightarrow\bigcap\limits_{\alpha\in I}V_\alpha\in\tau$
+    \end{enumerate}
+    We call the elements of $\tau$ \textbf{open sets}.
+\end{definition}
+\begin{definition}
+    $U\subseteq X$ is a \textbf{neighbourhood} of $x\in X$ if there is some $G\in\tau$ such that $x\in G\subset U$.
+\end{definition}
+\begin{definition}
+    $F\subseteq X$ is \textbf{closed} if $F^c$ is open.
+\end{definition}
+\begin{definition}
+    The \textbf{closure} of a set $E\subset X$ is the smallest closed set containing $E$ (denoted $\overline{E}$).
+\end{definition}
+\begin{definition}
+    $x$ is an \textbf{accumulation point} of $H$ if all neighbourhoods of $x$ contains infinitely points of $H$.
+    Equivalently, $x$ is a limit point of $H\setminus\{x\}$.
+\end{definition}
+\begin{definition}
+    If $H\subseteq X$, we have a natural subspace topology $\tau|_H=\{G\cap H:G\in\tau\}$.
+\end{definition}
+\subsection{Examples of Topological Spaces}
+Topological spaces are a very general construction, so here are some of the standard examples:
+\begin{enumerate}
+    \item $\R$ along with the open sets (denoted $\tau_e$, the Euclidean topology).
+    \item The discrete topology, $\tau=\mathcal{P}(X)$ for any $X\neq\emptyset$.
+        This is the ``finest'' topology.
+    \item The antidiscrete topology, $\tau=\{\emptyset,X\}$ for any $X\neq\emptyset$
+        This is the ``coarsest'' topology.
+    \item One can define the extended real line, $X=\R\cup\{-\infty,+\infty\}$.
+        Then
+        \[G\in\tau\Leftrightarrow
+            \begin{cases}
+                \forall x\in G\cap\R & \exists r>0 \text{ s.t. } (x-r,x+r)\subset G\\
+                -\infty\in G & \exists b\in\R \text{ s.t. }(-\infty,b)\subset G\\
+                +\infty\in G & \exists a\in\R \text{ s.t. }(a,\infty)\subset G
+            \end{cases}
+        \]
+        The same can be done with a single symbol as well.
+        In either case, the extended real line is a compact set.
+    \item Any metric spaces induces a topology.
+        Consider a set $X\neq 0$ arbitrary, and let $d:X\times X\to\R$ such that
+        \begin{enumerate}
+            \item $0\leq d(x,y)$ for all $x,y\in X$ and $d(x,y)=0\Leftrightarrow x=y$.
+            \item $d(x,y)=d(y,x)$ for all $x,y\in X$
+            \item $d(x,y)\leq d(x,z)+d(z,y)$ for any $x,y,z\in X$
+        \end{enumerate}
+        Then $G\in \tau$ if and only if for any $x\in G$, there exists $r$ so that $B_r(x)\subset G$.
+        There are many examples of metric spaces:
+        \begin{enumerate}
+            \item $X=\R$, $d(x,y)=|x-y|$
+            \item $X=\R$, $d(x,y)=|\tan^{-1}(x)-\tan^{-1}(y)|$
+            \item $X=\R^2$, $d(x,y)=\sqrt{(x_1-y_1)^2+(x_2-y_2)^2}$
+            \item $X=\R^2$, $d(x,y)=\left(|x_1-y_1|^p+|x_2-y_2|^p\right)^{1/p}$ for $p\geq1$.
+            \item and similarly for $X=\R^n$
+            \item $X=C[0,1]$, $d(f,g)=\max_{x\in[0,1]} |f(x)-g(x)|$.
+            \item normed space: $X$ is a vector space over $\R$, $\norm{\cdot}:X\to\R$ such that
+                \begin{enumerate}
+                    \item $\norm{x}=0$ if and only if $X=0$
+                    \item $\norm{cx}=|c|\norm{x}$
+                    \item $\norm{x+y}\leq\norm{x}+\norm{y}$
+                \end{enumerate}
+                If $\norm{\cdot}$ is a norm, then $d(x,y)=\norm{x-y}$ is a metric.
+        \end{enumerate}
+    \item The cofinite topology: $\tau=\{U\in\mathcal{P}(X):U^c\text{ is finite}\}$.
+\end{enumerate}
+\subsection{Other Definitions}
+\begin{definition}
+    $K\subset X$ is \textbf{compact} if every open cover of $K$ contains a finite subcover.
+\end{definition}
+\begin{definition}
+    A topological space is called \textbf{locally compact} if every point has a compact neighbourhood.
+\end{definition}
+\begin{proposition}
+    $C[0,1]$ with the sup norm is not locally compact.
+\end{proposition}
+\begin{proof}
+    I'll do this later.
+\end{proof}
+\begin{definition}
+    A topological space is called \textbf{Hausdorff} if for any $x\neq y$, there exists neighbourhoods $U\ni x$, $V\ni y$ so that $U\cap V=\emptyset$.
+\end{definition}
+The anti-discrete topology is not Hausdorff.
+\begin{enumerate}[nolistsep]
+    \item On the discrete topology, $K$ is compact if and only if $K$ is finite.
+    \item On the anti-discrete topology, everything is compact (the only possible open cover consists of $X$).
+    \item On $(\R,\tau_e)$, $K$ is compact if and only if $K$ is closed and bounded.
+    \item On $(X,d)$ metric space, $K$ is compact if and only if $K$ is complete and totally bounded.
+\end{enumerate}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item Let $K\subset X$ be compact, let $F\subset K$ closed.
+            Then $F$ is also compact.
+        \item Compact sets in a Hausdorff space are closed.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item Let $F\subset\bigcup V_\alpha$.
+            Then $K\subset F^c\cup \left(\bigcup V_\alpha\right)$ is an open cover for $K$, so it has a finite subcover $F^c\cup V_{\alpha_1}\cup\cdots V_{\alpha_n}$.
+            But then since $F\cap F^c=\emptyset$, $F\subset V_{\alpha_1}\cup\cdots V_{\alpha_n}$ is a finite subcover.
+        \item Let $K\subset X$ be compact, and prove that $K^c$ is open.
+            Thus let $x\in K^c$.
+            For any $y\in K$, there exist $U_y,V_y$ disjoint neighbourhoods of $x$ and $y$ respectively.
+            Now consider the open cover $K\subset\bigcup_{y\in K}V_y$, and get our finite subcover $K\subset V_{y_1}\cup\cdots\cup V_{y_n}$.
+            But then $U_{y_1}\cap\cdots\cap U_{y_n}\cap K=\emptyset$ and is open since it is a finite intersection.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    $\Gamma\subseteq\tau$ is a \textbf{base} for $\tau$ if every $U\in\tau$ can be written as a countable union of the elements of $\Gamma$.
+    $\Gamma$ is a \textbf{countable base} if $\Gamma$ is countable.
+\end{definition}
+\begin{proposition}
+    $\R$ has a countable base of intervals.
+\end{proposition}
+\begin{proof}
+    Consider the collection $\{B_{r}(q):(r,q)\in\Q\times\Q\}$.
+    To see this, for any open set $U$, one can write
+    \[S:=\bigcup\limits_{r\in U\cap\Q} \left(\bigcup\limits_{\{r:B_{r}(q)\subseteq U\}}B_{r}(q)\right)\]
+    $U\supseteq S$ is obvious, so let $x\in U$ be arbitrary, and let $s$ be maximal so that $B_s(x)\subseteq U$.
+    Then choose $q\in\Q$ so that $|x-q|<s/3$ and $r\in\Q$ so that $0<r<s/2$.
+    Then by construction $B_{r}(q)\ni x$ and by the triangle inequality $B_{r/2}(q)\subseteq U$, so $x\in S$.
+    Thus $U=S$ as desired.
+\end{proof}
+Note that the exact same argument (with some work) can be generalized to show that $\R^n$ has a countable base of open hyperrectangles.
+\begin{proposition}
+    Every metric space which is a countable union of compact sets has a countable base.
+\end{proposition}
+\begin{proof}
+    See my PMATH 351 notes.
+\end{proof}
+\subsection{Functions and Continuity}
+Many of the standard notions of limits and continuity extend naturally to topological spaces.
+\begin{definition}
+    Let $(x_n)\subset X$ be a sequence and let $x\in X$.
+    Then $x$ is the \textbf{limit} of $(x_n)$ if for any neighbourhood $U$ of $X$, there exists $N\in\N$ such that $n>N\Rightarrow x_n\in U$.
+\end{definition}
+\begin{proposition}
+    If $F\subset X$ is closed, then for all convergent sequences in $F$, the limit is also in $F$.
+\end{proposition}
+\begin{proof}
+    See Homework.
+\end{proof}
+\begin{definition}
+    Let $f:X\to Y$ be a function, and $x\in X$ an accumulation point of $D(f)$.
+    The limit of $f$ at $x$ is $y\in Y$ if for any neighbourhood $V$ of $y$ there exists a neighbourhood $U$ of $x$ such that $f(U\cap D(f)\setminus\{x\})\subseteq V$.
+\end{definition}
+\begin{definition}
+    Let $f:X\to Y$ be a function, and let $x\in D(f)$.
+    Then $f$ is \textbf{continuous at $x$} if for any neighbourhood $V$ of $f(x)$, then $f^{-1}(V)$ is a neighbourhood of $x$.
+\end{definition}
+\begin{definition}
+    $f:X\to Y$ is called \textbf{continuous} if it is continuous at every point.
+\end{definition}
+\begin{proposition}
+    $f:X\to Y$ is continuous if and only if $f^{-1}(G)$ is open for all $G$ open.
+\end{proposition}
+\begin{proof}
+    Exercise.
+\end{proof}
+\begin{theorem}
+    Let $f:X\to Y$ be continuous and $K\subset X$ be compact.
+    Then $f(K)$ is compact.
+\end{theorem}
+\begin{proof}
+    Recall that continuous functions pull back open sets.
+    Let $f(K)\subset\bigcup U_\alpha$ be an open cover.
+    Then $\bigcup f^{-1}(U_\alpha)$ is an open cover for $K$, and has a finite subcover $U_{\alpha_1}\cup\cdots U_{\alpha_n}$.
+    But then $f(f^{-1}(U_{\alpha_1}))\cup\cdots \cup f(f^{-1}(U_{\alpha_n}))$ is a subcover of $f(K)$.
+\end{proof}
+
+\section{Measure Theory}
+\subsection{$\sigma-$algebras}
+\begin{definition}
+    Let $X\neq\emptyset$ be a set.
+    $\mathcal{M}\subset\mathcal{P}(X)$ is called a \textbf{$\sigma-$algebra} if
+    \begin{enumerate}[nolistsep]
+        \item $X\in \mathcal{M}$
+        \item $A\in\mathcal{M}\Rightarrow A^c\in\mathcal{M}$
+        \item If $A_n\in\mathcal{M}$ for all $n\in\N$, then $\bigcup\limits_{n\in\N}A_n\in\mathcal{M}$
+    \end{enumerate}
+    The pair $(X,\mathcal{M})$ is called a \textbf{measurable space}.
+    The elements of $\mathcal{M}$ are called \textbf{measurable sets}.
+\end{definition}
+\begin{definition}
+    Let $(X,\mathcal{M})$ be a measurable space, $(Y,\tau)$ be a topological space.
+    Then $f:X\to Y$ is called \textbf{measurable} if $f^{-1}(V)\in\mathcal{M}$ for all $V\in\tau$.
+\end{definition}
+Here are some simple examples of $\sigma-$algebras.
+\begin{example}
+    \begin{enumerate}
+        \item $\mathcal{M}=\{\emptyset,X\}$ is a $\sigma-$algebra.
+        \item $\mathcal{P}(X)=\mathcal{M}$ is a $\sigma-$algebra.
+        \item $\mathcal{M}=\{A\subset X:A\text{ or }A^c\text{ is countable.}\}$.
+            To see this, given $A_n\in\mathcal{M}$, if everything is countable, then $\bigcup A_n$ is countable.
+            If some $A_i$ is countable, then $(\bigcup A_n)^c=\bigcap A_n^c$ is countable, so $\bigcup A_n\in\mathcal{M}$.
+    \end{enumerate}
+    We will later see some proper exaples, like the $\sigma-$algebra of Lebesgue measurable sets.
+\end{example}
+We have the following properties of $\sigma-$algebras.
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item $\emptyset\in\mathcal{M}$
+        \item $A_1,A_2,\ldots,A_n\in\mathcal{M}\Rightarrow A_1\cup A_2\cup\cdots \cup A_n\in\mathcal{M}$
+        \item $A_n\in\mathcal{M}$ for all $n\in\N$ then $\bigcap_{n=1}^\infty A_n\in\mathcal{M}$
+        \item $A,B\in\mathcal{M}\Rightarrow A\setminus B\in\mathcal{M}$
+        \item $f$ is measurable, $H\subset Y$ is closed, then $f^{-1}(H)\in\mathcal{M}$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item $X\in\mathcal{M}\Rightarrow X^c\in\mathcal{M}$.
+        \item We can extend this to a countable union by introduction $A_{n+i}=\emptyset$ for $i\in\N$.
+        \item By DeMorgan's identities, $(\bigcap A_n)^c=\bigcup A_n^c\in\mathcal{M}$.
+        \item $A\setminus B=A\cap B^c\in\mathcal{M}$.
+        \item $H^c$ is open implies $f^{-1}(H^c)\in\mathcal{M}$.
+            Then $f^{-1}(H)=(f^{-1}(H^c))^c\in\mathcal{M}$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $f:X\to Y$ be measurable, let $g:Y\to Z$ be continuous, then $g\circ f:X\to Z$ is measurable.
+\end{proposition}
+\begin{proof}
+    Let $V\subset Z$ be open, so $g^{-1}(V)\subset Y$ is open, so $f^{-1}(g^{-1}(V))\in\mathcal{M}$ which is $(g\circ f)^{-1}(V)$.
+\end{proof}
+\begin{proposition}
+    Let $(X,\mathcal{M})$ be a measurable space, $Y$ be a topological space.
+    Let $\phi:\R^2\to Y$ be continuous.
+    If $u,v:X\to\R$ are measurable, then $h(x)=\phi(u(x),v(x))$ is measurable.
+\end{proposition}
+\begin{proof}
+    Define $f:X\to\R^2$ by $f(x)=(u(x),v(x))$
+    We will see that $f$ is measurable, so that $h=\phi\circ f$ is measurable since $\phi$ is continuous.
+    Let $I_1,I_2\subset\R$ be open intervals, so $R=I_1\times I_2$ is an open rectangle.
+    Then $f^{-1}(R)=u^{-1}(I_1)\cap v^{-1}(I_2)\in\mathcal{M}$.
+    Let $G\subset\R^2$ be an open set, so there exist $R_n$ open rectangles so that
+    \[G=\bigcup_{n=1}^\infty R_n\Rightarrow f^{-1}(G)=\bigcup\limits_{n=1}^\infty f^{-1}(R_n)\in\mathcal{M}\]
+    so that $f$ is measurable.
+\end{proof}
+\begin{corollary}
+    \begin{enumerate}[nolistsep]
+        \item If $u,v:X\to\R$ are measurable, then $u+v$ and $u\cdot v$ are measurable.
+        \item $u+iv:X\to\C$ is measurable.
+        \item $f:X\to\C$ is measurable, $f=u+iv\Rightarrow u,v,|f|$ are measurable.
+    \end{enumerate}
+\end{corollary}
+\begin{proposition}
+    Define
+    \[\chi_E(x)=
+        \begin{cases}
+            1\text{ if }x\in E\\
+            0\text{ if }x\notin E
+        \end{cases}
+    \]
+    Then $\chi_E$ is measurable if and only if $E\in\mathcal{M}$.
+\end{proposition}
+\begin{proof}
+    Naturally, $\chi_E^{-1}(1)=E$ and $\chi_E^{-1}(0)=E^c$, so $\chi_E$ is measurable if and only if $E,E^c\in\mathcal{M}$.
+\end{proof}
+\begin{theorem}
+    Let $\mathcal{F}\subset\mathcal{P}(X)$, then there exists a smallest $\sigma-$algebra containing $\mathcal{F}$.
+    This is denoted by $S(\mathcal{F})$, the \textbf{$\sigma-$algebra generated by $\mathcal{F}$}.
+\end{theorem}
+\begin{proof}
+    Let $\Omega=\{\mathcal{M}:\mathcal{M}\text{ is a $\sigma-$algebra, }\mathcal{F}\subset M\}$.
+    Certainly $\Omega\neq\emptyset$ since $\mathcal{P}(X)\in\Omega$.
+    Let $S(\mathcal{F})=\bigcap_{\mathcal{M}\in\Omega}\mathcal{M}$.
+    We will see that $S(\mathcal{F})$ is a $\sigma-$algebra.
+    \begin{enumerate}[label=(\roman*),nolistsep]
+        \item Since $X\in\mathcal{M}$, it follows that $X\in\cap\mathcal{M}$.
+        \item If $A\in S(\mathcal{F})$, then $A\in\mathcal{M}$ for all $\mathcal{M}$.
+            Thus $A^c\in\mathcal{M}$ for all $\mathcal{M}$ and $A^c\in\cap\mathcal{M}$.
+        \item In the same way, of $A_n\in S(\mathcal{F}$ for all $n$, then $A_n\in\mathcal{M}$ for all $n,\mathcal{M}$.
+            Thus $\bigcup A_n\in\mathcal{M}$ for all $\mathcal{M}$ so $\bigcup A_n\in\mathcal{M}\in \bigcap \mathcal{M}=S(\mathcal{F})$.
+    \end{enumerate}
+    By definition, $\mathcal{F}\subset\bigcap\mathcal{M}$.
+    Finally, $S(\mathcal{F})$ is minimal, since if $\mathcal{F}\subset\mathcal{N}$ is a $\sigma-$algebra, then $\mathcal{N}\in\Omega\Rightarrow S(\mathcal{F})\subset\mathcal{N}$, so we are done.
+\end{proof}
+\begin{definition}
+    Let $(X,\tau)$ be a topological space.
+    Then $\mathcal{B}=S(\tau)$ is called the \textbf{Borel $\sigma-$algebra}.
+    Borel sets are the elements of $S(\tau)$.
+    A function $f:X\to Y$ is Borel measurable if $f^{-1}(G)\in\mathcal{B}$ for all $G\subset Y$ open.
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item If $F\subset X$ is closed, then $F\in\mathcal{B}$.
+        \item $G_n\subset X$ are open, then $\bigcap_{n=1}^\infty G_n\in B$.
+            These are called $G_\delta-$sets.
+        \item $F_n\subset X$ are closed, then $\bigcup_{n=1}^\infty F_n\in B$.
+            These are called $F_\sigma-$sets.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    These follow directly from the definition of a $\sigma-$algebra.
+\end{proof}
+\begin{example}
+    $X=\R,\tau_e$, then $\mathcal{B}=S(\tau_e)$.
+    Let $\Gamma_0=\{(a,b):a<b\}$ be a family of open intervals.
+    We see that $S(\Gamma_0)=\mathcal{B}$.
+    Since $\Gamma_0\subset\tau$, $S(\Gamma_0)\subset S(\tau)=\mathcal{B}$.
+    Conversely, let $G\in\tau$, then we have open intervals $G=\bigcup_{n=1}^\infty I_n$ so that $G\in S(\Gamma_0)$.
+    Thus $S(\tau)\subset S(\Gamma_0)$ and $S(\Gamma_0)=\beta$.
+\end{example}
+\begin{example}
+    Let $\Gamma_\infty=\{(a,\infty):a\in\R\}$.
+    I claim that $S(\Gamma_\infty)=\mathcal{B}$.
+    Certainly $S(\Gamma_\infty)\subset S(\tau)=\mathcal{B}$.
+    Then $(-\infty,a]=(a_1,\infty)^c\in S(\Gamma_\infty)$.%)
+    Similarly, $(-\infty,a)=\bigcup_{n=1}^\infty (-\infty,a-1/n]\in S(\Gamma_\infty)$.%)
+    Thus $(a,\infty)\cap(-\infty,b)=(a,b)\in S(\gamma_0)$, and using the previous example, $\mathcal{B}=S(\Gamma_\infty)$.
+\end{example}
+\begin{proposition}
+    Let $(X,\mathcal{M})$ be a measurable space, and let $f:X\to\overline{\R}=\R\cup\{-\infty,\infty\}$ with the eucildean topology.
+    If $f^{-1}((\alpha,\infty])\in\mathcal{M}$ for any $\alpha\in\R$, then $f$ is measurable. %)
+\end{proposition}
+\begin{proof}
+    Recall that $f$ is measurable if its inverse image takes open sets to measurable sets.
+
+    We have $f^{-1}([-\infty,\alpha])=(f^{-1}( (\alpha,\infty])^c\in\mathcal{M}$. %)
+    Similarly,
+    \begin{equation*}
+        f^{-1}([-\infty,\alpha))=f^{-1}\left(\bigcap_{n=1}^\infty[-\infty,\alpha-1/n]\right)=\bigcup_{n=1}^\infty f^{-1}([-\infty,\alpha-1/n])\in\mathcal{M}
+    \end{equation*} %]
+    We then have
+    \[f^{-1}((\alpha,\beta)=f^{-1}([-\infty,\beta)\cap(\alpha,\infty])=f^{-1}([-\infty,\beta))\cap f^{-1}((\alpha,\infty])\in\mathcal{M}\]%)]
+    Recall that the open intervals are a base for $\tau_e$.
+    Thus if $G\subset\overline{\R}$ is open, then there exists open intervals so that $G=\bigcup_{n=1}^\infty I_n$ and
+    \begin{align*}
+        f^{-1}(G)=f^{-1}\left(\bigcup_{n=1}^\infty I_n\right)=\bigcup_{n=1}^\infty f^{-1}(I_n)\in\mathcal{M}
+    \end{align*}
+    as desired.
+\end{proof}
+\subsection{Sequences of Measurable Functions}
+Our goal is to prove that the pointwise limit of measurable functions is measurable.
+This does not hold for Riemann integrability!
+For example, a function with a finite number of discontinuities is Riemann integrable, but the dirichlet function is not Riemann integrable and is discontinuous only at a countable number of points.
+\begin{definition}
+    Let $(a_n)_{n\in\N}\subset\overline{R}$ be a sequence, and $b_k=\sup\{a_k,a_{k+1},\ldots\}$.
+    Then $\beta=\inf_{k\in\N}b_k$ is called the $\lim\sup$ of $(a_n)$.
+    We can similarly define $c_k=\inf\{a_k,a_{k+1},\ldots\}$ and $\lim\inf=\sup_{k\in\N}c_k$.
+\end{definition}
+\begin{definition}
+    Let $f_n:X\to\overline{\R}$ be a sequence of functions.
+    Then $(\sup f_n):X\to\overline{\R}$, $(\sup f_n)(x)=\sup f_n(x)$ for all $x\in X$.
+    Similarly, $(\inf f_n):X\to\overline{\R}$, $(\inf f_n)(x)=\inf f_n(x)$ for all $x\in X$.
+    Then $(\lim\inf f_n)(x)=\lim\inf f_n(x)$.
+    If $\lim f_n(x)$ exists for all $x$, then we say $(\lim f_n)(x)=\lim f_n(x)$.
+\end{definition}
+\begin{theorem}
+    Let $f_n:X\to\overline{R}$ be measurable.
+    Then $\sup f_n$, $\inf f_n$, $\lim\sup f_n$, $\lim\inf f_n$ are measurable.
+\end{theorem}
+\begin{proof}
+    Let $g=\sup f_n$.
+    It is enough to prove that $g^{-1}((\alpha,+\infty])\in\mathcal{M}$ for all $\alpha$.
+    Let $H=g^{-1}((\alpha,+\infty])=\{x\in X:\sup f_n(x)>\alpha\}$.
+    Let $H_n=f_n^{-1}((\alpha,+\infty])=\{x\in X:f_n(x)>\alpha\}\in\mathcal{M}$.
+    We show that $H=\bigcup\limits_{n=1}^\infty H_n$.
+
+    First let $x\in H$, so $\sup f_n(x)>\alpha$.
+    Thus get $N$ so that $f_N(x)>\alpha$, so $x\in H_N$ and $x$ is in the union.
+    The converse is obvious.
+
+    Thus $g$ is measureable.
+    In the exact same way, $\inf f_n$ is measurable.
+    As well,
+    \[\lim\sup f_n=\inf_i\sup_{k\geq i}f_k\]
+    is measurable.
+\end{proof}
+\begin{corollary}
+    If $\lim f_n$ exists, then it is measurable.
+\end{corollary}
+\begin{proof}
+    If $\lim f_n$ exists, then $\lim f_n=\lim\sup f_n$.
+\end{proof}
+\begin{corollary}
+    If $f,g$ are measurable, then $\max\{f,g\}$, $\min\{f,g\}$ are measurable.
+\end{corollary}
+\begin{corollary}
+    Let $f$ be a function.
+    Then $f_+=\max\{f,0)\}$ and $f_-=-\min\{f,0\}$ (the positive and negative parts of $f$) are measurable.
+    Similarly, $|f|=f_++f_i$ is measurable.
+\end{corollary}
+\subsection{Measures}
+\begin{definition}
+    Let $(X,\mathcal{M})$ be a measurable space.
+    A function $\mu:\mathcal{M}\to[0,+\infty]$ is called a \textbf{(positive) measure} if it is countably additive and not constant $+\infty$.
+    In other words,
+    \begin{enumerate}
+        \item $\mu\left(\bigcup\limits_{n=1}^\infty A_n\right)=\sum\limits_{n=1}^\infty \mu(A_n)$ if $A_i\cap A_j=\emptyset$
+        \item $\exists A\in\mathcal{M}$ so that $\mu(A)<\infty$
+    \end{enumerate}
+    $(X,\mathcal{M},\mu)$ is called a \textbf{measure space}.
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item $\mu(\emptyset)=0$
+        \item If $A_i\cap A_j=\emptyset$ then $\mu\left(\sum\limits_{i=1}^n A_i\right)=\sum\limits_{i=1}^n\mu(A_i)$
+        \item $A\subset B$ implies $\mu(A)\leq\mu(B)$
+        \item $A_1\subset A_2\subset A_3\cdots$ then $\lim_{n\to\infty}\mu A_n=\mu\left(\bigcup\limits_{n=1}^\infty A_n\right)$
+        \item $A_1\supset A_2\supset A_3\cdots$ and $\mu(A_i)<\infty$ then $|lim_{n\to\infty}\mu(A_n)=\mu\left(\bigcap\limits_{n=1}^\infty A_n\right)$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $A\in\mathcal{M}$ so that $\mu(A)<\infty$, and fix $A_1=A$, $A_2=A_3=\cdots=\emptyset$.
+            Then $\bigcup A_n=A$ so $\mu(A)=\mu(A)+\sum\limits_{i=2}^\infty \mu(\emptyset)$ so $\mu(\emptyset)=0$.
+        \item Obvious
+        \item Note that $B=A\cup(B\setminus A)$ is a disjoint union.
+        \item Define $B_1:=A_1$ and $B_i=A_i\setminus A_{i-1}$ for $i\geq 2$.
+            Then $B_i\cap B_j=\emptyset$ and $\mu(A_n)=\mu\left(\bigcup\limits_{i=1}^n B_i\right)=\sum\limits_{i=1}^\infty\mu(B_i)$.
+            Similary, $\mu\left(\bigcup\limits_{n=1}^\infty A_n\right)=\mu\left(\bigcup\limits_{n=1}^\infty B_n\right)=\sum\limits_{n=1}^\infty\mu(B_n)$
+            Therefore, $\lim_{n\to\infty}\sum\limits_{i=1}^n \mu(B_i)=\sum\limits_{n=1}^\infty \mu(B_n)$.
+        \item Let $C_n=A_1\setminus A_n$, $C_1=\emptyset$.
+            Then $C_1\subset C_2\subset\cdots$ and $\mu(C_n)+\mu(A_n)=\mu(A_1)$.
+            Let $A=\bigcap\limits_{n=1}^\infty A_n$ so $A_1\setminus A=\bigcup\limits_{n=1}^\infty C_n$ and $(\bigcup C_n)\cup A=A_1$ is a disjoint union.
+            But then $\mu(\bigcup A_n)+\mu(A)=\mu(A_1)$ so that
+            \[\mu(A_1)-\mu(A)=\mu(\bigcup C_n)=\lim_{n\to\infty}\mu(C_n)=\mu(A_n)-\lim \mu(A_n)\]
+            Since $\mu(A_1)$ is finite, we have $\mu(A)=\lim\mu(A_n)$.
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    Here are a few examples of measures that exist on arbitrary sets.
+    \begin{enumerate}
+        \item $X$ arbitrary, $\mathcal{M}=\mathcal{P}(X)$, and
+            \[\mu(E)=\begin{cases}|E|&\text{if $E$ is finite}\\+\infty&\text{if $E$ is not finite}\end{cases}\]
+            It is easy to verify it is countably additive.
+        \item $X$ arbitrary, $\mathcal{M}=\mathcal{P}(X)$.
+            Fix $x_0\in X$.
+            Then
+            \[\mu(E)=\begin{cases}1&\text{if $x_0\in E$}\\0&\text{if $x_0\notin E$}\end{cases}\]
+    \end{enumerate}
+\end{example}
+\section{Towards Integration}
+\subsection{Simple Functions}
+\begin{definition}
+    $s:X\to\R$ or $\C$ is called a simple function if its range is finite.
+\end{definition}
+\begin{proposition}
+    Let $s$ be a simple function, so that $R(s)=\{\alpha_1,\alpha_2,\ldots,\alpha_n\}$.
+    Then $s=\sum\limits_{i=1}^n \alpha_i\chi_{A_i}$ where $A_i=s^{-1}(\{\alpha_i\})$ and $s$ is measurable if and only if $A_i\in\mathcal{M}$.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+The following theorem is used later to define the intergral.
+It is clear that we should define the integral of a simple function as the sum of the integrals of its characteristic functions, and this allows us to extend the integral by limits to the function $f$.
+\begin{theorem}
+    Let $f:X\to[0,+\infty]$ be nonnegative measurable functions.
+    Then there exists a sequence $s_n:X\to[0,+\infty]$ of simple measurable functions with
+    \begin{enumerate}[nolistsep]
+        \item $(s_n)$ is increasing and bounded above by $f$
+        \item $\lim s_n=f$ pointwise.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Let $n\in\N$, $t\geq0$, and $k_n(t)=[2^{n}\cdot t]$ (i.e. $k_n(t)\leq 2^{n}\cdot t<k_n(t)+1$).
+    Then define
+    \[\phi_n(t)=\begin{cases}k_n(t)\cdot 2^{-n}&\text{if }t\leq n\\n&\text{if }t>n\end{cases}\]
+    I've drawn $\phi_1$ below:
+    \begin{center}
+        \begin{tikzpicture}[scale=3]
+            \draw (0,-0.5) -- (0,1.5);
+            \draw (-0.5,0) -- (2,0);
+            \node[circle,draw=black, inner sep=2pt] (a) at (0.5,0){};
+            \node[circle,fill=black, inner sep=2pt] (b) at (0.5,0.5){};
+            \node[circle,draw=black, inner sep=2pt] (c) at (1,0.5){};
+            \node[circle,fill=black, inner sep=2pt] (d) at (1,1){};
+
+            \draw[thick] (0,0) -- (a);
+            \draw[thick] (b) -- (c);
+            \draw[thick] (d) -- (2,1);
+        \end{tikzpicture}
+    \end{center}
+    Then $t-2^{-n}\leq\phi_n(t)\leq t$, $\lim\phi_n(t)=t$, and $\phi_n\leq \phi_{n+1}$.
+    Define $s_n=\phi_n\circ f$, so for any $x\in X$, $\lim s_n(x)=\lim \phi_n\circ f(x)=f(x)$.
+    Note that $s_n$ is simple since it has finite range (from $\phi_n$), and $s_n\leq s_{n+1}$ because $\phi_n\leq \phi_{n+1}$, and $s_n\leq f$ since $\phi_n(t)\leq t$.
+    Furthermore, $\phi_n$ is measurable since its level sets are intervals, so $\phi_n\circ f$ is measurable.
+\end{proof}
+\subsection{Integration of Positive Functions}
+Let $(X,\mathcal{M},\mu)$ be a measure space.
+\begin{definition}
+    Let $S:X\to[0,+\infty)$ be a measurable simple function $s=\sum\limits_{n=1}^n\alpha_i X_{A_i}$.%]
+    Let $E\in\mathcal{M}$.
+    Then define the \textbf{integral of $s$} over $E$ be with respect to $\mu$ as
+    \[\int_E s\d{\mu}=\sum\limits_{n=1}^n\alpha_i\mu(A_i\cap E)\]
+    where we define $0\cdot\infty=0$.
+\end{definition}
+\begin{definition}
+    Let $f:X\to[0,+\infty]$ be a measurable function.
+    Let $E\in\mathcal{M}$.
+    Then the \textbf{(Lebesgue) integral} of $f$ over $E$ with respect to $\mu$ is
+    \[\int_E f\d{\mu}=\sup\left\{\int_E s\d{\mu}:0\leq s\leq f;\text{ $s$ is simple measurable}\right\}\]
+\end{definition}
+Unlike the Riemann integral, we take the supremum over lower sums only.
+\begin{proposotion}
+    Let $f,g:X\to[0,+\infty]$ be measurable functions.
+    Let $E,A,B\in\mathcal{M}$.
+    \begin{enumerate}[nolistsep]
+        \item If $f\leq g$ then $\int_E f\d{\mu}$ and $\int_E g\d{\mu}$
+        \item If $A\subset B$, then $\int_A f\d{\mu}\leq \int_b f\d{\mu}$
+        \item $\int_E c\cdot f\d{\mu}=c\cdot\int_E f\d{\mu}$ for all $c\geq 0$
+        \item If $f(x)=0$ for all $x\in E$, then $\int_E f\d{\mu}=0$
+        \item If $\mu(E)=0$, then $\int_E f\d{\mu}=0$
+        \item $\int_E f\d{\mu}=\int_X f\cdot \chi_E\d{\mu}$.
+    \end{enumerate}
+\end{proposotion}
+\begin{proof}
+    \begin{enumerate}
+        \item Note that
+            \[\left\{\int_E s\d{\mu}:0\leq s\leq f\right\}\subset\left\{\int_E s\d{\mu}:0\leq s\leq g\}\]
+        \item Let $0\leq s\leq f$ be simple measurable.
+            Then
+            \[\int_A s\d{\mu}=\sum\limits\alpha_i\mu(A\cap A_i)\leq \sum\alpha_i\mu(B\cap A_i)=\int_B s\d{mu}\]
+            Take the supremum for all $0\leq s\leq f$, then the result follows.
+        \item Let $S$ be simple and measurable, so $s=\sum \alpha_i\chi_{A_i}$.
+            Then
+            \[\int_Ec\cdot s\d{\mu}=\sum\limits_{i=1}^n\alpha_I\cdot c\cdot \mu(E\cap A_i)=c\cdot\sum\alpha_i\mu(E\cap A_i)=c\int_Es\d{\mu}\]
+            Thus
+            \begin{align*}
+                \int_Ec\cdot f\d{\mu}&=\sup\left\{\int_E s\d{\mu}:0\leq s\leq cf\right\}\\
+                                     &=\sup\left\{\int_E c\cdot t\d{\mu}:0\leq t\leq f\right\}\\
+                                     &=c\cdot\sup\left\{\int_E t\d{\mu}:0\leq t\leq f\right\}\\
+                                     &= c\cdot\int_E f\d{\mu}
+            \end{align*}
+        \item If $0\leq s\leq f$, then $s=\sum \alpha_i\chi_{A_i}$.
+            If $x\in A_i\cap E$, then $s(x)=\alpha_i$ and $\alpha_i=0$.
+            Then $\alpha_i\mu(A_i\cap E)=0$ for all $i$: either $A_i\cap E=\emptyset$, or $A_i\cap E$ is not empty, and $\alpha_i=0$.
+            This is true for any $0\leq s\leq f$, and taking supremums yields the result.
+        \item If $\mu(E)=0$ then $\mu(A_i\cap E)=0$, and $\int_E s\d{\mu}=\sum\alpha_i\mu(A_i\cap E)=0$ and taking supremums, the result holds.
+        \item Exercise.
+            First prove if $0\leq s\leq f\cdot\chi_E$, then $\int_X s\d\{\mu\}=\int_E s\d{\mu}$.
+            Then prove $\left\{\int_E s\d{\mu}:0\leq s\leq f\cdot\chi_E\right\}=\left\{|\int_E s\d{\mu}:0\leq s\leq f\right\}$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $s$ be a simple and measurable.
+    Then $\phi(E)=\int_es\d{\mu}$ is a measure.
+\end{proposition}
+\begin{proof}
+    $\phi(\emptyset)=0$, so $\phi$ is not constant $+\infty$.
+    Let $E=\bigcup_{n=1}^\infty E_n$ be a disjoint union.
+    Then
+    \begin{align*}
+        \phi(E) &=\sum\limits_{i=1}^m\alpha_i\mu(A_i\cap E)\\
+                &=\sum\limits_{i=1}^m\alpha_i\mu\left(A_i\cap\left(\bigcup\limits_{n=1}^\infty E_n\right)\right)= \sum\limits_{i=1}^m\alpha_i\mu\left(\bigcup\limits_{n=1}^\infty(A_i\cap E_n)\right)\\
+                &= \sum\limits_{i=1}^m\alpha_i\sum\limits_{n=1}^\infty\mu(A_i\cap E_n)= \sum\limits_{n=1}^\infty\sum\limits_{i=1}^m\alpha_i\mu(A_i\cap E_n)\\
+                &= \sum\limits_{n=1}^\infty \int_{E_n}s\d{\mu}= \sum\limits_{n=1}^\infty \phi(E_n)
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    Let $s,t$ be nonnegative, measurable simple functions.
+    Then
+    \[\int_X(s+t)\d{\mu}=\int_X s\d{\mu}+\int_X t\d{\mu}\]
+\end{proposition}
+\begin{proof}
+    Write
+    \[s=\sum\limits_{i=1}^m\alpha_i X_{A_i},\quad t=\sum\limits_{j=1}^n \beta_j X_{\beta_j}\]
+    and let $E_{ij}=A_i\cap B_j$, so $X=\bigcup_{i,j} E_{ij}$ is a disjoint union.
+    We now have
+    \[\int_{E_{ij}}(s+t)\d{\mu}=(\alpha_i+\beta_j)\mu(E_{ij})=\alpha_i\mu(E_{ij})+\beta_j\mu(E_{ij})=\int_{E_{ij}}s\d{\mu}+\int_{E_{ij}}t\d{\mu}\]
+    Let $\mu(E)=\int_E(s+t)\d{\mu}$, which is a measure as above.
+    Thus
+    \begin{align*}
+        \int_X(s+t)\d{\mu} &= \phi(X)=\phi\left(\bigcup_{i,j}E_{ij}\right)\\
+                           &= \sum\limits_{i,j}\phi(E_{ij})=\sum\limits_{i,j}\int_{E_{ij}}(s+t)\d{\mu}\\
+                           &= \sum\limits_{i,j}\left(\int_{E_{ij}}s\d{\mu}+\int_{E_{ij}}t\d{\mu}\right)\\
+                           &= \sum\limits_{i,j}\varphi(E_{ij})+\sum\limits_{i,j}\theta(E_{ij})\\
+                           &= \int_Xs\d{\mu}+\int_X t\d{\mu}
+    \end{align*}
+    where $\varphi(E)=\int_E s\d{\mu}$, $\theta(X)=\int_E t\d{\mu}$.
+\end{proof}
+\subsection{Lebesgue's Monotone Convergence Theorem}
+\begin{theorem}[Lebesgue's Monotone Convergence]
+    Let $f_n:X\to[0,+\infty]$ be measurable, such that
+    \begin{enumerate}[nolistsep, label=(\roman*)]
+        \item $0\leq f_1\leq f_2\leq\cdots$
+        \item $f(x):=\lim_{n\to\infty} f_n(x)$ for all $x\in X$
+    \end{enumerate}
+    Then $f$ is measurable, and $\int_X f\d{\mu}=\lim\int_x f_n\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    It was already proven that $f$ is measurable.
+    We have $\int_X f_n\d{\mu}\leq \int_x f_{n+1}\d{\mu}$ for all $n$, so $\alpha:=\lim_{n\to\infty}\int_X f_n \d{\mu}$ exists.
+    We also have $f_n\leq f$, so $\int f_n\leq \int f$ and $\alpha\leq\int_X f_n\d{\mu}$.
+    Thus we wish to show $\alpha\geq \int_xf\d{\mu}$.
+    It suffices to prove that $\alpha\geq\int_x s\d{\mu}$ for any simple $s\leq f$.
+    Let $c\in(0,1)$; it suffices to show that $\alpha\geq\int_x c\cdot s\d{\mu}$.
+    Define $E_n=\{x\in X:f_n(x)\geq c\cdot s(x)\}$.
+    We have $E_1\subset E_2\subset\cdots$ so that $\bigcup E_n=X$.
+    Then
+    \begin{equation*}
+        \int_X f_n\d{\mu} \geq \int_{E_n} f_n\d{\mu}\geq \int_{E_n} c\cdot s\d{\mu}
+    \end{equation*}
+    Let $\phi(E)=\int_E s\d{\mu}$, so $\int_{E_n}s\d{\mu}=\phi(E_n)\to \phi(\cup E_n)=\phi(X)=\int_X s\d{\mu}$.
+    Thus
+    \begin{equation*}
+        \alpha\geq c\cdot \lim_{n\to\infty}\phi(E_n)=c\cdot\int_X s\d{\mu}=\int_X cs\d{\mu}
+    \end{equation*}
+    as desired.
+\end{proof}
+\begin{example}
+    Consider the function consisting of a triangle with base $2/n$ and height $n$.
+    Then $\int_0^1 f_n=1$ as a Riemannian integral.
+    However, $\lim f_n(x)=0$ for any $x$, so $\int_0^1 f=0\neq 1=\lim \int_0^1 f_n$.
+\end{example}
+\begin{theorem}
+    Let $f,g:X\to[0,+\infty]$ measurable, then $\int_X(f+g)\d{\mu}=\int_X f\d{\mu}+\int_X g\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    We proved that there exists increasing sequences of simple functions $s_n,t_n$ such that $\lim s_n(x)=f(x)$, $\lim t_n(x)=g(x)$.
+    Then $s_n(x)+t_n(x)\to f(x)+g(x)$ monotonically.
+    But then
+    \begin{align*}
+        \int_X(f+g)\d{\mu} &= \int_X \lim_{n\to\infty}(s_n+t_n)\d{\mu}\\
+                           &= \lim_{n\to\infty}\int_X (s_n+t_n)\d{\mu}\\
+                           &= \lim_{n\to\infty}\left(\int_X s_n\d{\mu}+\int_X t_n\d{\mu}\right)\\
+                           &= \int_X \lim_{n\to\infty}s_n\d{\mu}+\int_X\lim_{n\to\infty} t_n\d{\mu}\\
+                           &= \int_X f\d{\mu}+\int_X g(\d{\mu})
+    \end{align*}
+\end{proof}
+\begin{corollary}
+    If $f_n:X\to[0,+\infty]$ is a sequence of measurable functions, then
+    \[\sum_{n=1}^\infty \int_X f_n\d{\mu}=\int_x\sum\limits_{n=1}^\infty f_n\d{\mu}\]
+\end{corollary}
+\end{document}

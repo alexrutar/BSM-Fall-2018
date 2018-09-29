@@ -1,6 +1,8 @@
 # Ignore everything
 */*
+.DS_Store
 
 # Except for..
 !.gitignore
 !*/*notes.pdf
+!*/*notes.tex
