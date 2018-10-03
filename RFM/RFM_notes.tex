@@ -19,6 +19,8 @@
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\re}{Re}
+\DeclareMathOperator{\im}{Im}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -736,4 +738,118 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
     If $f_n:X\to[0,+\infty]$ is a sequence of measurable functions, then
     \[\sum_{n=1}^\infty \int_X f_n\d{\mu}=\int_x\sum\limits_{n=1}^\infty f_n\d{\mu}\]
 \end{corollary}
+\begin{example}
+    Let $X=\N$, $\mathcal{M}=\mathcal{P}(X)$, $\mu(E)$ is the counting measure.
+    Let $a:X\to[0,\infty)$ be a function. %]
+    This is a sequence.
+    Every function is measurable.
+    Let $s_n(i)=a(i)$ for $i\leq n$ and $0$ otherwise, which is a simple function, and $s_n\leq s_{n+1}$.
+    Then $\lim_{n\to\infty}s_n(i)=a(i)$ so $s_n\to a$ pointwise, so by LMC $\int_X s_n\d{\mu}=\int_X a\d{\mu}$.
+    Also,
+    \[\int_X s_n\d{\mu}=\sum\limits_{i=1}^na(i)\mu(\{i\})=\sum\limits_{i=1}^na(i)\]
+    so $\int_X a\d{\mu}=\sum\limits_{n=1}^\infty a(n)$.
+\end{example}
+\begin{lemma}[Fatou]
+    Let $f_n:X\to[0,\infty)$ be a sequence of measurable functions.
+    Then
+    \[\int_X\lim\inf f_n\d{\mu}\leq\lim\inf\int_X f_n\d{\mu}\]
+\end{lemma}
+\begin{proof}
+    Let $g_k=\inf\{f_k,f_{k+1},\ldots\}$ so $\lim\inf f_n=\lim_{n\to\infty}$ and $g_n$ is increasing.
+    Note that $g_k\leq f_k$ for any $k$, so $\int_x g_k\d{\mu}\leq\int_X f_k\d{\mu}$.
+    Thus
+    \begin{align*}
+        \int_X\lim\inf f_n\d{\mu} &= \int_X\lim g_n\d{\mu}\\
+                                  &= \lim\int_X g_n\d{\mu}\\
+                                  &= \lim\inf \int_X g_n\d{\mu}\\
+                                  &\leq \lim\inf\int_X f_n\d{\mu}
+    \end{align*}
+\end{proof}
+\begin{example}
+    It is possible for the inequality to be strict.
+    Define $f_{2n}=\chi_{[0,1]}$ and $f_{2n+1}=\chi_{[1,2]}$.
+    Thus $\lim\inf f_n(x)=0$ so $\int_{[0,2]}\lim\inf f_n\d{\mu}=0$ but $\inf_[0,2]\int_{[0,2]}f_n\d{\mu}=1$
+\end{example}
+\begin{theorem}
+    Let $f:X\to[0,\infty]$ be measurable.
+    Let $\phi(E)=\int_E f\d{\mu}$, $E\in\mathcal{M}$.
+    Then $\phi$ is a measure and $\int_X g\d{\phi}=\int_X g\cdot f\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    Certainly $\phi(\emptyset)=0$, so $\phi\neq+\infty$.
+    Thus let $E=\bigcup\limits_{i=1}^\infty E_i$ be a disjoint union.
+    Then $\chi_E f=\sum\limits_{i=1}^\infty\chi_{E_i}f$.
+    Thus we have
+    \begin{align*}
+        \phi(E) &= \int_Ef\d{\mu}\\
+                &= \int_X\chi_E f\d{\mu}\\
+                &= \int_X\sum\limits_{i=1}^\infty \chi_{E_i}f\d{\mu}\\
+                &= \sum\limits_{i=1}^\infty\int_X\chi_{E_i}f\d{\mu}\\
+                &= \sum\limits_{i=1}^\infty \int_{E_i}\d{\mu}\\
+                &= \sum\limits_{i=1}^\infty\phi(E_i)
+    \end{align*}
+    Now, we prove that $\int_X g\d{\mu}=\int_Xgf\d{\mu}$.
+
+    First, we do this for $g=\chi_E$.
+    Then $\int_X\chi_E\d{\mu}=\phi(E)$ on the left, and $\int_X\chi_E f\d{\mu}=\int_E f\d{\mu}=\phi(E)$ and equality holds.
+
+    Now, let $g=\sum\limits_{i=1}^n\alpha_i\chi_{A_i}$ be a simple function.
+    Then $\int_X\sum\alpha_i\chi_{A_i}\d{\phi}=\sum\alpha_i\int_X\chi_{A_i}\d{\phi}$ on the left and $\int_X\sum\alpha_i\chi_{A_i}f\d{\mu}=\sum\alpha_i\int_X\chi_{A_i}f\d{\mu}$.
+
+    Finally, let $g$ be an arbitrary measurable function, and let $(s_n)\to g$ be an increasing sequence of simple functions.
+    Note that $s_nf\to gf$.
+    Thus
+    \begin{align*}
+        \int_Xg\d{\phi}&=\int_X\lim s_n\d{\phi}=\lim\int_Xs_n\d{\phi}\\
+                       &=\lim\int_Xs_n f\d{\mu}=\int_X\lim(s_nf)\d{\mu}\\
+                       &=\int_Xg\cdot f\d{\mu}
+    \end{align*}
+    as desired.
+\end{proof}
+\section{Integral of Complex Valued Functions}
+\begin{definition}
+    A function $f:X\to\C$ is called \textbf{Lebesgue integrable} if $\int_X|f|\d{\mu}<\infty$.
+    The collection of such functions is $L^1(\mu)$.
+\end{definition}
+\begin{definition}
+    Let $f\in L^1(\mu)$.
+    Then $f=u+iv$ and denote $u=\re f$, $v=\im f$.
+    Let $E\in\mathcal{M}$; then the integral of $f$ over $E$ with respect to $\mu$ is
+    \[\int_Ef\d{\mu}=\int_Eu^+\d{\mu}-\int_E u^-\d{\mu}\+i\left(\int_E v^+\d{\mu}-\int_E v^-\d{\mu}\right)\]
+\end{definition}
+\begin{theorem}
+    Let $f,g\in L^1(\mu)$, $\alpha,\beta\in\C$, so $\alpha f+\betag=L^1(\mu)$ and
+    \[\int_X(\alpha f+\beta g)\d{\mu}=\alpha\int_X f\d{\mu}+\beta\int_X g\d{\mu}\]
+\end{theorem}
+\begin{proof}
+    Note that $\alpha f+\beta g$ is measurable, so $\int_X|\alpha f+\beta g|\d{\mu}\leq |\alpha|\int_X|f|\d{\mu}+|\beta|\int_X|g|\d{\mu}<\infty$.
+    For real measurable functions, $\int_X(f+g)\d{\mu}=\int_X f\d{\mu}+\int_X g\d{\mu}$ directly by expanding the definition and using additivity over positive functions.
+    We thus show $\int_X\alpha f\d{\mu}=\alpha\int_Xf\d{\mu}$.
+    If $\alpha\geq 0$, then
+    \begin{align*}
+        \int_X\alpha f\d{\mu}=\int_X\alpha(u+iv)&=\int_X(\alpha u^+-\alpha u^-+i\alpha v^+-i\alpha v^-)\d{\mu}\\
+                                                &=\int_X((\alpha u)^+-(\alpha u)^-+(i\alpha v)^+-(i\alpha v)^-)\d{\mu}\\
+                                                &=\int_X(\alpha u)^+\d{\mu}-\int_X(\alpha u)^-\d{\mu}+\int_Xi(\alpha v)^+\d{\mu}-\int_Xi(\alpha v)^-\d{\mu}\\
+                                                &=\alpha\int_Xu^+\d{\mu}-\alpha\int_Xu^-\d{\mu}+\alpha\int_Xiv^+\d{\mu}-\alpha\int_Xiv^-\d{\mu}\\
+                                                &= \alpha\int_X f\d{\mu}
+    \end{align*}
+    and similarly for $\alpha=-1$, $\alpha=i$.
+\end{proof}
+\begin{theorem}
+    Let $f\in L^1(\mu)$.
+    Then $\left\lvert\int_X f\d{\mu}\right\rvert\leq\int_X|f|\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    Let $z=\int_X f\d{\mu}$.
+    Let $\alpha=\frac{|z|}{z}$ if $z\neq 0$, and $\alpha=1$ otherwise.
+    Then $\alpha\int_X f\d{\mu}=|z|$.
+    Let $u=\re(\alpha\cdot f)\leq |\alpha\cdot f|\leq |f|$ since $|\alpha|=1$.
+    Thus
+    \begin{align*}
+        \left\lvert\int_X f\d{\mu}\right\rvert &= \alpha\cdot\int_X f\d{\mu}\\
+                                               &=\int_X\alpha f\d{\mu}\\
+                                               &= \int_X\re(\alpha f)\d{\mu}\\
+                                               &\leq \int_X|f|\d{\mu}
+    \end{align*}
+\end{proof}
 \end{document}

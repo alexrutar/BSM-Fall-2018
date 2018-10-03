@@ -19,6 +19,7 @@
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\E}{\mathbb{E}}
 \renewcommand{\Pr}{\mathbb{P}}
 \DeclareMathOperator{\E}{\mathbb{P}}
 
@@ -454,16 +455,16 @@ Now the probability that the sum is 10 is now $1/6$.
     Is it better to stay or switch?
 \end{example}
 \begin{solution}
-    Write $A_i=\P\text{door $i$ hides the price}$, and $B_2=\{\text{door $2$ is opened}\}$.
+    Write $A_i=\{\text{door $i$ hides the price}\}$, and $B_2=\{\text{door $2$ is opened}\}$.
     Then
     \begin{align*}
-        \Pr(A_1|B_2)=\Pr(B_2|A_1)\Pr(A_1)&=\frac{\Pr(B_2|A_1)\Pr(A_1)}{\Pr(B_2|A_1)\Pr(A_1)+\Pr(B_2|A_2)\Pr(A_2)+\Pr(B_2|A_3)\Pr(A_3)}\\
-                                         &=\frac{1/2\cdot1/3}{1/2\cdot1/3+0+1/3\cdot1/3}=\frac{1}{3}
+        \Pr(A_1|B_2)&=\frac{\Pr(B_2|A_1)\Pr(A_1)}{\Pr(B_2|A_1)\Pr(A_1)+\Pr(B_2|A_2)\Pr(A_2)+\Pr(B_2|A_3)\Pr(A_3)}\\
+                                         &=\frac{1/2\cdot1/3}{1/2\cdot1/3+0+1\cdot1/3}=\frac{1}{3}
     \end{align*}
     but
     \begin{align*}
-        \Pr(A_3|B_2)=\Pr(B_2|A_3)\Pr(A_3)&=\frac{\Pr(B_2|A_1)\Pr(A_1)}{\Pr(B_2|A_1)\Pr(A_1)+\Pr(B_2|A_2)\Pr(A_2)+\Pr(B_2|A_3)\Pr(A_3)}\\
-                                         &=\frac{1\cdot1/3}{1/2\cdot1/3+0+1/3\cdot1/3}=\frac{2}{3}
+        \Pr(A_3|B_2)&=\frac{\Pr(B_2|A_3)\Pr(A_3)}{\Pr(B_2|A_1)\Pr(A_1)+\Pr(B_2|A_2)\Pr(A_2)+\Pr(B_2|A_3)\Pr(A_3)}\\
+                                         &=\frac{1\cdot1/3}{1/2\cdot1/3+0+1\cdot1/3}=\frac{2}{3}
     \end{align*}
     so it is better to switch!
 \end{solution}
@@ -713,4 +714,82 @@ In the example $\Pr(Y=0)=\frac{1}{8}$, $\Pr(Y=1)=\frac{3}{8}$, $\Pr(Y=2)=\frac{3
 Note that $\sum\limits_{i=1}^\infty p(x_i)=1$.
 
 In the dice example, $\Pr(Z=k)=\left(\frac{5}{6}\right)^{k-1}\frac{1}{6}$ and indeed the geometric series sums to 1.
+\begin{example}
+    Each item can be one of $N$ different types, with $1/N$ chance independently of other items.
+    We wish to collect all types.
+    Let $X$ denote the number of items needed to collect all types.
+    We wish to determine the mass funtion for $X$.
+
+    We wish to find $\Pr(X>n)$ for all $n$.
+    Then $\Pr(X=n)=\Pr(X>n-1)-\Pr(X>n)$.
+    Now $\{X>n\}=A_1^{(n)}\cup\cdots\cup A_k^{(n)}$ where $A_k^{(n)}$ is the event that type $k$ has not been collected in $n$ items.
+    Now
+    \begin{align*}
+        \Pr(X>n) &= \Pr(A_1\cup A_2\cup\cdots\cup A_N)\\
+                 &= \sum\limits_{r=1}^n(-1)^{r+1}\binom{N}{r}\Pr(A_1\cap A_2\cap\cdots\cap A_r)\\
+                 &= \sum\limits_{r=1}^n(-1)^{r+1}\binom{N}{r}\frac{(N-r)^n}{N^n}\\
+    \end{align*}
+\end{example}
+\subsection{Expected Value}
+\begin{definition}
+    The \textbf{expected value} of a discrete random variable $X$ is given by $\E(X)=\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)$.
+\end{definition}
+\begin{example}
+    Consider two games:
+    \begin{enumerate}
+        \item Flip a fair coin, if H get \$100 and if T, lose
+        \item Roll a fair die, if 6 get \$x, otherwise, go home.
+    \end{enumerate}
+    Let $X$ denote the gain if the order is AB.
+    We have
+    \[\Pr(X=0)=\frac{1}{2},\quad\Pr(X=100)=\frac{1}{2}\cdot\frac{5}{6},\quad\Pr(X=100+x)=\frac{1}{2}\cdot{1}{6}\]
+    Let $Y$ denote the gain if the order is BA.
+    We have
+    \[\Pr(Y=0)=\frac{5}{6},\quad\Pr(Y=x)=\frac{1}{6}\frac{1}{2},\quad\Pr(Y=100+x)=\frac{1}{2}\cdot\frac{1}{6}\]
+    so
+    \[\E(X)=0\cdot\frac{1}{2}+100\cdot\frac{5}{12}+(100+x)\cdot\frac{1}{12}>\E(Y)=0\frac{1}{6}+x\cdot\frac{1}{12}+(x+100)\frac{1}{12}\]
+    which reduces to $500>x$.
+\end{example}
+\begin{example}
+    Note that $\E(X)=\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)$ if the series is absolutely convergent.
+    For example, define $\Pr(X=k)=\frac{1}{k(k+1)}$, which sums to 1, but
+    \[\E(X)=\sum\limits_{k=1}^\infty\frac{1}{k+1}\]
+    is infinite.
+    But now, consider $Y$ with $\Pr(Y=0)=1/3$.
+\end{example}
+\begin{proposition}
+    $\E(g(X))=\sum\limits_{k=1}^\infty g(x_k)\Pr(X=x_k)$
+\end{proposition}
+\begin{proof}
+    Let $x_1,x_2,\ldots$ denote the possible values of $X$, and $y_1,y_2,\ldots$ denote the possible values of $Y$.
+    Then
+    \begin{align*}
+        \sum\limits_{k=1}^\infty g(x_k)\Pr(X=x_k) &= \sum\limits_{l=1}^\infty\sum\limits_{x_k:g(x_k)=y_l}g(x_k)\Pr(X=x_k)\\
+                                                  &= \sum\limits_{l=1}^\infty y_l\sum\limits_{x_k:g(x_k)=y_l}\Pr(X=x_k)\\
+                                                  &= \sum\limits_{l=1}^\infty y_l\Pr(Y=y_l)=\E(Y)
+    \end{align*}
+\end{proof}
+\begin{proposition}
+    $\E(aX+b)=a\E(X)+\E(b)$
+\end{proposition}
+\begin{proof}
+    Follows from linearity of the sum.
+\end{proof}
+\subsection{Variance}
+Consider two random variables defined by $\Pr(X=1)=1/2$ and $\Pr(X=-1)=1/2$ vs $\Pr(X=100)=1/2$ and $Pr(X=-100)=1/2$.
+They both have expected value $0$, so we want a value to measure the typical amount of fluctuation about the expected value.
+Let $X$ be a random variable and $\mu=\E(X)$.
+\begin{definition}
+    We define the \textbf{variance} as $\Var(X)=\E[(X-\mu)^2]$.
+\end{definition}
+Note that $(X-\mu)^2=X^2-2\muX+\mu^2$.
+Then
+\begin{align*}
+    \Var x &= \E((X-\mu)^2)\\
+           &= \sum\limits_{k=1}^\infty(x_k-2\mu x_k+\mu^2)\Pr(X=x_k)\\
+           &= \sum\limits_{k=1}^\infty x_k^2\Pr(X=x_k)-2\mu\sum\limits_{k=1}^\inftyx_k\Pr(X=x_k)+\mu^2\sum\limits_{k=1}^\infty\Pr(X=x_k)\\
+           &= \E(X^2)-(\E(X))^2
+\end{align*}
+\begin{proposition}
+    $\Var(aX+b)=a^2\Var X$.
 \end{document}

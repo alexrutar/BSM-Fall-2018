@@ -583,61 +583,59 @@ We need a few definitions to prove these theorems.
     Let $T\subseteq B$ be the set of vertices one can go to from $W$ via an alternating path (w.r.t. $M$).
     \begin{center}
         \begin{tikzpicture}
-            \begin{scope}
-                % draw main ellipses, labels
-                \draw[thick] (0.5,3) ellipse (5.5cm and 1cm);
-                \draw[thick] (0.5,-1) ellipse (5.5cm and 1cm);
-                \node (A) at (6.5,3){\large$A$};
-                \node (B) at (6.5,-1){\large$B$};
-                \node (M) at (-4,1){\large$M$};
+            % draw main ellipses, labels
+            \draw[thick] (0.5,3) ellipse (5.5cm and 1cm);
+            \draw[thick] (0.5,-1) ellipse (5.5cm and 1cm);
+            \node (A) at (6.5,3){\large$A$};
+            \node (B) at (6.5,-1){\large$B$};
+            \node (M) at (-4,1){\large$M$};
 
-                % draw ellipse for W
-                \draw (3,3) ellipse (1.4cm and 0.5cm);
-                \node(W) at (2.5,4.6){\large$W$};
-                \draw (W) -- (3,3.6);
+            % draw ellipse for W
+            \draw (3,3) ellipse (1.4cm and 0.5cm);
+            \node(W) at (2.5,4.6){\large$W$};
+            \draw (W) -- (3,3.6);
 
-                % draw rectangle for T'
-                \draw[thick] (-1.4,2.5) rectangle (1.4,3.5);
-                \node(Tp) at (-0.5,4.7){\large$T'$};
-                \draw (Tp) -- (0,3.6);
+            % draw rectangle for T'
+            \draw[thick] (-1.4,2.5) rectangle (1.4,3.5);
+            \node(Tp) at (-0.5,4.7){\large$T'$};
+            \draw (Tp) -- (0,3.6);
 
-                % draw rectangle for T
-                \draw[thick] (-1.4,-1.5) rectangle (1.4,-0.5);
-                \node(Tp) at (-0.5,-2.7){\large$T$};
-                \draw (Tp) -- (0,-1.6);
+            % draw rectangle for T
+            \draw[thick] (-1.4,-1.5) rectangle (1.4,-0.5);
+            \node(Tp) at (-0.5,-2.7){\large$T$};
+            \draw (Tp) -- (0,-1.6);
 
-                % graph vertices
-                \node[vtx] (a1) at (-3,3){};
-                \node[vtx] (a2) at (-2,3){};
-                \node[vtx] (a3) at (-1,3){};
-                \node[vtx] (a4) at (0,3){};
-                \node[vtx] (a5) at (1,3){};
-                \node[vtx, inner sep=1pt] (a6) at (2,3){};
-                \node[vtx, inner sep=1pt] (a7) at (3,3){};
-                \node[vtx, inner sep=1pt] (a8) at (4,3){};
+            % graph vertices
+            \node[vtx] (a1) at (-3,3){};
+            \node[vtx] (a2) at (-2,3){};
+            \node[vtx] (a3) at (-1,3){};
+            \node[vtx] (a4) at (0,3){};
+            \node[vtx] (a5) at (1,3){};
+            \node[vtx, inner sep=1pt] (a6) at (2,3){};
+            \node[vtx, inner sep=1pt] (a7) at (3,3){};
+            \node[vtx, inner sep=1pt] (a8) at (4,3){};
 
-                \node[vtx] (b1) at (-3,-1){};
-                \node[vtx] (b2) at (-2,-1){};
-                \node[vtx] (b3) at (-1,-1){};
-                \node[vtx] (b4) at (0,-1){};
-                \node[vtx] (b5) at (1,-1){};
-                \node[vtx, inner sep=1pt] (b6) at (2,-1){};
-                \node[vtx, inner sep=1pt] (b7) at (3,-1){};
+            \node[vtx] (b1) at (-3,-1){};
+            \node[vtx] (b2) at (-2,-1){};
+            \node[vtx] (b3) at (-1,-1){};
+            \node[vtx] (b4) at (0,-1){};
+            \node[vtx] (b5) at (1,-1){};
+            \node[vtx, inner sep=1pt] (b6) at (2,-1){};
+            \node[vtx, inner sep=1pt] (b7) at (3,-1){};
 
-                % matching
-                \draw[thick] (a1) -- (b1);
-                \draw[thick] (a2) -- (b2);
-                \draw[thick] (a3) -- (b3);
-                \draw[thick] (a4) -- (b4);
-                \draw[thick] (a5) -- (b5);
+            % matching
+            \draw[thick] (a1) -- (b1);
+            \draw[thick] (a2) -- (b2);
+            \draw[thick] (a3) -- (b3);
+            \draw[thick] (a4) -- (b4);
+            \draw[thick] (a5) -- (b5);
 
-                % not in matching
-                \draw[thin, dashed] (b3) -- (a4);
-                \draw[thin, dashed] (b3) -- (a5);
-                \draw[thin, dashed] (b4) -- (a3);
-                \draw[thin, dashed] (b4) -- (a8);
-                \draw[thin, dashed] (b5) -- (a7);
-            \end{scope}
+            % not in matching
+            \draw[thin, dashed] (b3) -- (a4);
+            \draw[thin, dashed] (b3) -- (a5);
+            \draw[thin, dashed] (b4) -- (a3);
+            \draw[thin, dashed] (b4) -- (a8);
+            \draw[thin, dashed] (b5) -- (a7);
         \end{tikzpicture}
     \end{center}
 

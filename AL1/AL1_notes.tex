@@ -348,4 +348,51 @@ Thus $o(sr^a)=2$ and $o(r^a)$ is given by the usual formula.
     We write $H\leq G$.
 \end{definition}
 For example, $(\Z,+)\leq(\Q,+)\leq(\R,+)\leq(\C,+)$.
+Note that associativity automatically holds since every element of $H$ is an element of $G$.
+Furthermore, $1_H=1_G$ since $1_H1_G=1_H=1_H1_H$ where the first equality holds since $1_G$ is an identity, and the second since $1_H$ is an identity.
+As a result, inverses in $H$ are inverses in $G$.
+\begin{proposition}[First Subgroup Test]
+    A subset $H$ of a group $G$ is a subgroup if and only if
+    \begin{enumerate}
+        \item $H\neq\emptyset$
+        \item $x,y\in H\Rightarrow xy\in H$
+        \item $x\in H\Rightarrow x^{-1}\in H$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Follows by above discussion.
+\end{proof}
+\begin{proposition}[Second Subgroup Test]
+    A subset $H$ of a group $G$ is a subgroup
+    \begin{enumerate}
+        \item $H\neq\emptyset$
+        \item $x,y\in H\Rightarrow xy^{-1}|in H$
+    \end{enumerate}
+\end{proposition}
+That the first subgroup test implies the second is obvious.
+Coversely, the identity is in $H$ since $xx^{-1}\in H$.
+Thus get closure under inversion by choosing $x$ as the identity to get inverses.
+Then if $x,y\in H$, $x,y^{-1}\in H$ so $x(y^{-1})^{-1}=xy\in H$.
+
+Furthermore, if $G$ is finite, it suffices to show closure under multiplication, since inverses can be optained by repeated multiplication.
+\begin{proposition}
+    Arbitrary intersections of subgroups are also subgroups.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\begin{example}
+    \begin{enumerate}
+        \item $G\leq G$, $\{1\}\leq G$
+        \item For any $g\in G$, we have $\langle g\rangle=\{g^k:k\in\Z\}$ is a subgroup.
+        \item For any $g\in G$, define
+            \[C_G(g)=\{x\in G:gx=xg\}\]
+            the centralizer of $g$ in $G$.
+            We certainly have $1\in C_G(g)$.
+            Also, if $x,y\in G$, then $gx=xg$ and $gy=yg$ so that $gxy=xgy=xyg$.
+            If $x\in C_G(g)$, then $gx=xg$ so $g=xgx^{-1}$ and $x^{-1}g=gx^{-1}$.
+        \item The center of a group $G$:
+            \[Z(G)=\bigcap_{g\in G}C_G(g)\leq G\]
+            which is the set of elements commuting with everyone in $G$.
+    \end{enumerate}
 \end{document}
