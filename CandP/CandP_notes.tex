@@ -639,4 +639,20 @@ ordering by Schroeder-Bernstein. Finally by Cantor's argument, we have an infini
             by Schroeder-Bernstein, the result follows.
     \end{enumerate}
 \end{proof}
+\begin{theorem}
+    For any prime $p$, $c^p\equiv c\pmod{p}$.
+\end{theorem}
+\begin{proof}
+    This follows by induction.
+    For $c=0,1$ this is obvious, and if it holds for $c$, then by the binomial theorem $(c+1)^p=c^p+1=c+1\pmod{p}$.
+\end{proof}
+This generalizes to the Euler-Fermat Theorem:
+\begin{theorem}
+    If $(c,m)=1$ then $c^{\phi(m)}\equiv 1\pmod{m}$
+\end{theorem}
+\begin{proof}
+    Note that $\phi(p^l)=p^l-p^{l-1}=p^l\left(1-\frac{1}{p}\right)$, and it can be shown that $\phi$ is multiplicative for coprime values, so
+    \[\phi(n)=n\left(1-\frac{1}{p_1}\right)\cdots\left(1-\frac{1}{p_k}\right)\]
+    where $p_1,\ldots,p_k$ are the prime divisors of $n$.
+\end{proof}
 \end{document}

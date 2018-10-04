@@ -8,6 +8,7 @@
 \usepackage{amssymb}
 \usepackage{tikz, pgfplots}
 \usetikzlibrary{intersections}
+\usetikzlibrary{decorations.pathmorphing}
 \usepackage{kpfonts}
 \usepackage{dsfont}
 \pgfplotsset{compat=1.13}
@@ -677,11 +678,70 @@ This is an example of a ``minimax'' property: if equality holds, then both value
     Since every edge has an endpoint in $A$, the remaining edges are covered by the vertices in $A\setminus(T'\cup W)$.
     Thus $\tau(G)\leq |T|+|A\setminus(T'\cup W)|=|M|$ and equality holds.
 \end{proof}
+\subsection{Tutte's Theorem and Applications}
 \begin{theorem}[Tutte]
     A graph $G$ contains a perfect matching iff for any $S\subseteq V(G)$, we must have $c_{\text{odd}}(G\setminus S)\leq |S|$.
+    $c_{\text{odd}}$ denotes the number of components with odd size.
 \end{theorem}
-\begin{proof}
-    Necessity follows since every odd component must be connected to an element in $S$ in a perfect matching.
+\begin{proof}[Lov\'asz]
+    $(\Rightarrow)$ In the odd components, (i.e. components with an odd number of vertices) of $G\setminus S$ at least one vertex must be matched to a vertex in $S$.
+    Thus $|S|$ cannot be smaller than the number of such components, which is $c_{\text{odd}}(G\setminus S)$.
+
+    $(\Leftarrow)$ Assume the statement is false and let $G_0$ be a counterexample.
+    Saturate $G_0$: add edges until impossible without creating a perfect matching.
+    We must show that we cannot increase the number of odd components by adding edges.
+    If the edge joins two even components, then we get a new even component; or two odd components, and we have a new even component; or an even and an odd component, and we have a new odd component.
+    In any case, the number of odd components stays the same and the graph remains a counterexample.
+    Let the saturated graph be denoted by $G$.
+
+    It is sufficient to prove that deleting the points of $G$ that are connected to all other vertex, the remaining graph is the union of vertex disjoint graphs.
+    Suppose this is true: then in $G\setminus S$ (where $S:=\{v\in V(G):\{u,v\}\in E(G)\forall u\in V(G),u\neq v\}$), we can create a perfect matching within each even component and every vertex except one in the odd components (since the components are complete).
+    We can then pair these components arbitrarily in $S$, since $S$ is connected to everything.
+    Then there must be only an even number of vertices in $S$ remaining, or $G$ violates the condition with $S=\emptyset$; and these vertices are mutually connected.
+
+    Thus assume this claim is not true.
+    Then there exist vertices $a,b,c\in V(G)$ inducing a path on $3$ vertices.
+    Also, $c\notin S$.
+    Thus we have some $d\in V(G)$ so that $\{c,d\}\notin E(G)$.
+    \begin{center}
+        \begin{tikzpicture}[
+                scale=3,
+                sqg/.style={decorate, decoration={snake, amplitude=1.1}}
+            ]
+            \node[vtx,label=below:{$a$}] (a) at (0,0){};
+            \node[vtx,label=below:{$b$}] (b) at (1,0){};
+            \node[vtx,label=above:{$c$}] (c) at (0.5,0.75){};
+            \node[vtx,label=above:{$d$}] (d) at (1,0.75){};
+            \node[vtx] (e) at (1.5,0){};
+            \node[vtx] (f) at (1,-0.75){};
+            \node[vtx] (g) at (0.5,-0.75){};
+            \node[vtx] (h) at (0,-0.75){};
+            \node[vtx] (i) at (-0.5,0){};
+            \node[vtx] (j) at (0,0.75){};
+
+            \draw[thick] (a) -- (c) -- (b);
+            \draw[thick,dashed] (a) -- (b);
+            \draw[thick,dashed] (c) -- (d);
+            \draw[thick] (d) -- node[above right]{\small$\in M_1$}(e);
+            \draw[thick,sqg] (e) -- node[below right]{\small$\in M_2$}(f);
+            \draw[thick] (f) -- node[below]{\small$\in M_1$}(g);
+            \draw[thick,sqg] (g) -- node[below]{\small$\in M_2$}(h);
+            \draw[thick] (h) -- node[below left]{\small$\in M_1$}(i);
+            \draw[thick,sqg] (i) -- node[above left]{\small$\in M_2$}(j);
+            \draw[thick] (j) -- node[above]{\small$\in M_1$}(c);
+        \end{tikzpicture}
+    \end{center}
+    Since $G$ is saturated, there exists a perfect matching $M_1$ in $G\cup\{\{a,b\}\}$ and $M_2$ in $G\cup\{\{c,d\}\}$.
+    Start a walk from $d$ along alternating edges in $M_1$ and $M_2$.
+    Let $P$ be a longest such path.
+    Then $P$ can end only in $a$, $b$, or $c$.
+
+    First consider that we end in $c$.
+    Then the edge set $M_2\setminus P\cup(M_1\cap P)$ forms a perfect matching.
+    If $P$ ends in $a$ or $b$, then without loss of generality we may assume it ends in $a$.
+    Now consider the cycle $C=P\cup\{a,c\}\cup\{c,d\}$.
+    Then $M_2\setminus C\cup (M_1\cap C)$ is a perfect matching.
+    Thus a perfect matching exists in $G$, so the claim is true, so the theorem holds.
 \end{proof}
 
 \end{document}

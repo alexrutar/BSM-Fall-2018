@@ -20,8 +20,10 @@
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
 \DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Binom}{Binom}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Poi}{Poi}
 \renewcommand{\Pr}{\mathbb{P}}
-\DeclareMathOperator{\E}{\mathbb{P}}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -621,7 +623,7 @@ so $d=1/N$ and
                 A &= \{\text{not accident prone}\} & \Pr(A^c) &= 0.7
             \end{align*}
             and let $B_{Y}=\{\text{accident in year $Y$}\}$.
-            We have seen that $\Pr(B_{2018}|A)=0.2$ and $\Pr(B_{2018}|A^c=0.1$ so $\Pr(B_{2018})=0.13$.
+            We have seen that $\Pr(B_{2018}|A)=0.2$ and $\Pr(B_{2018}|A^c)=0.1$ so $\Pr(B_{2018})=0.13$.
             Now
             \begin{align*}
                 \Pr(B_{2019}|B_{2018}) &= \frac{\Pr(B_{2018}\cap B_{2019})}{\Pr(B_{2018})}\\
@@ -782,7 +784,7 @@ Let $X$ be a random variable and $\mu=\E(X)$.
 \begin{definition}
     We define the \textbf{variance} as $\Var(X)=\E[(X-\mu)^2]$.
 \end{definition}
-Note that $(X-\mu)^2=X^2-2\muX+\mu^2$.
+Note that $(X-\mu)^2=X^2-2\mu X+\mu^2$.
 Then
 \begin{align*}
     \Var x &= \E((X-\mu)^2)\\
@@ -792,4 +794,110 @@ Then
 \end{align*}
 \begin{proposition}
     $\Var(aX+b)=a^2\Var X$.
+\end{proposition}
+\begin{example}
+    \begin{enumerate}
+        \item Roll a fair die, so $X$ can take $1,2,\ldots,6$ each with probability $1/6$.
+            Then
+            \begin{align*}
+                \E(X)&=1\cdot\frac{1}{6}+\cdots+6\frac{1}{6}=\frac{7}{2}\\
+                \E(X^2)&= \frac{1}{6}(1^2+2^2+\cdots+6^2)=\frac{7\cdot 13}{6}\\
+                \Var(X) &= \frac{35}{12}
+            \end{align*}
+        \item Consider $\eta=1$ with chance $p$ and $0$ with chance $1-p$.
+            Then $\E(\eta)=p$ and $\E(\eta^2)=p$, so $\Var(\eta)=p-p^2=pq$.
+    \end{enumerate}
+\end{example}
+\section{Basic Distributions}
+\subsection{The Binomial Distribution}
+\begin{definition}
+    The Binomial distribution has parameters $n\geq 1$ and $p\in(0,1)$.
+    Then $X\sim\Binom(n,p)$ if $\Pr(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$.
+\end{definition}
+\begin{example}
+    Consider a test consisting of 20 yes-no questions; you fail if you have 17 or less correct answers.
+    \begin{itemize}
+        \item You know the correct answer with probability $5/7$
+        \item You have the incorrect answer with probability $1/7$
+        \item You guess with probability $1/7$.
+    \end{itemize}
+    On a single question, the probability that you are correct is $5/7+1/14=11/14$.
+    Now
+    \begin{align*}
+        \Pr(\text{fail}) &= \Pr(X\leq 17) = 1-\Pr(X=20)-\Pr(X=19)-\Pr(X=18)\\
+                         &= 1-\binom{20}{20}\left(\frac{11}{14}\right)^{20}-\binom{20}{19}\left(\frac{11}{14}\right)^{19}\left(\frac{3}{14}\right)-\binom{20}{18}\left(\frac{11}{14}\right)^{18}\left(\frac{3}{14}\right)^2\\
+                         &\approx 0.8345
+    \end{align*}
+\end{example}
+Suppose $X\sim\Binom(n,p)$.
+Then
+\begin{align*}
+    \E(X) &= \sum\limits_{k=0}^nk\binom{n}{k}p^k(1-p)^{n-k}\\
+          &= \sum\limits_{k=1}^n\binom{n}{k}\left.\frac{\d{}}{\d{t}}\right\rvert_{t=1}(t^k)p^k(1-p)^{n-k}\\
+          &= \left.\frac{\d{}}{\d{t}}\right\rvert_{t=1}\left(\sum\limits_{k=0}^n\binom{n}{k}(tp)^k(1-p)^{n-k}\right)\\
+          &= \left.\frac{\d{}}{\d{t}}\right\rvert_{t=1}\left((tp+1-p)^n\right)\\
+          &= \left.\left(n(tp-p+1)^{n-1}\cdot p\right)\rvert_{t=1}=np
+\end{align*}
+We can also compute
+\begin{align*}
+    \E[X(X-1)] &= \sum\limits_{k=1}^n k(k-1)\binom{n}{k}p^k(1-p)^{n-k}\\
+               &= \sum\limits_{k=2}^n\left.\frac{\d{}^2}{\d{t^2}}\right\rvert_{t=1}(t^k)\binom{n}{k}p^k(1-p)^{n-k}\\
+               &=\left.\frac{\d{}^2}{\d{t^2}}\right\rvert_{t=1}\left(\sum\limits_{k=0}^n\binom{n}{k}(tp)^k(1-p)^{n-k}\right)\\
+               &= \left.\frac{\d{}^2}{\d{t^2}}\right\rvert_{t=1}(tp+(1-p))^n\\
+               &= n(n-1)(tp+(1-p))^{n-2}p^2\\
+               &= n(n-1)p^2\\
+               &= \E(X^2)-\E(X)\\
+               &= \E(X^2)-np
+\end{align*}
+so that
+\[\E(X^2)=np^2(n-1)+np\]
+and
+\[\Var(X)=\E(X^2)-\E(X)^2=n^2p^2-np^2+np-n^2p^2=np(1-p)\]
+We thus say that $X=\eta_1+\eta_2+\cdots+\eta_n$ where $\eta_i=\begin{cases}1\text{ if trial $i$ is a success}\\0\text{ if trial $i$ fail}\end{cases}$.
+Thus the standard deviation scales with order $\sqrt{n}$.
+
+Now let $X\sim\Binom(n,p)$, so that
+\[\frac{\Pr(X=k)}{\Pr(X=k-1)}=\frac{\binom{n}{k}p^k(1-p)^{nk}}{\binom{n}{k-1}p^{k-1}(1-p)^{n-k+1}}=\frac{(n-k+1)p}{k(1-p)}\]
+so that
+\begin{align*}
+    1 <\frac{\Pr(X=k)}{\Pr(X=k-1)} &\Leftrightarrow k(1-p)<(n-k+1)p\\
+                                   &\Leftrightarrow k<(n+1)p
+\end{align*}
+There are two cases: if $(n+1)p$ is not an integer, then $k_0=\lfloor(n+1)p\rfloor$ is the single value that has maximal weight, and if $(n+1)p$ is an integer, then both $k_0=(n+1)p$ and $k_0-1$ have maximal weight.
+With further analysis, one can show for any $\epsilon>0$ fixed, p fixed, as $n\to\infty$,
+\[\Pr\left(\left\lvert\frac{X}{n}-p\right\rvert>\epsilon\right)=0\]
+This is called Bernoulli's Law of Large Numbers.
+This is effective for $X\sim\Binom(n,p)$: fix $p$, and let $n\to\infty$.
+\begin{example}
+    \begin{enumerate}[label=(\alph*)]
+        \item Shoot at a target 10 times, and suppose we hit the target with $p=0.1$.
+            Let $X^{(a)}$ denote the number of hits, so that $\Pr(X^{(a)}>1)\approx 0.264\ldots$.
+        \item Shoot at a target 20 times, and suppose we hit the target with $p=0.05$.
+        \item Shoot at a target 100 times, and suppose we hit the target with $p=0.01$.
+            Let $X^{(c)}$ denote the number of hits, so that $\Pr(X^{(b)}>1)=0.26424\ldots$
+\subsection{Poisson Distribution}
+\begin{definition}
+    Let $\lambda>0$ be a parameter.
+    Then $X\sim\Poi(\lambda)$ if it can take $0,1,2,3,\ldots$ and $\Pr(X=k)e^{-\lambda}\frac{\lambda^k}{k!}$.
+\end{definition}
+\begin{proposition}
+    Let $n\to\infty$, $p=p(n)\to 0$ so that $np(n)\to\lambda$.
+    Then for any $k\in\N$,
+    \[\binom{n}{k}p^k(1-p)^{n-k}\to e^{-\lambda}\frac{\lambda^k}{k!}\]
+\end{proposition}
+\begin{proof}
+    Recall that
+    \[\lim\left(1+\frac{1}{n}\right)^n=e,\quad\lim\left(1-\frac{1}{n}\right)^n=e^{-1}\]
+    Thus let $a(n)\to\infty$ such that $\lim n/a(n)=x$.
+    Then
+    \[\lim\left(1-\frac{1}{a(n)}\right)^n = \lim\left[\left(1-\frac{1}{a(n)}\right)^{a(n)}\right]^{\frac{n}{a(n)}}=e^{-x}\]
+    Now note that $\lim (n-u)p(n)=\lambda$, $\lim(1-p(n))^{-k}=1$, and
+    \[\lim(1-p)^n=\lim(1-p(n))^n=\lim\left(1-\frac{1}{1/p(n)}\right)^n=e^{-\lambda}\]
+    so
+    \begin{equation*}
+        \lim\frac{1}{k!}n(n-1)\cdots(n-k+1)p\cdot p\cdots p (1-p)^{-k}(1-p)^n=e^{-\lambda}\frac{\lambda^k}{k!}
+    \end{equation*}
+\end{proof}
+In words, many independent trials with small success rate can be approximated by the Poisson distribution.
+\end{proposition}
 \end{document}
