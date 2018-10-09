@@ -655,4 +655,29 @@ This generalizes to the Euler-Fermat Theorem:
     \[\phi(n)=n\left(1-\frac{1}{p_1}\right)\cdots\left(1-\frac{1}{p_k}\right)\]
     where $p_1,\ldots,p_k$ are the prime divisors of $n$.
 \end{proof}
+Recall that $G(k)=\min t$ such that for all $n\geq n_0$, $n=x_1^k+\cdots+x_t^k$ for $x_i\geq 0$.
+\begin{theorem}
+    If $k>1$, then $g(k)\geq k+1$.
+\end{theorem}
+\begin{proof}
+    We first show that $G(k)\geq k$.
+    Suppose not, and get $n_0$ so that for all$ n\geq n_0$, $n=x_1^k+\cdots+x_{k-1}^k$.
+    Fix $N$, and we get the number of integers with such a representation with $N\geq n_0$.
+    Then $x_i^k\leq t\leq N$, so $0\leq x_i\leq\lfloor\sqrt[k]{N}\rfloor$.
+    Thus the number of formal sums $x_1^k+\cdots+x_{k-1}^k$ denoted by $B$ must satisfy $B\geq N-n_0$.
+    Furthermore, $B\sim N^{k/(k-1)}$ while $N-n_0\sim N$, a contradiction.
+
+    We now show that $G(k)\geq k+1$.
+    Assume not, so $\exists n_0$ so $\forall n>n_0$, $n=x_1^k+\cdots+x_k^l$ and let $A'$ denote the number of representable integers up to $N$, and $A'\geqN-n_0$.
+    Now let $B'$ denote the number of formal sums quotiented by permutation.
+    Thus $B'\geq A'$, where $A'\sim N$ but $B'\sim \frac{(\sqrt[k]{N})^k}{k!}=\frac{N}{k!}$, a contradiction.
+
+    Let's compute $B'$ more precisely.
+    We choose $k$ pieces from $0,1,\ldots,\lfloor\sqrt[k]{N}\rfloor$, where repetition is allowed.
+    The number of ways to choose such $k$ pieces is given by the number of $(\lfloor\sqrt[k]{N}\rfloor+1)-$part compositions of $k$, so that
+    \[B'=\binom{k+\lfloor\sqrt[k]{N}\rfloor}{k}=\frac{(\left\lfloor\sqrt[k]{N}\right\rfloor+k)\cdots+(\left\lfloor\sqrt[k]{N}\right\rfloor+1)}{k!}\]
+    Since $B'\geq A'$, we have
+    \[\frac{1}{k!}\left(1+\frac{k}{\sqrt[k]{N}}\right)\left(1+\frac{k-1}{\sqrt[k]{N}}\right)\cdots\left(1+\frac{1}{\sqrt[k]{N}}\right)\geq1=\frac{k_0}{N}\]
+    and as $N\to\infty$, everything goes to $1$ except the first term.
+\end{proof}
 \end{document}

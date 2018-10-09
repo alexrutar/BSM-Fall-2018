@@ -116,6 +116,7 @@ Note that we write $\binom{V}{2}$ instead of $V\times V$ to make it clear that w
 \end{definition}
 \begin{definition}
     The \textbf{degree} of a vertex $v\in V(G)$ is the number of edges having $v$ as an endpoint.
+    We denote this number by $d(v)$, and $\Delta(G)$ to denote the maximal degree in $G$, and $\delta(G)$ to denote the minimal degree in $G$.
 \end{definition}
 \begin{definition}
     The \textbf{neighbourhood} of a graph $U$ is denoted by $N(U):=\{v\in V(G):\exists u\in U\text{ s.t. }\{v,u\}\in E(G)\}$.
@@ -743,5 +744,91 @@ This is an example of a ``minimax'' property: if equality holds, then both value
     Then $M_2\setminus C\cup (M_1\cap C)$ is a perfect matching.
     Thus a perfect matching exists in $G$, so the claim is true, so the theorem holds.
 \end{proof}
+\subsection{Stable Matchings}
+\begin{definition}
+    Let $G$ be a graph with a linear order of the neighbours of $v\in V(G)$ for every $v\in V(G)$ (these are called \textbf{preference lists}).
+    A matching $M\subseteq E(G)$ is said to be \textbf{stable} with respect to these preference lists if there exists no edge in $e\in E(G)\setminus M$, $e=\{a,b\}$, such that both $a$ and $b$ prefer each other more than it current pair according to $M$.
+\end{definition}
+A stable matching may not exist: for example, cyclic preferences in $K_3$
+As well, a stable matching may not be a maximum matching (though it must be maximal).
+\begin{center}
+    \begin{tikzpicture}[scale=3]
+        \node[vtx] (a) at (0,0){};
+        \node[vtx] (b) at (1,0){};
+        \node[vtx] (c) at (0.5,0.86){};
+        \path[every node/.style={font=\scriptsize}]
+            (a) edge node [below, near start]{$1$} node [below, near end]{$2$} (b)
+            (b) edge node [above right, near start]{$1$} node [above right, near end]{$2$} (c)
+            (c) edge node [above left, near start]{$1$} node [above left, near end]{$2$} (a);
+        \node[vtx] (a) at (2,0){};
+        \node[vtx] (b) at (2.5,0.86){};
+        \node[vtx] (c) at (3,0){};
+        \node[vtx] (d) at (3.5,0.86){};
+        \path[every node/.style={font=\scriptsize}]
+            (a) edge node [above left, near end]{$2$} (b)
+            (b) edge node [above right, near start]{$1$} node [below left, near end]{$1$} (c)
+            (c) edge node [below right, near start]{$2$} (d);
+    \end{tikzpicture}
+\end{center}
+\begin{theorem}[Gale-Shapley]
+    If $G$ is bipartite, then there always exists (i.e. for any preference lists) a stable matching.
+\end{theorem}
+\begin{proof}
+    We give an algorithm that produces a stable matching.
+    It works in rounds.
 
+    During the first round, each $b\in B$ ``offers'' a pairing to the neighbour that is first on their preference list.
+    Then each $w\in W$ chooses the neighbour that is highest on their preference list, offers a wait to that neighbour, and denies all other offers.
+
+    During the second round, each $b\in B$ who got an answer of ``wait'' will do nothing, and those who got denied make an offer to the second on their preference list.
+    Now for each $w\in W$, do as in round 1: say ``wait'' for the best, and ``no'' to the others.
+
+    Repeat this process until there are no more new offers made.
+    Clearly, this is a matching, so it suffices to show it is stable.
+    It is also stable: eupose there is an $e\in E(G)\setminus M$ where $M$ is the matching obtained.
+    There can be two reasons $e=\{b,w\}\notin M$:
+    \begin{enumerate}[nolistsep]
+        \item $b$ never offered to $w$, but then it is because $b$ got accepted by someone he prefers.
+            Thus $e$ is not a ``destabalizing'' edge.
+        \item $b$ offered to $w$ but got rejected.
+            But then this happens because $w$ got a better offer (according to her preference list), so she has a better partner.
+            Thus $e$ is not a ``destabalizing'' edge.
+    \end{enumerate}
+\end{proof}
+Interestingly, this leads to an optimal matching for the set $B$, but not for the set $W$.
+For example:
+\begin{center}
+    \begin{tikzpicture}[scale=3]
+        \node[vtx] (a) at (0,0){};
+        \node[vtx] (b) at (0,1){};
+        \node[vtx] (c) at (1,0){};
+        \node[vtx] (d) at (1,1){};
+        \draw[dashed] (0.5,0.95) ellipse (0.8cm and 0.3cm) node{$A$};
+        \draw[dashed] (0.5,0.05) ellipse (0.8cm and 0.3cm) node{$B$};
+        \path[every edge/.style={thick},every node/.style={font=\scriptsize}]
+            (a) edge[draw=red] node [left, very near start]{1} node [left, very near end]{2}(b)
+            (b) edge[draw=blue] node [above right, very near start]{1} node [below left, very near end]{2}(c)
+            (c) edge[draw=red] node [right, very near start]{1} node[right, very near end]{2}(d)
+            (d) edge[draw=blue] node [above left, very near start]{1} node[below right, very near end]{2}(a);
+    \end{tikzpicture}
+\end{center}
+Both the red and blue matchings are stable, but the red matching favours $B$, while the blue matching favours $A$.
+\section{Colourings}
+\begin{definition}
+    A \textbf{proper coloring} of a graph is a function $c:V(G)\to\N$ such that, for any $\{u,v\}\in E(G)$, $c(u)\neq c(v)$.
+\end{definition}
+\begin{definition}
+    The minimum number of colours needed for a proper colouring of $G$ is called the \textbf{chromatic number} $\chi(G)$ of $G$.
+\end{definition}
+\begin{definition}
+    The \textbf{clique number} of $G$ is denoted $\omega(G):=\max\{r:K_r\subseteq G\}$, in other words the size of the maximal complete subgraph of $G$.
+\end{definition}
+\begin{remark}
+    A graph is bipartite if and only if $\chi(G)=2$.
+\end{remark}
+We certainly have $\chi(G)\leq\Delta(G)+1$ by choosing colours greedily.
+However, greedy colourings certainly do not yield optimal colourings.
+For example, consider $K_{n,n}-nK_2$.
+We can refine this argument so that $\chi(G)\leq\max\{\delta(F):F\subseteq G\}+1$.
+We also have $\chi(G)\geq\omega(G)$.
 \end{document}
