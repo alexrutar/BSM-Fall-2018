@@ -808,8 +808,8 @@ Then
             Then $\E(\eta)=p$ and $\E(\eta^2)=p$, so $\Var(\eta)=p-p^2=pq$.
     \end{enumerate}
 \end{example}
-\section{Basic Distributions}
-\subsection{The Binomial Distribution}
+\section{The Binomial Distribution}
+\subsection{Basic Properties}
 \begin{definition}
     The Binomial distribution has parameters $n\geq 1$ and $p\in(0,1)$.
     Then $X\sim\Binom(n,p)$ if $\Pr(X=k)=\binom{n}{k}p^k(1-p)^{n-k}$.
@@ -865,6 +865,7 @@ so that
 \end{align*}
 There are two cases: if $(n+1)p$ is not an integer, then $k_0=\lfloor(n+1)p\rfloor$ is the single value that has maximal weight, and if $(n+1)p$ is an integer, then both $k_0=(n+1)p$ and $k_0-1$ have maximal weight.
 With further analysis, one can show for any $\epsilon>0$ fixed, p fixed, as $n\to\infty$,
+\subsection{Bernoulli's Law of Large Numbers}
 \[\Pr\left(\left\lvert\frac{X}{n}-p\right\rvert>\epsilon\right)=0\]
 This is called Bernoulli's Law of Large Numbers.
 This is effective for $X\sim\Binom(n,p)$: fix $p$, and let $n\to\infty$.
@@ -875,7 +876,10 @@ This is effective for $X\sim\Binom(n,p)$: fix $p$, and let $n\to\infty$.
         \item Shoot at a target 20 times, and suppose we hit the target with $p=0.05$.
         \item Shoot at a target 100 times, and suppose we hit the target with $p=0.01$.
             Let $X^{(c)}$ denote the number of hits, so that $\Pr(X^{(b)}>1)=0.26424\ldots$
-\subsection{Poisson Distribution}
+    \end{enumerate}
+\end{example}
+\section{Poisson Distribution}
+\subsection{Basic Properties}
 \begin{definition}
     Let $\lambda>0$ be a parameter.
     Then $X\sim\Poi(\lambda)$ if it can take $0,1,2,3,\ldots$ and $\Pr(X=k)e^{-\lambda}\frac{\lambda^k}{k!}$.
@@ -900,4 +904,91 @@ This is effective for $X\sim\Binom(n,p)$: fix $p$, and let $n\to\infty$.
 \end{proof}
 In words, many independent trials with small success rate can be approximated by the Poisson distribution.
 \end{proposition}
+\begin{example}
+    Since ``poisson'' means fish in french, we have an example about fishing.
+    A fisherman goes fishing every day.
+    He says: ``on average, on 1/5 days, I do not catch any fish''.
+    What is the chance that he atches at least two fish next time?
+
+    Let $X$ count the number of fish on a particular occasion.
+    There are many fish which move independently in the lake (maybe this assumption is not accurate, but we'll ignore that), and for any fixed fish, the chance of being caught is small.
+    Thus we can assume $X\im\Poi(\lambda)$.
+    Then $X^{(1)},X^{(2)},\ldots$ is the number of fish caught in consequtive occasions.
+    Then we have
+    \[\frac{|\{X^{(k)}=0|k=1,\ldots,n\}|}{n}\approx\frac{1}{5}\]
+    so by the Bernoulli Law of Large Numbers,
+    \[\Pr(X=0)=\frac{1}{5}\]
+    so $e^{-\lambda}=1/5$.
+    Then $\lambda=\ln 5$ so that
+    \[\Pr(X\geq 2)=1-\Pr(X=0)-\Pr(X=1)=1-e^{-\lambda}-\lambda e^{-\lambda}\approx 0.48\]
+\end{example}
+If $X\sim\Poi(\lambda)$, then
+\[\E(X)=\sum\limits_{k=0}^\infty k\cdot e^{-\lambda}\frac{\lambda^k}{k!}=\lambda e^{-\lambda}\sum\limits_{m=0}^\infty\frac{\lambda^m}{m!}=\lambda e^{-\lambda}e^{\lambda}=\lambda\]
+Similarly,
+\begin{align*}
+    \E(X(X-1)) &= \sum\limits_{k=0}^\infty k(k-1)e^{-\lambda}{\lambda^k}=e^{-\lambda}{\lambda^2}\sum\limits_{k=2}^\infty\frac{\lambda^{k-2}}{(k-2)!}=\lambda^2
+\end{align*}
+so that $\E(X^2)=\lambda^2+\lambda$ and $\Var(X)=\lambda$.
+\begin{example}
+    How many chocolate chips should you add per muffin so that no more than 1\% of muffins have no chocolate chips in them?
+
+    Let $X$ denote the number of chips in a given muffin is poisson distributed, so $X\sim\Poi(\lambda)$.
+    As well, $\lambda=N\cdot 1/M$, so $1/M$ is the success rate (the probability that a given chip is in the given muffin).
+    We need $\Pr(X=0)\leq 0.01$, so $e^{-\lambda}\leq 0.01$ and $\lambda\geq\ln 100\approx 4.6$.
+\end{example}
+\subsection{Poisson Process}
+A stochastic process is a random phenomenon evolving in time.
+For example, a point process is a random collection of points on $[0,+\infty)$.
+There are three properties that characterize the Poisson process.
+\begin{definition}
+    Consider two integer valued random variables, say $X$ and $Y$.
+    These are \textbf{independent} if for any $k,l\in\Z$, the events $\{X=k\}$ and $\{Y=l\}$ are independent.
+\end{definition}
+\begin{definition}
+    Let $f,g$ be arbitrary functions with $g(h)\to 0$ as $h\to 0$.
+    Then $f:\R^+\to\R$ is said to be $o(g)$ of $\lim_{h\to 0^+}\frac{f(h)}{g(h)}=0$
+\end{definition}
+We thus have the following properties characterizing the Poisson process with intensity $\lambda$.
+\begin{enumerate}
+    \item Let $I_1,I_2,\ldots,I_n$ be non-overlapping intervals in $[0,\infty)$.
+        Let $X_k$ denote the number of points in $I_k$ for $k=1,\ldots,n$.
+        Then the events $X_1,X_2,\ldots,X_n$ are independent.
+    \item Homogenity.
+        Let $I$ be an interval of length $h$.
+        Then $\Pr(\text{there is exactly one point in $I$})=\lambda h+o(h)$.
+    \item No accumulations.
+        Let $I$ be an interval of length $h$.
+        Then $\Pr(\text{there are at least two points in $I$})=o(h)$.
+\end{enumerate}
+\begin{proposition}
+    Let a point process satisfy the above properties.
+    Then if $I_t$ is an arbitrary interval of length $t$ and $N_t$ denotes the number of impacts with $I_t$, then $N_t\sim\Poi(\lambda t)$.
+\end{proposition}
+\begin{proof}
+    We want to compute $\Pr(N_t=k)$.
+    We will consider this using an additional parameter $n$.
+    Without loss of generality, consider the interval $[0,t]$.
+    Define
+    \[I_i^{(n)}=\left[\frac{(i-1)t}{n},\frac{it}{n}\right),\quad i=1,\ldots,n\]
+    Let $E_i^{(n)}$ denote the event in which there is exactly one point in $I_i^{(n)}$, and $D_i^{(n})$ is the event in which there are at least two points in $I_i^{(n)}$.
+    Let $D=D^{(n)}=\bigcup\limits_{i=1}^n D_i^{(n}$.
+    Then
+    \[\Pr(D)\leq\sum\limits_{i=1}^n\Pr(D_i^{(n)})=n\cdot o(t/n)=\frac{o(t/n)}{t/n}\cdot t=o(1)\]
+    which tends to $0$ as $n$ goes to infinity.
+    But then
+    \begin{align*}
+        \Pr(N_t=k)&=\Pr(\{N_t=k\}\cap D)+\Pr(\{N_t=k\}\cap D^c)=o(1)+\binom{n}{k}p(n)^k(1-p)^{n-k}\\
+                  &= e^{-\lambda t}\frac{(\lambda t)^k}{k!}
+    \end{align*}
+    as $n$ goes to infinity.
+    Note that $\{N_t=k\}\cap D^c$ means that there are exactly $k$ out of the $E_1^{(n)},\ldots,E_n^{(n)}$ that occurr, i.e. there are $k$ out of $n$ independent trials.
+    As well, $p(n)=\Pr(E_1^{(n)})=\lambda t/n+o(t/n)$, so $n\cdot p(n)=\lambda t+o(1)$.
+\end{proof}
+
+Chapter 2: 11,17
+Chapter 3: 14,19,25
+Chapter 4: 22
+
+
+
 \end{document}

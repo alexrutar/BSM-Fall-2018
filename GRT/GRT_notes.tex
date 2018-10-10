@@ -831,4 +831,91 @@ However, greedy colourings certainly do not yield optimal colourings.
 For example, consider $K_{n,n}-nK_2$.
 We can refine this argument so that $\chi(G)\leq\max\{\delta(F):F\subseteq G\}+1$.
 We also have $\chi(G)\geq\omega(G)$.
+It is possible that $\chi(G)>\omega(G)$; for example, in the 5-cycle.
+Here are some options:
+\begin{enumerate}
+    \item For all $G$, $\chi(G)\leq\omega(G)+1$.
+    \item Not 1, but there exists $f:\N\to\N$ so that for all $G$, $\chi(G)\leq f(\omega(G))$.
+    \item Perhaps there exists no such function.
+\end{enumerate}
+\begin{theorem}
+    For all $k\in\N$, there exists $G_k$ such that $\omega(G_k)=2$ and $\chi(G_k)=k$.
+\end{theorem}
+\begin{proof}[Mycielski's Construction]
+    We construct a sequence of graphs $M_2,M_3,\ldots,M_k,\ldots$ such that for all $i$, $\omega(G_i)=2$, $\chi(G_i)=i$.
+    Define $M_2=$ \begin{tikzpicture} \node[vtx] (a) at (0,0){};\node[vtx](b) at (1,0);\draw[thick](a) -- (b);\end{tikzpicture}.
+    Now define 
+    \begin{align*}
+        V(M_{k+1})&:=V(M_k)\cup\{u_i:i=1,\ldots,n=|V(M_k)|\}\cup\{z\}\\
+        E(M_{k+1}) &:= E(M_k)\cup\left\{\{u_i,u_j\}:\{v_i,v_j\}\in E(M_k)\}\cup\left\{\{z,u_i\}:i=1,\ldots,n=|V(M_k)|\right\}
+    \end{align*}
+    Connect $u_i$ to every neighbour of $v_i$, and $z$ to every $u_i$.
+    \begin{center}
+        \begin{tikzpicture}[
+            edge/.style={thick}
+            ]
+            \node[vtx] (1a) at (18:2cm){};
+            \node[vtx] (2a) at (90:2cm){};
+            \node[vtx] (3a) at (162:2cm){};
+            \node[vtx] (4a) at (234:2cm){};
+            \node[vtx] (5a) at (306:2cm){};
+            \draw[edge] (1a) -- (2a) -- (3a) -- (4a) -- (5a) -- (1a);
+        \end{tikzpicture}
+    \end{center}
+    \begin{center}
+        \begin{tikzpicture}[
+            edge/.style={thick}
+            ]
+            \node[vtx] (1a) at (18:1.6cm){};
+            \node[vtx] (2a) at (90:1.6cm){};
+            \node[vtx] (3a) at (162:1.6cm){};
+            \node[vtx] (4a) at (234:1.6cm){};
+            \node[vtx] (5a) at (306:1.6cm){};
+
+            \node[vtx] (1b) at (18:4cm){};
+            \node[vtx] (2b) at (90:4cm){};
+            \node[vtx] (3b) at (162:4cm){};
+            \node[vtx] (4b) at (234:4cm){};
+            \node[vtx] (5b) at (306:4cm){};
+
+            \node[vtx] (z) at (0,0){};
+            \draw[edge] (1b) -- (2b) -- (3b) -- (4b) -- (5b) -- (1b);
+            \draw[edge] (1a) -- (2b) -- (3a);
+            \draw[edge] (2a) -- (3b) -- (4a);
+            \draw[edge] (3a) -- (4b) -- (5a);
+            \draw[edge] (4a) -- (5b) -- (1a);
+            \draw[edge] (5a) -- (1b) -- (2a);
+
+            \draw[edge] (1a) -- (z);
+            \draw[edge] (2a) -- (z);
+            \draw[edge] (3a) -- (z);
+            \draw[edge] (4a) -- (z);
+            \draw[edge] (5a) -- (z);
+        \end{tikzpicture}
+    \end{center}
+    We prove that $M_k$ has clique number $2$ by induction.
+    Assume there exists $K_3$ in $M_{k+1}$.
+    But then it cannot have two vertices in $U=\{u_1,u_2,\ldots,u_n\}$ since $U$ is independent, and cannot have vertex $z$ since its only neighbours are in $U$.
+    Thus $K_3$ must have vertices $u_i,v_l,v_m$; but then, $v_i,v_l,v_m$ would be $K_3$, a contradiction.
+
+    Now we show that $\chi(M_{k+1})=\chi(M_k)+1=k+1$.
+    We certainly have $\chi(M_{k+1})\leq k+1$ by colouring every vertex in $U$ by a new colour, and the new vertex any of the original colours.
+    Furthermore, $\chi(M_k)\geq k+1$.
+    Consider the modified colouring of the ``$M_k-$part'' of $M_{k+1}$ as follows.
+    \[c'(v_i) =
+        \begin{cases}
+            c(v_i)&:c(v_i)\neq c(z)\\
+            c(u_i)&:c(v_i)= c(z)\\
+        \end{cases}
+    \]
+    If $\{v_i,v_j\}\in E(M_k)$, then $\{u_i,v_j\}\in E(M_{k+1})$ so that $c'(v_i)\neq c'(v_j)$.
+    If $c(v_i)\neq c(z)\neq c(v_j)$, $c'(v_i)=c(v_i)\neq c(v_j)=c'(v_j)$.
+    If $c(v_i)=c(z)=c(u_i)$, then $\{v_i,v_j\}\notin M$.
+
+    In any case, $c'$ is a proper colouring, a contradiction so equality must hold.
+\end{proof}
+A stronger result was proven by Erd\"os using the ``probabilistic method''.
+\begin{theorem}[Erd\"os]
+    For all $k,l$, there exists $G$ such that simultaneously $\chi(G)>k$ and $g(G)>l$, where $g(G)$ is the ``girth'', that is the length of the shortest cycle in $G$.
+\end{theorem}
 \end{document}

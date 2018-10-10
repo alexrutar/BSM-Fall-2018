@@ -20,6 +20,7 @@
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
 \DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\sgn}{sgn}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -99,134 +100,7 @@
 \tableofcontents
 \pagenumbering{arabic}
 \chapter{Fundamentals of Groups}
-\section{Principles}
-In general, algebraic structures require three properties:
-\begin{itemize}
-    \item A set
-    \item Operations on the set
-    \item Properties of these operations
-\end{itemize}
-We develop theories and want to look at examples to demonstrate these properties.
-This course will focus on propeties of rings and groups.
-
-\subsection{Rings}
-A ring consists of a set along with two binary operations which satisfy $(R,+,\cdot)$.
-Then for all $a,b,c\in R$,
-\begin{enumerate}[nolistsep]
-    \item $(a+b)+c=a+(b+c)$
-    \item $a+b=b+a$
-    \item $\exists 0\in R$ so that $a+0=a$
-    \item $\forall a\in R$, there exists $b\in R$ so that $a+b=0$
-    \item $(a\cdot b)\cdot c=a\cdot(b\cdot c)$
-    \item $a\cdot(b+c)=a\cdot b+a\cdot c$ and $(a+b)\cdot c=a\cdot c+b\cdot c$
-\end{enumerate}
-There are some common examples:
-\begin{enumerate}
-    \item Rings of numbers
-        \begin{enumerate}
-            \item $\Z,\Q,\R,\C$
-            \item $\Z[\sqrt{2}]=\{a+b\sqrt{2}\mid a,b\in\Z\}$ 
-            \item $\Q[\sqrt[3]{2}]=\{a+b\sqrt[3]{2}+c\sqrt[3]{4}|a,b,c\in\Q\}$
-        \end{enumerate}
-    \item Rings of polynomials
-        \[\Z[x]=\{a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0|\forall a_i\in \Z\}\]
-        $\Q[x],\R[x],\C[x],\Z[x,y]$ etc.
-    \item Rings of functions, such that $C[a,b]$
-    \item Rings of matrices $M_n(\Z)$: all $n\times n$ square matrices with integer entries (more generally matrices with any entries in a ring).
-    \item Given any set $X$, consider $\mathcal{P}(X)$ and define the symmetric difference
-        \[A\oplus B=(A\cup B)\setminus(A\cap B)\]
-        Then $(\mathcal{P}(X),\oplus,\cap$ is a ring.
-        Interestingly, $A=-A$ in this ring.
-\end{enumerate}
-A ring with identity means we have some $1\neq 0$ so that $a\cdot 1=1\cdot a=a$.
-A division ring is a ring with identity such that all nonzero elements have a multiplicative inverse.
-A field is a commutative division ring $\Q,\R,\C,\Q[\sqrt{2}]$.
-\subsection{Groups}
-\begin{definition}
-    A group is a set $G$ together with an operation $*$ which satisfies
-    \begin{enumerate}
-        \item $(a*b)*c=a*(b*c)$
-        \item $\exists e\in G:a*e=a=e*a$
-        \item $\forall a\in G\exists b\in G:a*b=e=b*a$
-    \end{enumerate}
-\end{definition}
-Here are some common examples of groups
-\begin{enumerate}
-    \item Additive groups:
-        \begin{enumerate}
-            \item If $(R,+,\cdot)$ is a ring, then $(R,+)$ is a (commutative) group.
-            \item If $V$ is a vector space, then $(V,+)$ is a group
-        \end{enumerate}
-    \item Multiplicative groups:
-        \begin{enumerate}
-            \item $R$ is a ring with identity, and write
-                \[R^\times=\{a\in R\mid \exists b\text{ s.t. }a\cdot b = 1 = b\cdot a\}\]
-                in other words the elements having a multiplicative inverse.
-                These are called the \textbf{units} of the ring, and $R^\times$ is called the \textbf{unit group} or the \textbf{multiplicative group} of $R$.
-            \item $\Z^\times=\{1,-1\}$, $\Q^\times=\Q\setminus\{0\}$ (similarly for $\R,\C$).
-            \item $M_n(\R)^\times = \GL_n(\R)=\{A\in M_n(\R)\mid \det A\neq 0\}$.
-            \item $M_n(\Z)^\times = \GL_n(\Z)=\{A\in M_n(\Z)|\det A=\pm 1\}$.
-        \end{enumerate}
-    \item Matrix groups: matrices under addition and multiplication
-    \item Composition of permutations.
-        Let $T$ be any set, and $A:T\to T$ be bijective.
-        Let $S_T$ be the collection of all permutations on $T$.
-        Then $(S_T,\circ)$ (composition action) forms a group.
-
-        We write $S_n=S_{\{1,2,\ldots,n\}}$, the group of permutations on $n$ elements.
-        We can notate the elements of $S_n$ by writing
-        \[
-            \begin{pmatrix}
-                1&2&\cdots&n\\
-                f(1)&f(2)&\cdots&f(n)
-            \end{pmatrix}
-        \]
-        Clearly $|S_n|=n!$.
-\end{enumerate}
-\subsection{The group $\Z_m$}
-\begin{definition}
-    Let $\sim$ be an equivalence relation.
-    We then define the \textbf{quotient group} $G/\sim$ given by the equivalence classes of elements in $G$.
-\end{definition}
-To construct $\Z_m$, we define $\Z_m=\Z/\sim$ where $a\sim b$ if $a\cong b\pmod{m}$.
-Since we have a division algorithm in $\Z$, for any $d\in\Z$, we can write $d=tm+r$ with $0\leq r\leq m-1$.
-Thus $\overline{d}=\overline{r}$, so we can represent $\Z_m=\{\overline{0},\overline{1},\ldots,\overline{m-1}\}$.
-As a result we usually do not bother writing $\overline{\cdot}$.
-\begin{proposition}
-    We have $\overline{a}+\overline{b}=\overline{a+b}$ and $\overline{a}\cdot\overline{b}=\overline{ab}$.
-\end{proposition}
-\begin{proof}
-    Obvious.
-\end{proof}
-\begin{theorem}
-    $\Z_m^\times=\{\overline{a}\mid\gcd(a,m)=1\}$.
-\end{theorem}
-\begin{proof}
-    Assume $\overline{a}\in\Z^\times_m$ so there exists $\overline{x}$ with $\overline{x}\cdot\overline{a}=1$.
-    Then $\overline{xa}=\overline{1}$ so $xa\cong 1\pmod{m}$ so $m|xa-1$.
-    Let $d=\gcd(a,m)$ so $d|a$ and $d|m$.
-    Thus $d|xa-1$ and $d|xa$ so $d|1$ and $\gcd(a,m)=1$.
-
-    Conversely, suppose $\gcd(a,m)=1$.
-    Then by B\'ezout's Lemma, get $x,y$ so that $xa+ym=1$, so $xa\cong 1\pmod{1}$ and $\overline{xa}=\overline{1}$ and $\overline{x}\overline{a}=\overline{1}$ and we have our multiplicative inverse.
-\end{proof}
-We thus have $|\Z_m^\times|=\phi(m)$.
 \section{Basics of Groups}
-\subsection{Functions between Groups}
-\begin{definition}
-    Let $(G,\Diamondblack)$, $(H,\star)$ be groups.
-    A mapping $f:G\to H$ is called an \textbf{homomorphism} if
-    \[f(u\Diamondblack v)=f(u)\star f(v)\]
-    If $f$ is also a a bijection, then we call $f$ an \textbf{isomorphism}.
-\end{definition}
-\begin{proposition}
-    $G$ and $H$ are isomorphic if and only if their Cayley Tables are the same up to permutation of elements.
-\end{proposition}
-\begin{proof}
-    Obvious.
-\end{proof}
-\section{Examples of Finite Groups}
-\subsection{Group Definitions}
 \begin{definition}
     We say that $(G,*)$ with $*:G\times G\to G$ is a \textbf{group} if for all $a,b,c\in G$
     \begin{enumerate}
@@ -257,6 +131,188 @@ We have our first basic proposition:
 \begin{proof}
     This follows directly by left or right cancellation, and by commutativity of the elements with their inverse.
 \end{proof}
+\begin{definition}
+    Let $(G,\Diamondblack)$, $(H,\star)$ be groups.
+    A mapping $f:G\to H$ is called an \textbf{homomorphism} if
+    \[f(u\Diamondblack v)=f(u)\star f(v)\]
+    If $f$ is also a a bijection, then we call $f$ an \textbf{isomorphism}.
+\end{definition}
+\begin{proposition}
+    $G$ and $H$ are isomorphic if and only if their Cayley Tables are the same up to permutation of elements.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\subsection{The group $\Z_m$}
+\begin{definition}
+    Let $\sim$ be an equivalence relation.
+    We then define the \textbf{quotient group} $G/\sim$ given by the equivalence classes of elements in $G$.
+\end{definition}
+To construct $\Z_m$, we define $\Z_m=\Z/\sim$ where $a\sim b$ if $a\cong b\pmod{m}$.
+Since we have a division algorithm in $\Z$, for any $d\in\Z$, we can write $d=tm+r$ with $0\leq r\leq m-1$.
+Thus $\overline{d}=\overline{r}$, so we can represent $\Z_m=\{\overline{0},\overline{1},\ldots,\overline{m-1}\}$.
+As a result we usually do not bother writing $\overline{\cdot}$.
+\begin{proposition}
+    We have $\overline{a}+\overline{b}=\overline{a+b}$ and $\overline{a}\cdot\overline{b}=\overline{ab}$.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\begin{theorem}
+    $\Z_m^\times=\{\overline{a}\mid\gcd(a,m)=1\}$.
+\end{theorem}
+\begin{proof}
+    Assume $\overline{a}\in\Z^\times_m$ so there exists $\overline{x}$ with $\overline{x}\cdot\overline{a}=1$.
+    Then $\overline{xa}=\overline{1}$ so $xa\cong 1\pmod{m}$ so $m|xa-1$.
+    Let $d=\gcd(a,m)$ so $d|a$ and $d|m$.
+    Thus $d|xa-1$ and $d|xa$ so $d|1$ and $\gcd(a,m)=1$.
+
+    Conversely, suppose $\gcd(a,m)=1$.
+    Then by B\'ezout's Lemma, get $x,y$ so that $xa+ym=1$, so $xa\cong 1\pmod{1}$ and $\overline{xa}=\overline{1}$ and $\overline{x}\overline{a}=\overline{1}$ and we have our multiplicative inverse.
+\end{proof}
+We thus have $|\Z_m^\times|=\phi(m)$.
+\section{Subgroups}
+\begin{definition}
+    A subset $H$ of a group $G$ is called a \textbf{subgroup} if $H$ is also a group with the same operation.
+    We write $H\leq G$.
+\end{definition}
+For example, $(\Z,+)\leq(\Q,+)\leq(\R,+)\leq(\C,+)$.
+Note that associativity automatically holds since every element of $H$ is an element of $G$.
+Furthermore, $1_H=1_G$ since $1_H1_G=1_H=1_H1_H$ where the first equality holds since $1_G$ is an identity, and the second since $1_H$ is an identity.
+As a result, inverses in $H$ are inverses in $G$.
+\subsection{Subgroup Tests}
+\begin{proposition}[First Subgroup Test]
+    A subset $H$ of a group $G$ is a subgroup if and only if
+    \begin{enumerate}
+        \item $H\neq\emptyset$
+        \item $x,y\in H\Rightarrow xy\in H$
+        \item $x\in H\Rightarrow x^{-1}\in H$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Follows by above discussion.
+\end{proof}
+\begin{proposition}[Second Subgroup Test]
+    A subset $H$ of a group $G$ is a subgroup
+    \begin{enumerate}
+        \item $H\neq\emptyset$
+        \item $x,y\in H\Rightarrow xy^{-1}\in H$
+    \end{enumerate}
+\end{proposition}
+That the first subgroup test implies the second is obvious.
+Coversely, the identity is in $H$ since $xx^{-1}\in H$.
+Thus get closure under inversion by choosing $x$ as the identity to get inverses.
+Then if $x,y\in H$, $x,y^{-1}\in H$ so $x(y^{-1})^{-1}=xy\in H$.
+
+Furthermore, if $G$ is finite, it suffices to show closure under multiplication, since inverses can be optained by repeated multiplication.
+\begin{proposition}
+    Arbitrary intersections of subgroups are also subgroups.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\subsection{Cosets of Subgroups}
+\begin{definition}
+    Let $H\leq G$, $g\in G$.
+    Then the \textbf{right coset} of $H$ by $g$ is the set $Hg:=\{hg:h\in H\}$.
+    Similarly, the \textbf{left coset} of $H$ by $g$ is the set $gH:=\{gh:h\in H\}$.
+\end{definition}
+\begin{example}
+    Consider $G=\Z_{13}^\times=\{1,2,\ldots,12\}$ and $H=\langle 3\rangle=\{1,3,9\}$.
+    Then the cosets of $H$ are given by
+    \begin{align*}
+        H1 &= \{1,3,9\} & H2 &= \{2,5,6\}\\
+        H3 &= H1 & H4 &= \{4,10,12\}\\
+        H5 &= H2 & H6 &= H2\\
+        H7 &= \{7,8,11\} & H8 &= H7\\
+        H9 &= H1 & H10 &= H4\\
+        H11 &= H7 & H12 &= H4
+    \end{align*}
+    so there are 4 disjoint cosets of $H$.
+\end{example}
+This inspires the following theorem:
+\begin{theorem}
+    Let $H\leq G$.
+    Then
+    \begin{enumerate}[nolistsep]
+        \item $|Hg|=|H|$
+        \item $Hg=H\Leftrightarrow g\in H$
+        \item For any $x,y\in G$, either $Hx=Hy$ or $Hx\cap Hy=\emptyset$
+        \item $Hx=Hy\Leftrightarrow xy^{-1}\in H$
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item The map $\cdot g:H\to Hg$ is bijective since it has an inverse.
+        \item This is a special case of (4) with $x=g$, $y=1$.
+        \item Suppose $Hx\cap Hy\neq\emptyset$.
+            Thus let $z\in Hx\cap Hy$ and write $z=h_1x=h_2y$.
+            Then for any $hx\in Hx$, $hx=hh_1^{-1}h_1x=hh_1^{-1}h_2y\in Hy$ so $Hx\subseteq Hy$.
+            The identical argument works in reverse, so equality holds.
+        \item Assume $Hx=Hy$, and if $x\in Hx$, then $x\in Hy$ so $x=hy$ and $xy^{-1}=h$.
+            Conversely, suppose $xy^{-1}\in H$, then $xy^{-1}y\in Hy$ so $x\in Hy$.
+            Also, $x\in Hx$ so $x\in Hx\cap Hy\neq\emptyset$ so by (3), $Hx=Hy$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    The \textbf{index} of a subgroup $H$ in a group $G$ is denoted $|G:H|$ and denotes the number of distinct right cosets of $H$.
+\end{definition}
+\begin{proposition}
+    $Hx\mapsto x^{-1}H$ is a one-to-one correspondence between right cosets and left cosets.
+\end{proposition}
+Thus $G$ is a disjoint union of $|G:H|$ right cosets of $H$, each of size $|H|$.
+Therefore we have
+\begin{corollary}
+    $|G|=|G:H|\cdot|H|$
+\end{corollary}
+\begin{theorem}[Lagrange]
+    Suppose $G$ is a finite group.
+    Then
+    \begin{enumerate}
+        \item For any $H\leq G$, $|H|\mid|G|$.
+        \item For any $g\in G$, $o(g)||G|$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Since $|G|=|G:H|\cdot|H|$, $|G:H|$ is a positive integer.
+        \item $o(g)=|\langle g\rangle|$ and it follows by (1).
+    \end{enumerate}
+\end{proof}
+\subsection{Center of a Group}
+\begin{definition}
+    For any $g\in G$, define
+    \[C_G(g)=\{x\in G:gx=xg\}\]
+    the \textbf{centralizer} of $g$ in $G$.
+    Then define the \textbf{center} of a group $G$
+    \[Z(G)=\bigcap_{g\in G}C_G(g)\leq G\]
+\end{definition}
+Note that the center of a group is the set of elements which commute with everything in the group.
+These are indeed groups:
+We certainly have $1\in C_G(g)$.
+Also, if $x,y\in G$, then $gx=xg$ and $gy=yg$ so that $gxy=xgy=xyg$.
+If $x\in C_G(g)$, then $gx=xg$ so $g=xgx^{-1}$ and $x^{-1}g=gx^{-1}$.
+
+This definition inspires the following definition:
+\begin{definition}
+    We say that $f$ is a \textbf{conjugate} of $g$ if and only if there exists $x\in G$ such that $x^{-1}gx=f$.
+\end{definition}
+Denote the binary relation by $\sim$: we will show that this is an equivalence relation:
+\begin{enumerate}[nolistsep]
+    \item Reflexive: $g\sim g$ by $x=1$
+    \item Symmetric: If $g\sim f$, then $x^{-1}gx=f$ so $g=xfx^{-1}=(x^{-1})^{-1}fx^{-1}$
+    \item Transitive: If $f\sim g$ and $g\sim h$, get $x,y$ so $x^{-1}gx=f$ and $y^{-1}fy=h$ so
+        \[h=y^{-1}x^{-1}gxy=(xy)^{-1}g(xy)\]
+\end{enumerate}
+\begin{definition}
+    These equivalence classes are called the \textbf{conjugacy classes} of $G$.
+\end{definition}
+We denote the conjugacy class of $g\in G$ by $C_g=\{x^{-1}gx:x\in G\}$.
+Note that $|C_g|=1$ if and only if $C_g=\{g\}$ if and only if $x^{-1}gx=g$ for any $x\in G$ if and only if $gx=xg$ and $g\in Z(G)$.
+\begin{theorem}
+    For any $g\in G$, $|C_g|\cdot|C_G(g)|=|G|$.
+\end{theorem}
+\section{Examples of Finite Groups}
 \subsection{Cyclic Groups}
 \begin{definition}
     The \textbf{order of an element} $g\in G$ is $o(g):=\left\lvert\{g^d|d\in\Z\}\right\rvert$.
@@ -284,6 +340,45 @@ Equality holds when $o(g)=\infty$ and $G$ is countable, or $G=\{g^d:d\in\Z\}$.
     But then $(g^d)^l=1\Leftrightarrow g^{dl}=1\Leftrightarrow o(g)|dl$ and $k|dl$, that is $tK_1|td_1l$ and $k_1|d_1l$.
     Thus $K_1|l$ so the smallest positive intger $l$ is $K_1$ and $o(g^d)=K_1=\frac{o(g)}{\gcd(o(g),d)}$ as desired.
 \end{proof}
+\subsubsection{Subgroups of Cyclic Groups}
+\begin{theorem}
+    Any subgroup of a cyclic group is also cyclic.
+\end{theorem}
+\begin{proof}
+    Let $G=\langle g\rangle$ be a cyclic group, $H\leq G$.
+    If $H=\{1\}$, then $H=\langle 1\rangle$ is cyclic.
+    Otherwise, there exists some $0\neq m\in\Z$ with $g^m\in H$.
+    Now, there exists a smallest positive integer $k$ with $g^k\in H$.
+    We see that $H=\langle g^k\rangle$.
+    The reverse inclusion is obvious since $(g^k)^t\in H$ for all $t\in\Z$.
+    For the forward inclusion, pick $x\in H$ so $x=g^d$ for some $d$.
+    Then division with remainder yields $d=tk+r$ with $0\leq r\leq k-1$ so that
+    $g^d=g^{tk+r}$ and $x=(g^k)^tg^r$ so $g^r=x(g^k)^{-t}\in H$.
+    Minimality of $k$ forces $r=0$, so $d=tk$, $x=g^d=(g^k)^t\in\langle g^k\rangle$.
+\end{proof}
+If $|G|=o(g)=n$ finite, write $n=tk+r$, for $0\leq r\leq k-1$.
+Then $g^r=g^n(g^k)^{-t}=(g^k)^{-t}\in H$, and again $r=0$, $n=tk$, $k|n$.
+
+Now suppose $G=\langle g\rangle$ with finite order $n$.
+Then $G=\{1,g,g^2,\ldots,g^{n-1}\}$, and subgroups of $G$ correspond to positive diviors of $n$.
+Then $k|n\leftrightarrow\langle g^k\rangle=\{1,g^k,g^{2k},\ldots,g^{n-k}\}$
+Now suppose $G=\langle g\rangle$ is infinite, and $G=\{\ldots,g^{-1},1,g,g^2,\ldots\}$.
+Then subgroups of $G$ correspond to nonnegative integers, and $k\geq 0\leftrightarrow \langle g^k\rangle=\{\ldots,g^{-k},1,g^k,g^{2k},\ldots\}$.
+\begin{example}
+    Consider $G=\Z_{13}^\times=\left\langle 2\right\rangle$, $|\Z_{13}^\times|=12=o(2)$.
+    \begin{center}
+        \begin{tabular}{c|c}
+            Divisor of 12&Subgroup of $\Z_{13}^\times$\\
+            \hline
+            1& $\langle 2^1\rangle=\langle 2\rangle=\Z_{13}^\times$\\
+            1& $\langle 2^2\rangle=\langle 4\rangle=\{1,4,3,12,9,10\}$\\
+            1& $\langle 2^3\rangle=\langle 8\rangle=\{1,8,12,5\}$\\
+            1& $\langle 2^4\rangle=\langle 3\rangle=\{1,3,9\}$\\
+            1& $\langle 2^6\rangle=\langle 12\rangle=\{1,12\}$\\
+            1& $\langle 2^{12}\rangle=\langle 1\rangle =\{1\}$
+        \end{tabular}
+    \end{center}
+\end{example}
 \subsection{Permutation Groups}
 Recall that $S_n$ is the symmetric group of degree $n$, consisting of all permutations of $[n]$.
 Thus $|S_n|=n!$.
@@ -370,6 +465,77 @@ This is certainly not unique: for example $(26)=(21)(16)(21)$.
     \[I=\alpha_1\alpha_2\ldots\alpha_m\alpha_m\ldots\alpha_2\alpha_1=\beta_1\beta_2\ldots\beta_n\alpha_m\alpha_{m-1}\ldots\alpha_1\]
     so $I$ is odd, a contradiction.
 \end{proof}
+\begin{definition}
+    We define the \textbf{signature} $\sgn(f)$ to be $1$ of $f$ is even, and $-1$ if $f$ is odd.
+\end{definition}
+\begin{proposition}
+    \begin{enumerate}[nolistsep]
+        \item $\sgn(f^{-1})=\sgn(f)$
+        \item $\sgn(fg)=\sgn(f)\sgn(g)$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Follows directly from the 2-cycle decomposition.
+\end{proof}
+\begin{definition}
+    The \textbf{alternating group} of degree $n$ is the group $A_n=\{f\in S_n:\sgn(f)=1\}\leq S_n$.
+\end{definition}
+\begin{theorem}
+    $|A_n|=\frac{n!}{2}$.
+\end{theorem}
+\begin{proof}
+    We see two separate proofs.
+    \begin{enumerate}
+        \item Consider $\phi:A_n\to S_n\setminus A_n$ by $f\mapsto f(12)$.
+            This is injective since if $\phi(f)=\phi(g)$, then $f(12)=g(12)$ and $f=g$.
+            It is surjective: if $g$ is odd, then $g(12)$ is even that $\phi(g(12))=g$.
+            Thus $\phi$ is bijective and $|A_n|=|S\setminus A_n|=|A|-|A_n|$ so $|A_n|=|S_n|/2=n!/2$.
+        \item We claim that $|S_n:A_n|=2$.
+            For $f\in S_n$ even, $f\in A_n$ so $A_nf=A_n$.
+            For $f\in S_n$ odd, $f^{-1}$ is odd and $(12)f^{-1}$ is even and $(12)f^{-1}\in A_n$.
+            Thus $A_n(12)=A_nf$, so there are only two cosets of $A_n$: $A_n$ and $A_n(12)$, and the result follows by Lagrange's Theorem.
+    \end{enumerate}
+\end{proof}
+\subsubsection{Centralizers of Permutation Groups}
+\begin{example}
+    Consider $g=(12)(34)\in S_4$.
+    Then $C_{S_4}(g)=\{x\in S_4\mid gx=xg\}=\{I,(12)(34),(12),(34),(14)(23),(1324),(1423)\}$.
+\end{example}
+The key idea is to observe that $x^{-1}gx=g$, which is called the conjugate of $g$ by $x$.
+\begin{example}
+    Consider $f=(34)(1572)(86)(9)$, $g=(194)(368)(257)$.
+    \begin{align*}
+        g^{-1}fg &= (752)(863)(491)(34)(1572)(86)(194)(368)(257)\\
+                 &= (16)(2597)(38)(4)\\
+                 &= (3g)(4g)(1g 5g 7g 2g)(8g 6g) (9g)
+    \end{align*}
+\end{example}
+In general, if $f,g\in S_n$ and $(a_1a_2,\ldots,a_k)$ is a cycle in the cycle form of $f$, then $(a_1z\,a_2z\ldots a_kz)$ is a cycle in the cycle form of $z^{-1}fz$.
+To see this, $a_1z(z^{-1}fz)=a_1fz=a_2z$, so $a_1z$ maps to $a_2z$, and similarly for all the pairs of elements in the cycle.
+
+If we now return to $(12)(34)x=x(12)(34)$, we have $x^{-1}(12)(34)x=(12)(34)$ so
+\[(1x\,2x)(3x\,4x)=(12)(34)\]
+Since the cycle form is unique up to rearranging within cycles, we have
+\begin{center}
+    \begin{tabular}{c|cccc|c}
+        LHS & $1x$ & $2x$ & $3x$ & $4x$ & $x$\\
+        \hline
+        $(12)(34)$ & 1&2&3&4& $I$\\
+        $(21)(34)$ & 2&1&3&4& $(12)$\\
+        $(12)(43)$ & 1&2&4&3& $(34)$\\
+        $(21)(43)$ & 2&1&4&3& $(12)(34)$\\
+        $(34)(12)$ & 3&4&1&2& $(13)(24)$\\
+        $(34)(21)$ & 3&4&2&1& $(1324)$\\
+        $(43)(12)$ & 4&3&1&2& $(1423)$\\
+        $(43)(21)$ & 4&3&2&1& $(14)(23)$
+    \end{tabular}
+\end{center}
+Let's now compute the conjugacy classes of $S_n$.
+Let's do $S_3$ first:
+The conjugacy classes are given by
+\[\{1\},\{(12),(13),(23)\},\{(123)\}\]
+In general, the conjugacy classes in $S_n$ correspond to the possible cycle structures in $S_n$.
+\end{example}
 \subsection{Dihedral Groups}
 Fix a regular polygon with $n$ vertices.
 Let $D_n$ be the collection of rigid motions with map the regular $n-$polygon to itself.
@@ -384,166 +550,4 @@ We can compute the oprations on $D_n$:
     sr^a\cdot sr^b &= r^{b-a}
 \end{align*}
 Thus $o(sr^a)=2$ and $o(r^a)$ is given by the usual formula.
-\section{Subgroups}
-\begin{definition}
-    A subset $H$ of a group $G$ is called a \textbf{subgroup} if $H$ is also a group with the same operation.
-    We write $H\leq G$.
-\end{definition}
-For example, $(\Z,+)\leq(\Q,+)\leq(\R,+)\leq(\C,+)$.
-Note that associativity automatically holds since every element of $H$ is an element of $G$.
-Furthermore, $1_H=1_G$ since $1_H1_G=1_H=1_H1_H$ where the first equality holds since $1_G$ is an identity, and the second since $1_H$ is an identity.
-As a result, inverses in $H$ are inverses in $G$.
-\subsection{Subgroup Tests}
-\begin{proposition}[First Subgroup Test]
-    A subset $H$ of a group $G$ is a subgroup if and only if
-    \begin{enumerate}
-        \item $H\neq\emptyset$
-        \item $x,y\in H\Rightarrow xy\in H$
-        \item $x\in H\Rightarrow x^{-1}\in H$
-    \end{enumerate}
-\end{proposition}
-\begin{proof}
-    Follows by above discussion.
-\end{proof}
-\begin{proposition}[Second Subgroup Test]
-    A subset $H$ of a group $G$ is a subgroup
-    \begin{enumerate}
-        \item $H\neq\emptyset$
-        \item $x,y\in H\Rightarrow xy^{-1}\in H$
-    \end{enumerate}
-\end{proposition}
-That the first subgroup test implies the second is obvious.
-Coversely, the identity is in $H$ since $xx^{-1}\in H$.
-Thus get closure under inversion by choosing $x$ as the identity to get inverses.
-Then if $x,y\in H$, $x,y^{-1}\in H$ so $x(y^{-1})^{-1}=xy\in H$.
-
-Furthermore, if $G$ is finite, it suffices to show closure under multiplication, since inverses can be optained by repeated multiplication.
-\begin{proposition}
-    Arbitrary intersections of subgroups are also subgroups.
-\end{proposition}
-\begin{proof}
-    Obvious.
-\end{proof}
-\begin{example}
-    \begin{enumerate}
-        \item $G\leq G$, $\{1\}\leq G$
-        \item For any $g\in G$, we have $\langle g\rangle=\{g^k:k\in\Z\}$ is a subgroup.
-        \item For any $g\in G$, define
-            \[C_G(g)=\{x\in G:gx=xg\}\]
-            the centralizer of $g$ in $G$.
-            We certainly have $1\in C_G(g)$.
-            Also, if $x,y\in G$, then $gx=xg$ and $gy=yg$ so that $gxy=xgy=xyg$.
-            If $x\in C_G(g)$, then $gx=xg$ so $g=xgx^{-1}$ and $x^{-1}g=gx^{-1}$.
-        \item The center of a group $G$:
-            \[Z(G)=\bigcap_{g\in G}C_G(g)\leq G\]
-            which is the set of elements commuting with everyone in $G$.
-    \end{enumerate}
-\end{example}
-\subsection{Cosets of Subgroups}
-\begin{definition}
-    Let $H\leq G$, $g\in G$.
-    Then the \textbf{right coset} of $H$ by $g$ is the set $Hg:=\{hg:h\in H\}$.
-    Similarly, the \textbf{left coset} of $H$ by $g$ is the set $gH:=\{gh:h\in H\}$.
-\end{definition}
-\begin{example}
-    Consider $G=\Z_{13}^\times=\{1,2,\ldots,12\}$ and $H=\langle 3\rangle=\{1,3,9\}$.
-    Then the cosets of $H$ are given by
-    \begin{align*}
-        H1 &= \{1,3,9\} & H2 &= \{2,5,6\}\\
-        H3 &= H1 & H4 &= \{4,10,12\}\\
-        H5 &= H2 & H6 &= H2\\
-        H7 &= \{7,8,11\} & H8 &= H7\\
-        H9 &= H1 & H10 &= H4\\
-        H11 &= H7 & H12 &= H4
-    \end{align*}
-    so there are 4 disjoint cosets of $H$.
-\end{example}
-This inspires the following theorem:
-\begin{theorem}
-    Let $H\leq G$.
-    Then
-    \begin{enumerate}[nolistsep]
-        \item $|Hg|=|H|$
-        \item $Hg=H\Leftrightarrow g\in H$
-        \item For any $x,y\in G$, either $Hx=Hy$ or $Hx\cap Hy=\emptyset$
-        \item $Hx=Hy\Leftrightarrow xy^{-1}\in H$
-    \end{enumerate}
-\end{theorem}
-\begin{proof}
-    \begin{enumerate}
-        \item The map $\cdot g:H\to Hg$ is bijective since it has an inverse.
-        \item This is a special case of (4) with $x=g$, $y=1$.
-        \item Suppose $Hx\cap Hy\neq\emptyset$.
-            Thus let $z\in Hx\cap Hy$ and write $z=h_1x=h_2y$.
-            Then for any $hx\in Hx$, $hx=hh_1^{-1}h_1x=hh_1^{-1}h_2y\in Hy$ so $Hx\subseteq Hy$.
-            The identical argument works in reverse, so equality holds.
-        \item Assume $Hx=Hy$, and if $x\in Hx$, then $x\in Hy$ so $x=hy$ and $xy^{-1}=h$.
-            Conversely, suppose $xy^{-1}\in H$, then $xy^{-1}y\in Hy$ so $x\in Hy$.
-            Also, $x\in Hx$ so $x\in Hx\cap Hy\neq\emptyset$ so by (3), $Hx=Hy$.
-    \end{enumerate}
-\end{proof}
-\begin{definition}
-    The \textbf{index} of a subgroup $H$ in a group $G$ is denoted $|G:H|$ and denotes the number of distinct right cosets of $H$.
-\end{definition}
-\begin{proposition}
-    $Hx\mapsto x^{-1}H$ is a one-to-one correspondence between right cosets and left cosets.
-\end{proposition}
-Thus $G$ is a disjoint union of $|G:H|$ right cosets of $H$, each of size $|H|$.
-Therefore we have
-\begin{corollary}
-    $|G|=|G:H|\cdot|H|$
-\end{corollary}
-\begin{theorem}[Lagrange]
-    Suppose $G$ is a finite group.
-    Then
-    \begin{enumerate}
-        \item For any $H\leq G$, $|H|\mid|G|$.
-        \item For any $g\in G$, $o(g)||G|$.
-    \end{enumerate}
-\end{theorem}
-\begin{proof}
-    \begin{enumerate}
-        \item Since $|G|=|G:H|\cdot|H|$, $|G:H|$ is a positive integer.
-        \item $o(g)=|\langle g\rangle|$ and it follows by (1).
-    \end{enumerate}
-\end{proof}
-\subsection{Subgroups of Cyclic Groups}
-\begin{theorem}
-    Any subgroup of a cyclic group is also cyclic.
-\end{theorem}
-\begin{proof}
-    Let $G=\langle g\rangle$ be a cyclic group, $H\leq G$.
-    If $H=\{1\}$, then $H=\langle 1\rangle$ is cyclic.
-    Otherwise, there exists some $0\neq m\in\Z$ with $g^m\in H$.
-    Now, there exists a smallest positive integer $k$ with $g^k\in H$.
-    We see that $H=\langle g^k\rangle$.
-    The reverse inclusion is obvious since $(g^k)^t\in H$ for all $t\in\Z$.
-    For the forward inclusion, pick $x\in H$ so $x=g^d$ for some $d$.
-    Then division with remainder yields $d=tk+r$ with $0\leq r\leq k-1$ so that
-    $g^d=g^{tk+r}$ and $x=(g^k)^tg^r$ so $g^r=x(g^k)^{-t}\in H$.
-    Minimality of $k$ forces $r=0$, so $d=tk$, $x=g^d=(g^k)^t\in\langle g^k\rangle$.
-\end{proof}
-If $|G|=o(g)=n$ finite, write $n=tk+r$, for $0\leq r\leq k-1$.
-Then $g^r=g^n(g^k)^{-t}=(g^k)^{-t}\in H$, and again $r=0$, $n=tk$, $k|n$.
-
-Now suppose $G=\langle g\rangle$ with finite order $n$.
-Then $G=\{1,g,g^2,\ldots,g^{n-1}\}$, and subgroups of $G$ correspond to positive diviors of $n$.
-Then $k|n\leftrightarrow\langle g^k\rangle=\{1,g^k,g^{2k},\ldots,g^{n-k}\}$
-Now suppose $G=\langle g\rangle$ is infinite, and $G=\{\ldots,g^{-1},1,g,g^2,\ldots\}$.
-Then subgroups of $G$ correspond to nonnegative integers, and $k\geq 0\leftrightarrow \langle g^k\rangle=\{\ldots,g^{-k},1,g^k,g^{2k},\ldots\}$.
-\begin{example}
-    Consider $G=\Z_{13}^\times=\left\langle 2\right\rangle$, $|\Z_{13}^\times|=12=o(2)$.
-    \begin{center}
-        \begin{tabular}{c|c}
-            Divisor of 12&Subgroup of $\Z_{13}^\times$\\
-            \hline
-            1& $\langle 2^1\rangle=\langle 2\rangle=\Z_{13}^\times$\\
-            1& $\langle 2^2\rangle=\langle 4\rangle=\{1,4,3,12,9,10\}$\\
-            1& $\langle 2^3\rangle=\langle 8\rangle=\{1,8,12,5\}$\\
-            1& $\langle 2^4\rangle=\langle 3\rangle=\{1,3,9\}$\\
-            1& $\langle 2^6\rangle=\langle 12\rangle=\{1,12\}$\\
-            1& $\langle 2^{12}\rangle=\langle 1\rangle =\{1\}$
-        \end{tabular}
-    \end{center}
-\end{example}
 \end{document}
