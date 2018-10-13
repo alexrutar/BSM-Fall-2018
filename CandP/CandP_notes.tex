@@ -391,6 +391,82 @@ Then
     For any $\delta>0$, the set of $\alpha$ that satisfy ``$\exists$ infinitely many $\frac{r}{s}$ so that $|\alpha-r/s|<1/s^{2+\delta}$'' has measure 0.
     If $\alpha$ is algebraic, there is only finitely many $r/s$ satisfying the property.
 \end{theorem}
+\section{Diophantine Equations}
+Let's consider solutions to $x^2-dy^2=1$.
+If $d$ is a perfect square, then the only solutions that exist are the trivial solutions.
+However, we do have the following theorem:
+\begin{theorem}
+    If $d>1$ and $d\neq k^2$, then there are infinitely many solutions to $x^2-dy^2$.
+\end{theorem}
+\begin{proof}
+    First, note the connection to Pell's equation.
+    Suppose $x^2-dy^2=1$ has infinitely many solutions $x=r_n$, $y=s_n$.
+    Then
+    \[r_n^2-ds_n^2=1\Longrightarrow \left(\frac{r_n}{s_n}-\sqrt{d}\right)\left(\frac{r_n}{s_n}+\sqrt{d}\right)=\frac{1}{s_n^2}\]
+    so that
+    \[\left\lvert\sqrt{d}-\frac{r_n}{s_n}\right\rvert<\frac{1}{s_n^2}\]
+    Now suppose we have $m\neq 0$ and infinitely many solution $u_n/v_n$ to $u_n^2-dv_n^2=m$ and $u_1^2-dv_1^2=m$.
+    Divide these equations to get
+    \[\frac{(u_n+\dqrt{d}v_n)(u_n-\sqrt{d}v_n)}{u_1+\sqrt{d}v_1)(u_1-\sqrt{d}v_1)}\]
+    and
+    \[(t_1+\sqrt{d}w_1)(t_1-\sqrt{d}w_1)=1\]
+    for rational $t_1,w_1$.
+    Then one can show that for some $u,v$, they must yield integer solutions.
+\end{proof}
+\begin{corollary}
+    With $d>1$ and $d\neq k^2$, then there are either no solutions or infinitely many solutions to $x^2-dy^2=n$.
+\end{corollary}
+Interestingly, there are only finitely many solutions to $x^3-dy^3=1$, or similarly for any higher power sums.
+This follows since $\sqrt[3]{d}$ cannot be approximated well enough.
+\begin{theorem}
+    Suppose $1\leq a_1<a_2<\cdots<a_k$ such that all possible subset sums are distinct.
+    Prove that
+    \[\sum\limits_{j=1}^k\frac{1}{a_j}<2\]
+\end{theorem}
+\begin{proof}
+    Consider $(1+x^{a_1})(1+x^{a_2})(1+x^{a_k})$; and expanding, every coefficient will be 1.
+    Thus
+    \begin{align*}
+        (1+x^{a_1})(1+x^{a_2})(1+x^{a_k}) &< 1+x+x^2+\cdots+x^k+\cdots\\
+                                          &= \frac{1}{1-x}
+    \end{align*}
+    for $0<x<1$.
+    In general,
+    \begin{align*}
+        \int_0^1\frac{\log(1+x^a)}{x}\d{x}&=\int_0^1\frac{\log(1+y)}{ax^{a-1}x}\\
+                                          &= \frac{1}{a}\int_0^1\frac{\log(1+y)}{y}\d{y}
+    \end{align*}
+    Thus taking logarithms of both sides, we have
+    \begin{align*}
+        \sum\limits_{j=1}^k\frac{\log(1+x^{a_j})}{x}\d{x} &< -\int_0^1\frac{\log(1-x)}{x}\d{x}\\
+        \left(\sum\limits_{j=1}^k\frac{1}{a_j}\right)\int_0^1\frac{\log(1+y)}{y}\d{y}&<-\int_0^1\frac{\log(1-x)}{x}\d{x}\\
+        \left(\sum\limits_{j=1}^k\frac{1}{a_j}\right)A&<B
+    \end{align*}
+    We want to show $B=2A$.
+    Indeed,
+    \begin{align*}
+        A-B &= \int_0^1\frac{\log(1+x)+\log(1-x)}{x}\d{x}\\
+            &= \int_0^1\frac{\log(1-x^2)}{x}\d{x}\\
+            &= \int_0^1\frac{\log(1-y)}{2y}\d{y}\\
+            &=-\frac{B}{2}
+    \end{align*}
+    and rearranging, we get $B=2A$.
+\end{proof}
+Here's another proof:
+\begin{proof}
+    We first note that $a_1+\cdots+a_j\geq 2^j-1$, since this must be at least the number of sums formed by $a_1,\ldots,a_j$.
+    There are several cases.
+    If equality holds for all $j$, then $a_j=2^j-1$.
+    Now let $a_1+\cdots+a_r>2^r-1$ where the inequality holds strictly.
+    If we substitute $a_r'=a_r-1$, this works of all later equalities hold strictly.
+    If not, there is some $s$ so we have equality; in this case, replace $a_s'=a_s+1$.
+    As well, we certainly have
+    \[\frac{1}{a_r-1}+\frac{1}{a_s+1}>\frac{1}{a_r}+\frac{1}{a_s}\]
+    which can be verified by taking reciprocals.
+    Thus under any of the substitutions, we have
+    \[\sum\frac{1}{a_j}<\sum\frac{1}{a_j'}\]
+    and under repeated substitution, we obtain equality everywhere so this is entirely less than 2.
+\end{proof}
 \chapter{Cardinality}
 %-%-%------------------------------------------------------------------------------------------------------------------
 \section{Principles}

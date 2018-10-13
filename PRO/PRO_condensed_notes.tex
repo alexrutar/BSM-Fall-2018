@@ -1,0 +1,83 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[ascii]{inputenc}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=4cm]{geometry}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz, pgfplots}
+\usepackage{kpfonts}
+\pgfplotsset{compat=1.13}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\re}{re}
+\DeclareMathOperator{\proj}{proj}
+\renewcommand{\Pr}{\mathbb{P}}
+
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setenumerate[1]{label=\textbf{\arabic*.}}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Some fancy macros // May eventually move these into separate files or something and merge when building template
+\renewcommand{\d}[1]{\ensuremath{\operatorname{d}\!{#1}}} % dx macro for integrals
+\newcommand{\hess}[1]{\ensuremath{\operatorname{H}\!{#1}}} % Hessian
+\newcommand{\diff}[1]{\ensuremath{\operatorname{D}\!{#1}}} % Jacobian
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle} % inner product
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % norm
+\newcommand{\cpl}[1]{\overline{#1}} % complement
+\renewcommand{\v}[1]{\mathbf{#1}} % vector
+\newenvironment{amatrix}[1]{% augumented matrix - make sure to have # columns less than required amount
+  \left(\begin{array}{@{}*{#1}{c}|c@{}}
+}{%
+  \end{array}\right)
+}
+%-----------------------------------------------------------------------------------------------------------------
+% Define theorem environments, along with a custom proof environment
+\usepackage[thref, thmmarks,amsmath]{ntheorem}
+\newcommand{\itref}[1]{\textit{\thref{#1}}}
+
+\theoremseparator{}
+\theoremindent0.0cm
+\theoremstyle{nonumberplain}
+\theoremheaderfont{\scshape}
+\theorembodyfont{\upshape}
+\theoremsymbol{$//$}
+\newtheorem{solution}{Sol'n}
+\theoremsymbol{$\blacksquare$}
+\newtheorem{proof}{Proof}
+
+%-----------------------------------------------------------------------------------------------------------------
+% Define Document Variables
+\newcommand{\assignmentname}{REPLACE}
+\newcommand{\classname}{REPLACE}
+\newcommand{\duedate}{REPLACE}
+
+% Define a title page for the document
+%-----------------------------------------------------------------------------------------------------------------
+% Define headings for each page
+\usepackage{fancyheadings}
+\pagestyle{fancy}
+\lhead{Alex Rutar\\ID 2065 1307}
+\chead{\classname}
+\rhead{\assignmentname\\\duedate}
+\cfoot{\thepage}
+\setlength{\headheight}{50pt}
+%-----------------------------------------------------------------------------------------------------------------
+\begin{document}
+\begin{enumerate}
+    \item A \textbf{probability space} is a measurable space $(S,\mathcal{M},\mu)$ such that $\mu(X)=1$.
+        We usually write $\Omega=x$ and $\mu=\Pr$.
+    \item A \textbf{random variable} is a measurable function $f:S\to\R$.
+        We usually write random variables with capital letters, like $X$.
+    \item The \textbf{distribution} of a measurable function is a measure $\rho:\mathcal{B}\to\R$ given by $\rho(S)=\mu(f^{-1}(S))$.
+        This is indeed measurable since, by definition, $f$ is measurable if it pulls open sets in $\R$ to
+\end{enumerate}
+\end{document}

@@ -961,12 +961,16 @@ In particular, every subset of a set with measure $0$ is measurable.
 \begin{proof}
     \begin{enumerate}
         \item Let $A_n=\{x\in E:f(x)>1/n\}$, so that
-            \[\frac{1}{n}\mu(A_n)\leq\int_{A_n}\d{\mu}\leq\int_E f\d{\mu}=0\Longrightarrow \mu(A_n)=0\]
+            \begin{equation*}
+                \frac{1}{n}\mu(A_n)\leq\int_{A_n}\d{\mu}\leq\int_E f\d{\mu}=0\Longrightarrow \mu(A_n)=0
+            \end{equation*}
             for all $n$.
             But then
             \[N=\{x\in E:f(x)>0\}=\bigcup\limits_{n=1}^\infty A_n\to \mu(N)\leq\sum\mu(A_n)=0\]
         \item Write $f=u+iv$ so that
-            \[\int_E f\d{\mu}=\int_E u^+\d{\mu}-\int_E u^-\d{\mu}+i\int_E v^+\d{\mu}-i\int_E v^-\d{\mu}\]
+            \begin{equation*}
+                \int_E f\d{\mu}=\int_E u^+\d{\mu}-\int_E u^-\d{\mu}+i\int_E v^+\d{\mu}-i\int_E v^-\d{\mu}
+            \end{equation*}
             We show that $u^+=0$ almost everywhere (the other terms are identical).
             Let $E=\{x\in X:u(x)\geq 0\}$, so $\int_E f\d{\mu}=0$, so its real part is zero and $\int_E u^+\d{\mu}=0$.
             Thus $u^+=0$ almost everywhere in $E$.
@@ -1040,6 +1044,7 @@ In this section, we assume that $(X,\tau)$ be a locally compact, Hausdorff topol
 \end{lemma}
 \begin{proof}
     Will do later.
+    It's pretty fun - it's a construction using the Dyadic rationals.
 \end{proof}
 \begin{lemma}[Partition of Unity]
     Let $G_1,G_2,\ldots,G_n\in\tau$, an let $K\subset G_1\cup\cdots\cup G_n$ be compact.
@@ -1054,12 +1059,80 @@ The representation theorem says that there are no other examples.
 \begin{theorem}[Riesz Representation]
     Let $(X,\tau)$ be as above.
     If $\Lambda:C_c(X)\to\C$ is a positive linear functional, then there exists a unique measure space $(X,\mathcal{M},\mu)$ such that $\Lambda f=\int_Xf\d{\mu}$ for any $f\in C_c(X)$, $\mathcal{M}\supset\tau$, and
-    \begin{enumerate}[label=(\roman*)]
-        \item $\mu(E)=\int\{\mu(G):E\subset G\in\tau\}$ for all $E\in\mathcal{M}$.
+    \begin{enumerate}[label=(\roman*),nolistsep]
+        \item $\mu(E)=\inf\{\mu(G):E\subset G\text{ open}\}$ for all $E\in\mathcal{M}$.
         \item $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$ for all $E\in\mathcal{M}$ with $\mu(E)<\infty$.
         \item $\mu(K)<\infty$ for any $K$ compact.
         \item $\mathcal{M}$ is complete.
     \end{enumerate}
-    \end{enumerate}
 \end{theorem}
+First, let's get some definitions out of the way.
+Fix the notation as above.
+\begin{definition}
+    Fix a Borel measure $\mu$.
+    The \textbf{Lebesgue outer measure} is defined $\mu(E)=\inf\{\mu(G):E\subset G\text{ open}\}$.
+    % The \textbf{Lebesgue inner measure} is defined $\mu(E)=\sup\{\mu(G):K\subset E\text{ compact}\}$.
+\end{definition}
+\begin{definition}
+    We say that $E\subset X$ is \textbf{regular} if the inner and outer measures coincide.
+    Similarly, $E\subset X$ is \textbf{locally regular} if there exists a compact $K$ so that $K\cap E$ is regular.
+\end{definition}
+\begin{proof}
+    For an open set $G\in\tau$, let $\mu(G)=\sup\{\Lambda f:f\prec G\}$.
+    Then $\mu(\emptyset)=0$ and $G_1\subset G_2$ implies that $\mu(G_1)\leq\mu(G_2)$.
+    Then extend $\mu$ to arbitrary $E\subset X$ as an outer measure.
+    
+    Now let $\mathcal{M}=\{E\subset X:E\text{ is locally regular}\}$.
+    Let's first see that $\mathcal{M}$ satisfies the desired properties.
+    We first see that $\mathcal{M}$ is complete.
+    Let $E\in\mathcal{M}$, $\mu(E)=0$ and $A\subset E$.
+    We want to show that $A\in\mathcal{M}$.
+    Let $K$ be compact, and consider $K\cap A$ so that $\mu(K\cap A)=0$.
+    Then if $F\subset K\cap A$ is compact, $\mu(F)=0$ implies $\sup\{\mu(F):F\subset K\cap A\text{ compact}\}=0$.
+
+\end{proof}
+\textbf{Claim 1: $\mu$ is $\sigma-$subadditive.}
+\begin{proof}
+    If $\mu(E_j)=\infty$ for some $j$, then we are done.
+    Thus assume $\mu(E_j)<\infty$ for all $j$.
+    Let $\epsilon>0$, $\gamma<\mu\left(\bigcup\limits_{j=1}^\infty E_j\right)$ be arbitrary.
+    Let $G_j\supset E_j$ be open, such that $\mu(G_j)\leq\mu(E_j)+\frac{\epsilon}{2^j}$.
+    Then
+    \[j<\mu\left(\bigcup\limits_{j=1}^\infty E_j\right)\leq \mu\left(\bigcup\limits_{j=1}^\infty G_j\right)\]
+    so there exists some $f\prec \bigcup\limits_{j=1}^\infty G_j$ so $j<\Lambda f$.
+    Let $K=\supp f$ and $K\subset\bigcup\limits_{j=1}^\infty G_j$ and by compactness there exists some $n$ so $K\subset\bigcup\limits_{j=1}^n G_j$.
+    Apply our partition of unity and get some $h_j\prec G_j$ for each $j=1,\ldots,n$ such that if $x\in K$, then $\sum\limits_{j=1}^n h_j(x)=1$.
+    Then $f\cdot h_j\prec G_j$ so $f=f\cdot\sum\limits_{j=1}^n h_j$.
+
+    Thus
+    \begin{align*}
+        \gamma &<\Lambda f=\Lambda\left(\sum\limits_{j=1}^n fh_j\right)=\sum\limits_{j=1}^n\Lambda(fh_j)\\
+               &\leq \sum\limits_{j=1}^n \mu(G_j)\leq \sum\limits_{j=1}^n\left(\mu(E_j)+\frac{\epsilon}{2^j}\right)\\
+               &\leq \sum\limits_{j=1}^\infty\left(\mu(E_j)\right)+\epsilon
+    \end{align*}
+    which holds for all $\epsilon>0$ if and only if
+    \begin{equation*}
+        \gamma\leq\sum\limits_{j=1}^\infty\mu(E_j)
+    \end{equation*}
+    for all $\gamma\leq\mu\left(\bigcup\limits_{j=1}^\infty E_j\right)$ and the result follows.
+\end{proof}
+\textbf{Claim 2: If $K\prec f\prec G$, then $\mu(K)\leq\Lambda f\leq\mu(G)$.
+    Thus if $K$ is compact, $\mu(K)=\inf\{\Lambda f:K\prec f\}$, so $\mu(K)<\infty$.
+}
+\begin{proof}
+    It is obvoius that $\Lambda f\leq\mu(G)$.
+    Thus let $\gamma<\mu(K)$ and $\alpha\in(0,1)$.
+    Let $V_\alpha:=\{x\in X:f(x)>\alpha\}$ and $K\subset V_\alpha$.
+    Now $\gamma<\mu(K)\leq\mu(V_\alpha)$, so we have some $h\prec V_\alpha$ such that $\gamma<\Lambda h$.
+    Then $\alpha\cdot h\leq f$ since in $V_\alpha$, $\alpha\cdot h\leq\alpha<f$ and in $V_\alpha^c$, $\alpha\cdot h=0\leq f$.
+    Now $\alpha\cdot\Lambda h=\Lambda(\alpha h)\leq\Lambda f$ so $\gamma<\Lambda f/\alpha$.
+    This is true for all $\alpha\in(0,1)$ and $\gamma\leq\Lambda f$.
+    Since this holds for all $\gamma<\mu(K)$, we have $\mu(K)\leq\Lambda f$ as required.
+
+    Now, let $K$ be compact.
+    Since $\mu(K)\leq\Lambda f$ for all $K\prec f$.
+    Let $\epsilon>0$, so we have $G\in\tau$, $G\supset K$ such that $\mu(G)\leq\mu(K)+\epsilon$.
+    Then by Urysohn's lemma, get some $f$ so that $\mu(K)\leq\Lambda f\leq\mu(G)$, so $\Lambda f\leq\mu(K)+\epsilon$ and the result holds.
+\end{proof}
+
 \end{document}

@@ -691,7 +691,7 @@ so $d=1/N$ and
         \end{tikzpicture}
     \end{center}
 \end{solution}
-\chapter{Random Variables}
+\chapter{Discrete Random Variables}
 \section{Basics}
 \begin{definition}
     A \textbf{random variable} is a (measurable) function $X:\Omega\to\R$.
@@ -984,6 +984,123 @@ We thus have the following properties characterizing the Poisson process with in
     Note that $\{N_t=k\}\cap D^c$ means that there are exactly $k$ out of the $E_1^{(n)},\ldots,E_n^{(n)}$ that occurr, i.e. there are $k$ out of $n$ independent trials.
     As well, $p(n)=\Pr(E_1^{(n)})=\lambda t/n+o(t/n)$, so $n\cdot p(n)=\lambda t+o(1)$.
 \end{proof}
+\begin{example}
+    On average, there are two earthquakes per week.
+    What is the probability that there are at least 3 earthquakes in the first two weeks?
+    How much time elapses until the first earthquake occurrs?
+
+    The intensity of the process is given by $\lambda=2$ per week, so in 2 weeks, $N_2\sim\Poi(4)$.
+    Then $\Pr(N_2\geq 3)=1-\Pr(N_2\leq 2)=1-e^4-4e^{-4}-\frac{4^2}{2}e^{-4}$.
+
+    Now let $T$ denote the time that elapses until the first earthquake.
+    Fix some $t>0$.
+    This amounts to computing $\Pr(T>t)$.
+    $T$ is a continuous random variable, and note that
+    \[\Pr(T>t)=\Pr(N_t=0)=e^{-\lambda t}\]
+\end{example}
+Here are two more constructions.
+\begin{example}
+    \begin{enumerate}
+        \item Consider a Poisson process of intensity $\lambda$.
+            Each point is colored white with probability $p$ and orange with probability $1-p$.
+            The collection of orange points make a Poisson process with intensity $(1-p)\lambda$.
+            This can be proven by considering a Poisson distributed random variable, and for each $k$, think of a collection of $k$ objects that you keep with probability $p$.
+            Then the number of points you get is still Poisson distributed.
+        \item If $X_1\sum\Poi(\mu_1)$ and $X_2\sim\Poi(\mu_2)$, then $X_1+X_2\sim\Poi(\mu_1+\mu_2)$.
+    \end{enumerate}
+\end{example}
+\begin{example}
+    Let $X$ denote the number of matches.
+    We have $\Pr(X=0)=1-1+\frac{1}{2}-\frac{1}{3!}+\cdots\pm\frac{1}{N!}$ which tends to $1/e$ for large $k$.
+    Now, for some $j<N$, we claim that
+    \[\Pr(X=j)=\binom{N}{j}\Pr(\text{No matches for $N-j$ people})\cdot\frac{1}{N}\frac{1}{N-1}\cdots\frac{1}{N-j+1}\]
+    and fix $j$, and consider the limit as $N$ goes to infinity, yielding $\frac{1}{j!}{e^{-1}}$.
+    Thus
+    \[\Pr(Y=j)=\frac{e^{-1}}{j!}\]
+    To see why this works, let $A_i$ denote the event in which person $i$ is matched with her phone.
+    We have $\Pr(A_j)=\frac{1}{N}$.
+    However, $\Pr(A_1|A_2)=\frac{1}{N-1}$, so as $N\to\infty$, the events are almost pairwise independent.
+\end{example}
+\section{Additional Discrete Distributions}
+\subsection{Geometric Distribution}
+\begin{definition}
+    A \textbf{geometric distribution} is a sequence of independent trials, with $p\in(0,1)$ success rate.
+    Then $\Pr(X=k)=p(1-p)^{k-1}$.
+\end{definition}
+We certainly have $\sum\limits_{k=1}^\infty q^{k-1}p=1$.
+Now let
+\[g(q)=\frac{1}{1-p}=\sum\limits_{k=0}^\infty q^k\]
+If $X\sim\Geom(p)$, then
+\begin{align*}
+    \E(X)&=\sum\limits_{k=0}^\infty kq^{k-1}p\\
+         &= p\sum\limits_{k=1}^\infty\frac{\d{}}{\d{q}}q^k\\
+         &= p\frac{\d{}}{\d{q}}\left(\sum\limits_{k=0}^\infty q^k\right)\\
+         &= pg'(q)=\frac{1}{p}
+\end{align*}
+and by similar methods,
+\[\E(X(X-1))=pqg''(q)=2\frac{(1-p)}{p^2}\]
+so that
+\[\E(X^2)=\frac{2q+p}{p^2}=\frac{1+q}{p^2}\]
+and
+\[\Var(X)=\frac{q}{p^2}\]
+The geometric distribution also has the memoryless property.
+Note $\Pr(X>k)=q^k$ and $\Pr(X>k+n)=q^{k+n}$ so that $\Pr(X>k+n|X>n)=q^k$.
+\subsection{Negative Binomial Distribution}
+\begin{definition}
+    A \textbf{negative binomial distribution} has parameters $p\in(0,1)$, $r\geq 1$, and $X$ can take $r,r+1,\ldots$ where $\{X=k\}$ is the event in which success $r$ occurs at trial $k$.
+\end{definition}
+$\Pr(X=r)=p^r$, $\Pr(X=r+1)=rp^rq$.
+In general,
+\[\Pr(X=k)=\binom{k-1}{r-1}p^rq^{k-r}\]
+\begin{example}
+    This is Stefan Banach's matchbox problem.
+    There are $N$ matches in two boxes.
+    At every stage, he randomly takes a match from either box.
+    What is the probability that when he runs out of matches in one of the matchboxes, there are exactly $k$ matches in the other box?
+
+    Will do this later.
+\end{example}
+We have
+\[\E(X)=\frac{r}{p},\quad\Var X=r\frac{q}{p^2}\]
+\subsection{Hypergeometric distribution}
+Consider parameters $N$, $M<N$, $n<N$ and there are $N$ balls, $M$ black, $N-M$ white.
+We draw $n$ balls without replacement.
+We want $\{X=k\}$ to be the event that there are exactly $k$ black balls in $n$ balls drawn.
+Then
+\[\Pr(X=k)=\frac{\binom{M}{k}\cdot\binom{N-M}{n-k}}{\binom{N}{n}}\]
+One can compute
+\[\E(X)M\cdot\frac{n}{M}\]
+Let $X$ and $Y$ be arbitrary discrete random variables.
+Then $\E(X+Y)=\E(X)+\E(Y)$.
+\begin{proof}
+    We have
+    \begin{align*}
+        \E(X+Y)&=\sum\limits_{k=1}^\infty\sum\limits_{l=1}^\infty(x_k+y_l)\Pr(X=x_k,Y=y_l)\\
+               &=\sum\limits_{k=1}^\infty x_k\sum\limits_{l=1}^\infty\Pr(X=x_k,Y=y_l)+\sum\limits_{l=1}^\infty y_l\sum\limits_{k=1}^\infty\Pr(X=x_k,Y=y_l)\\
+               &=\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)+\sum\limits_{l=1}^\infty y_l\Pr(Y=y_l)\\
+               &= \E(X)+\E(Y)
+    \end{align*}
+\end{proof}
+Now suppose $X$ and $Y$ are independent.
+Then
+\begin{align*}
+    \E(XY) &= \sum\limits_{k=1}^\infty\sum\limits_{l=1}^\infty x_ky_l\Pr(X=x_k,Y=y_l)\\
+           &= \sum\limits_{k=1}^\infty\sum\limits_{l=1}^\infty x_ky_l\Pr(X=x_k)\Pr(Y=y_l)\\
+           &= \left(\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)\right)\left(\sum\limits_{l=1}^\infty y_l\Pr(Y=y_l)\right)\\
+           &=\E(X)\E(Y)
+\end{align*}
+so, if $X$ and $Y$ are independent, then $\Var(X+Y)=\Var(X)+\Var(Y)$.
+We can use this to compute the expected values in previous examples.
+\begin{enumerate}
+    \item Suppose $X\sim\Binom(n,p)$.
+        Then $X=\eta_1+\eta_2+\cdots+\eta_n$ where $\eta_j=1$ if the trial $j$ is successful, and 0 otherwise.
+        As well, $\E(\eta_j)=p$ and $\Var(\eta_j)=p(1-p)$ so that $\E(X)=np$ and $\Var(X)=np(1-p)$.
+    \item Suppose $X\sim\Hypergeometric(N,M,n)$.
+        Then $X=\eta_1+\eta_2+\cdots+\eta_M$ where $\eta_j=1$ if back ball $j$ is drawn, and $0$ otherwise.
+        Then $\E(\eta_j)=\E(\eta_1)=\Pr(\eta_1=1)=\frac{n}{N}$ and the result follows.
+        However, these events are not independent, so we can't do the same thing for the variance.
+\end{enumerate}
+
 
 Chapter 2: 11,17
 Chapter 3: 14,19,25
