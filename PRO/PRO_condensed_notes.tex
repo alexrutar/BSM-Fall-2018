@@ -16,6 +16,8 @@
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\Var}{Var}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\re}{re}
 \DeclareMathOperator{\proj}{proj}
@@ -56,9 +58,9 @@
 
 %-----------------------------------------------------------------------------------------------------------------
 % Define Document Variables
-\newcommand{\assignmentname}{REPLACE}
-\newcommand{\classname}{REPLACE}
-\newcommand{\duedate}{REPLACE}
+\newcommand{\assignmentname}{Study Notes}
+\newcommand{\classname}{Introduction to Probability}
+\newcommand{\duedate}{Fall 2018}
 
 % Define a title page for the document
 %-----------------------------------------------------------------------------------------------------------------
@@ -120,20 +122,23 @@
 
         Let $\mathcal{B}$ denote the Borel measurable subset of $\R$.
         The \textbf{distribution} of a measurable function is a measure $\rho:\mathcal{B}\to\R$ given by $\rho(S)=\Pr(f^{-1}(S))$.
-        This is indeed measurable since: by definition, $X$ is measurable if it pulls open sets in $\R$ to elements of $\mathcal{F}$.
+        This is indeed measurable: by definition, $X$ is measurable if it pulls open sets in $\R$ to elements of $\mathcal{F}$.
 
         For some reason, probabilists dislike writing sets down properly.
         We say $\Pr(X=i)=\Pr(X^{-1}(i))$, $\Pr(X\leq i)=\Pr(X^{-1}(-\infty,i]))$, and other similar notations.
 
         The \textbf{expected value} of a random variable $X$ is given by $\E(X)=\int_\Omega X\d{\Pr}$.
-        When $X$ is discrete so $X(\Omega)=\{x_1,x_2,\ldots\}$, this becomes $\E(X)=\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)$.
+        When $X$ is discrete and $X(\Omega)=\{x_1,x_2,\ldots\}$, this becomes $\E(X)=\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)$.
+        Note that the sum need not necessarily exist.
         \begin{enumerate}
             \item If $X$ is discrete and $g:\R\to\R$, then $\E(g(X))=\sum\limits_{k=1}^\infty g(x_k)\Pr(X=x_k)$.
             \item $\E(aX+Y)=a\E(X)+\E(Y)$.
         \end{enumerate}
-        We define the \textbf{variance} $\Var(X)=\E[(X-\mu)^2]$.
+        We define the \textbf{variance} $\Var(X)=\inf_{a\in\Omega}\E[(X-a)^2]$.
+        If $X\in L^2$, then this value is minimized for $a=\E(X)$ and $\Var(X)=\E[(X-\E(X))^2]$.
         \begin{enumerate}
             \item $\Var(X)=\E(X^2)-\E(X)^2$
+            \item $\Var(aX+b)=a^2\Var(X)$
         \end{enumerate}
 \end{enumerate}
 \end{document}

@@ -262,7 +262,7 @@ Then $\mathbb{P}(\{\omega_i\})=\frac{1}{N}$ and $\mathbb{P}(A)=|A|/N$.
     Consider a round table with 20 seats, and 10 married couples sit.
     What is the change that no couples sit together?
 
-    Define $\Omega=\{\text{permutations of }\{1,\ldots,20\}/\sim\}$ where $(i_1,\ldots,i_{20})\sum(i_{20},i_1,\ldots,i_{19})$.
+    Define $\Omega=\{\text{permutations of }\{1,\ldots,20\}\}/\sim$ where $(i_1,\ldots,i_{20})\sim(i_{20},i_1,\ldots,i_{19})$.
     Then $|\Omega|=19!$.
     Define $B=\{\text{no couples together}=A_1^c\cap A_2^c\cap\cdots\cap A_{10}^c\}$, where
     \[A_k=\{\text{the 8th woman sits next to her spouse}\}\]
@@ -288,18 +288,22 @@ Then $\mathbb{P}(\{\omega_i\})=\frac{1}{N}$ and $\mathbb{P}(A)=|A|/N$.
 \begin{example}[Bridge hand probabilities]
     In bridge, each of the 4 players get 13 cards.
     Let $\Omega=\{\text{13 cards that North gets}\}$.
-    \[\Pr(\text{North receives all spades})=\frac{1}{\binom{52}{13}}\]
-    \begin{align*}
-        \Pr(\text{North does not receive all 4 suits of any value})&=\\
-        \hspace{4cm}1-\Pr(\text{There is some value such that all suits are at N})
-    \end{align*}
-    Let $V_k=\{\text{North gets all four suits of value $k$}\}$.
-    Then
-    \[\Pr(V_1)=\frac{\binom{48}{9}}{\binom{52}{13}}\]
-    \[\Pr(V_1\cap V_2)=\frac{\binom{44}{5}}{\binom{52}{13}}\]
-    \[\Pr(V_1\cap V_2\cap V_4)=\frac{\binom{40}{1}}{\binom{52}{13}}\]
-    Thus
-    \[1-\Pr(V_1\cup V_2\cup\cdots\cup V_{13})=1-\frac{\binom{48}{9}}{\binom{52}{13}}\cdot 13+\binom{13}{2}\frac{\binom{44}{5}}{\binom{52}{13}}-\binom{13}{3}\frac{40}{\binom{52}{5}}\]
+    \begin{enumerate}
+        \item Let $E$ denote the event that North receives all spades.
+            Then
+            \[\Pr(E)=\frac{1}{\binom{52}{13}}\]
+        \item Now let $E$ denote the event that north does not receive all 4 suits of any value, so $E^c$ is the event that North receives all 4 of some suit.
+            Thus $\Pr(E)&=1-\Pr(E^c)$.
+            Let $V_k=$ denote the event that North gets all suits of suit $k$.
+            Then
+            \begin{align*}
+                \Pr(V_1) &= \frac{\binom{48}{9}}{\binom{52}{13}}\\
+                \Pr(V_1\cap V_2) &= \frac{\binom{44}{5}}{\binom{52}{13}}\\
+                \Pr(V_1\cap V_2\cap V_3) &= \frac{\binom{40}{1}}{\binom{52}{13}}
+            \end{align*}
+            So that, by Inclusion Exclusion,
+            \[1-\Pr(V_1\cup V_2\cup\cdots\cup V_{13})=1-\frac{\binom{48}{9}}{\binom{52}{13}}\cdot 13+\binom{13}{2}\frac{\binom{44}{5}}{\binom{52}{13}}-\binom{13}{3}\frac{40}{\binom{52}{5}}\]
+    \end{enumerate}
     What is the change that each player receives one ace?
     There are
     \[\frac{52!}{13!13!13!13!}\]
@@ -327,7 +331,7 @@ Now the probability that the sum is 10 is now $1/6$.
         \item $\Pr(\Omega|E)=\frac{\Pr(E\cap\Omega)}{\Pr(E)}=1$
         \item If $F_1,F_2,\ldots$ are mutually exclusive, then
             \begin{align*}
-                \Pr(\bigcup\limits_{i=1}^\infty F_i|E) &= \frac{\Pr( (\bigcup_{i=1}^\infty F_i)\cap E)}{\Pr(E)}\\
+                \Pr\left(\bigcup\limits_{i=1}^\infty F_i|E\right) &= \frac{\Pr( (\bigcup_{i=1}^\infty F_i)\cap E)}{\Pr(E)}\\
                                                       &= \frac{\Pr(\bigcup_{i=1}^\infty(E\cap F_i))}{\Pr(E)}\\
                                                       &= \sum\limits_{n=1}^\infty\frac{\Pr(F_i\cap E)}{\Pr(e)}\\
                                                       &= \sum\limits_{n=1}^\infty\Pr(F_n|E)
@@ -362,22 +366,19 @@ Now the probability that the sum is 10 is now $1/6$.
 \begin{example}[Polya's Urn]
     Initially, we have two balls, 1 red, 1 blue, in the urn.
     For the first draw, pick one, check its color, and put it back and put another ball of the same color into the urn.
-    \begin{enumerate}[nolistsep]
-        \item What is $\Pr(\text{the first three balls are red, blue, red (in this order)})$.
-    \end{enumerate}
+    What is the probability that the first three balls are red, blue, red (in this order)?
 \end{example}
 \begin{solution}
-    \begin{enumerate}
-        \item Let $R_i,B_i$ denote the $i^{th}$ draw is red or blue respectively.
-        Then
-        \[\Pr(R_3\cap B_2\cap R_1)=\Pr(R_3|B_2\cap R_1)\Pr(B_2|R_1)\Pr(R_1)=\frac{1}{2}\frac{1}{3}\frac{1}{2}=\frac{1}{2}\]
-    \end{enumerate}
+    Let $R_i,B_i$ denote the $i^{th}$ draw is red or blue respectively.
+    Then
+    \[\Pr(R_3\cap B_2\cap R_1)=\Pr(R_3|B_2\cap R_1)\Pr(B_2|R_1)\Pr(R_1)=\frac{1}{2}\frac{1}{3}\frac{1}{2}=\frac{1}{12}\]
 \end{solution}
 \begin{example}
-    What is $\Pr(\text{in bridge, each of the players gets one ace})$?
+    What is the probability in bridge, each of the players gets one ace?
 \end{example}
 \begin{solution}
-    Write
+    Let $E_4$ denote the event in which every player gets an ace.
+    Then
     \begin{align*}
         E_4&\\
         \cap&\\
@@ -426,7 +427,7 @@ Now the probability that the sum is 10 is now $1/6$.
     \begin{align*}
         A_1 &= \{\text{1,3 or 5 rolled}\}\\
         A_2 &= \{\text{2 or 4 rolled}\}\\
-        A_3 &= \{\text{6 rolled}\}
+        A_3 &= \{\text{6 rolled}\}\\
         B &= \{\text{black ball rolled}\}
     \end{align*}
     so that
@@ -441,7 +442,6 @@ Now the probability that the sum is 10 is now $1/6$.
     Only 1/10000 people have this disease.
     Suppose the test is 100\% effective, so if someone is tested ill, it is positive with 100\% chance.
     Suppose there is also a 1\% chance of false positive.
-
     A new patient is tested, and tests positive.
     What are the odds that she has the disease?
 \end{example}
@@ -641,19 +641,20 @@ so $d=1/N$ and
     What is the probability that it turns up $H$ on the $(n+1)^\text{st}$ flip?
 \end{example}
 \begin{solution}
-    Let $H_j=\{\text{the $j^\text{th}$ flip is H}\}$ for $j=1,2,\ldots,n,n+1$.
-    Then the events $H_j$ are not independent, but they are conditionally independent given any of the $C_i=\{\text{the $i^\text{th}$ coin is initially picke}\}$ for $i=0,\ldots,k$.
+    Let $H_j$ denote the event that the $j^\text{th}$ flip is H for $j=1,2,\ldots,n,n+1$.
+    Let $C_i$ denote the event in which the $i^\text{th}$ coin is initially picked for each $i=1,\ldots,k$.
+    The events $H_j$ are not independent, but they are conditionally independent given any of the $C_i$.
     Moreover, $\Pr(H_j|C_k)=\frac{i}{k}$.
     We thus have
     \begin{align*}
         \Pr(H_{n+1}|H_1\cap H_2\cap\cdots\cap H_n) &= \frac{\Pr(H_1\cap H_2\cap\cdots\cap H_{n+1})}{\Pr(H_1\cap\cdots\cap H_n)}\\
-                                                   &= \frac{\sum\limits_{i=0}^k\Pr\left(\bigcap_{j=1}^{n+1}H_j|C_i\right)\Pr(C_i)}{\sum\limits_{i=0}^k\Pr(\bigcap\limits_{j=1}^nH_j|C_k)\Pr(C_k)}\\
+                                                   &= \frac{\sum\limits_{i=0}^k\Pr\left(\bigcap_{j=1}^{n+1}H_j|C_i\right)\Pr(C_i)}{\sum\limits_{i=0}^k\Pr\left(\bigcap\limits_{j=1}^nH_j|C_k\right)\Pr(C_k)}\\
                                                    &= \frac{\sum\limits_{i=0}^k\prod\limits_{j=1}^{n+1}\Pr(H_j|C_i)\Pr(C_i)}{\sum\limits_{i=0}^k\prod\limits_{j=1}^n\Pr(H_j|C_i)\Pr(C_i)}\\
                                                    &= \frac{\sum\limits_{i=0}^k\left(\frac{i}{k}\right)^{n+1}\frac{1}{k+1}}{\sum\limits_{i=0}^k\left(\frac{i}{k}\right)^n\frac{1}{k+1}}\\
                                                    &:= p(k,n)
     \end{align*}
     Both the numerator and denominator of $p(k,n)$ are sums of the form $\sum\limits_{i=0}^k f(i/k)\cdot 1/k$.
-    Thus as $k\to\infty$,
+    These are riemann sums of the function $f$ on the interval $[0,1]$, so as $k$ goes to infinity,
     \[\lim_{k\to\infty}p(k,n)=\frac{\int_0^1 x^{n+1}\d{x}}{\int_0^1 x^n\d{x}}=\frac{\frac{1}{n+2}}{\frac{1}{n+1}}=\frac{n+1}{n+2}\]
 \end{solution}
 \begin{example}[Best prize problem]
@@ -663,18 +664,21 @@ so $d=1/N$ and
     How can you maximize the odds that you get the best prize?
 \end{example}
 \begin{solution}
+    We will solve this over a fixed type of strategy.
     Define a $k-$strategy for each $k=1,\ldots,N$, in which we observe the first $k$ items, and pick the first of the remaining ones that is better than the first $k$.
-    Define
-    \[P_k^{(N)}=\Pr(\text{choose the best with the $k-$strategy})\]
-    Let $B_k$ denote this event and $A_i$ be the event that the best prize is at the $i^\text{th}$ position, so $\Pr(A_i)=1/N$.
-    Note that $\Pr(B_k|A_j)=0$ for $j\leq k$, and $\Pr(B_k|A_j)=\frac{k}{j+1}$ for $j>k$.
+    Let $B_k$ denote the event that we choose the best item with a $k-$strategy, and fix $P_k^{(N)}=\Pr(B_k)$.
+    As well, let $A_i$ denote the event that the best prize is at the $i^\text{th}$ position, so $\Pr(A_i)=1/N$.
+
+    Now, $\Pr(B_k|A_j)=0$ for $j\leq k$, and $\Pr(B_k|A_j)=\frac{k}{j+1}$ for $j>k$.
     Then
     \begin{align*}
         \Pr(B_k) &= \sum\limits_{i=1}^n\Pr(B_k|A_i)\Pr(A_i)\\
                  &= \sum\limits_{i=k}^{N-1}\frac{k}{i}\cdot\frac{1}{N}\\
                  &:= P_k^{(N)}
     \end{align*}
-    We can then compute
+    To determine the optimal strategy, we want to choose the proportion $x$ of items to observe.
+    To be precise, let $N\to\infty$ and $k$ be such that $k/N\to x$.
+    Then
     \begin{align*}
         \lim_{k/N\to x}P_k^{(N)} &= \lim_{k/N\to x}\sum\limits_{i=k}^{N-1}\frac{k/N}{i/N}\cdot\frac{1}{N}\\
             &= \lim_{k/N\to x}x\sum\limits_{i=k}^{N-1}\frac{1}{i/N}\frac{1}{N}\\
@@ -816,7 +820,7 @@ Then
 \end{definition}
 \begin{example}
     Consider a test consisting of 20 yes-no questions; you fail if you have 17 or less correct answers.
-    \begin{itemize}
+    \begin{itemize}[nolistsep]
         \item You know the correct answer with probability $5/7$
         \item You have the incorrect answer with probability $1/7$
         \item You guess with probability $1/7$.
