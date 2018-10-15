@@ -73,11 +73,67 @@
 %-----------------------------------------------------------------------------------------------------------------
 \begin{document}
 \begin{enumerate}
-    \item A \textbf{probability space} is a measurable space $(S,\mathcal{M},\mu)$ such that $\mu(X)=1$.
-        We usually write $\Omega=x$ and $\mu=\Pr$.
+    \item A \textbf{probability space} is a measurable space $(S,\mathcal{M},\mu)$ with $\mathcal{M}\subseteq\mathcal{P}(S)$ and $\mu:\mathcal{M}\to[0,1]$ with $\mu(S=1$.
+        In particular, we will write $\mathcal{M}=\mathcal{F}$, $\Omega=S$ and $\mu=\Pr$.
+        The sets $E\in\mathcal{M}$ are called \textbf{events}.
+        The $\sigma-$algebra $\mathcal{F}$ must satisfy the following axioms:
+        \begin{enumerate}
+            \item $\emptyset\in\mathcal{F}$
+            \item If $A\in\mathcal{F}$, then $A^c\in\mathcal{F}$
+            \item If $A_1,A_2,\ldots\in\mathcal{F}$, then $\bigcup\limits_{i=1}^\infty A_i\in\mathcal{F}$.
+        \end{enumerate}
+        As well, $\Pr$ must satisfy
+        \begin{enumerate}
+            \item $\Pr(A)\geq 0$ for all $A\in\mathcal{F}$.
+            \item $\Pr(\Omega)=1$.
+            \item Let $A_1,A_2,\ldots$ be disjoint.
+                Then $\Pr\left(\bigcup\limits_{i=1}^\infty A_i\right)=\sum\limits_{i=1}^\infty \Pr(A_i)$.
+        \end{enumerate}
+        As a result, we collect some general properties here:
+        \begin{enumerate}
+            \item $\Pr(A^c)+\Pr(A)=1$
+            \item $\displaystyle\Pr\left(\bigcup\limits_{i=1}^n A_i\right)=\sum\limits_{r=1}^n(-1)^{r+1}\sum\limits_{1\leq i_1<\cdots<i_r\leq n}\Pr(A_{i_1}\cap\cdots\cap A_{i_r})$
+            \item We say $D_1,D_2,\ldots$ is a \textbf{decreasing} (resp. \textbf{increasing}) sequence of events if $D_1\supset D_2\cdots$ (resp. $D_1\subset D_2\cdots$) and define $\lim_{n\to\infty}D_n=\bigcap\limits_{i=1}^\infty D_n$ (resp. $\lim_{n\to\infty}D_n=\bigcup\limits_{i=1}^\infty D_n)$.
+                Then $\Pr\left(\lim_{n\to\infty}D_n\right)=\lim_{n\to\infty}\Pr(D_n)$.
+        \end{enumerate}
+    \item Let $E,F\in\mathcal{F}$.
+        Fix $E$ with $\Pr(E)>0$.
+        Then define $\Pr(F|E)=\frac{\Pr(F\cap E)}{\Pr(E)}$, the \textbf{conditional probability} of $F$ given $E$.
+        In fact, the map $\Pr(\cdot|E):\mathcal{F}\to\R$ is a probability measure in its own right.
+        Conditional probability has some nice properties:
+        \begin{enumerate}
+            \item $\Pr(A_1\cap A_2\cap\cdots\cap A_n)=\Pr(A_1|A_2\cap\cdots A_n)\cdots\Pr(A_3|A_2\cap A_1)\Pr(A_2|A_1)\Pr(A_1)$.
+            \item Let $A_1,A_2,\ldots,A_n\in\mathcal{F}$ be a partition of $\Omega$.
+                Then for any $B\in\mathcal{F}$,
+                \[\Pr(B)=\sum\limits_{i=1}^n\Pr(B|A_i)\Pr(A_i)\]
+                and
+                \[\Pr(A_k|B)=\frac{\Pr(B|A_k)\Pr(A_k)}{\sum\limits_{i=1}^n\Pr(B|A_i)\Pr(A_i)}\]
+        \end{enumerate}
+    \item Let $A_1,A_2,\ldots,A_n\in\mathcal{F}$.
+        We say the events are \textbf{independent (as a collection)} if
+        \[\Pr(A_{i_1}\cap\cdots\cap\Pr(A_{i_k}))=\Pr(A_{i_1})\cdots\Pr(A_{i_k})\]
+        We say the evens are \textbf{conditionally independent} with respect to $B$ if they are independent with respect to the conditional probability measure:
+        \[\Pr(A_{i_1}\cap\cdots\cap\Pr(A_{i_k})|B)=\Pr(A_{i_1}|B)\cdots\Pr(A_{i_k}|B)\]
     \item A \textbf{random variable} is a measurable function $f:S\to\R$.
         We usually write random variables with capital letters, like $X$.
-    \item The \textbf{distribution} of a measurable function is a measure $\rho:\mathcal{B}\to\R$ given by $\rho(S)=\mu(f^{-1}(S))$.
-        This is indeed measurable since, by definition, $f$ is measurable if it pulls open sets in $\R$ to
+        We say $X$ is \textbf{discrete} if its range is countable.
+
+        Let $\mathcal{B}$ denote the Borel measurable subset of $\R$.
+        The \textbf{distribution} of a measurable function is a measure $\rho:\mathcal{B}\to\R$ given by $\rho(S)=\Pr(f^{-1}(S))$.
+        This is indeed measurable since: by definition, $X$ is measurable if it pulls open sets in $\R$ to elements of $\mathcal{F}$.
+
+        For some reason, probabilists dislike writing sets down properly.
+        We say $\Pr(X=i)=\Pr(X^{-1}(i))$, $\Pr(X\leq i)=\Pr(X^{-1}(-\infty,i]))$, and other similar notations.
+
+        The \textbf{expected value} of a random variable $X$ is given by $\E(X)=\int_\Omega X\d{\Pr}$.
+        When $X$ is discrete so $X(\Omega)=\{x_1,x_2,\ldots\}$, this becomes $\E(X)=\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)$.
+        \begin{enumerate}
+            \item If $X$ is discrete and $g:\R\to\R$, then $\E(g(X))=\sum\limits_{k=1}^\infty g(x_k)\Pr(X=x_k)$.
+            \item $\E(aX+Y)=a\E(X)+\E(Y)$.
+        \end{enumerate}
+        We define the \textbf{variance} $\Var(X)=\E[(X-\mu)^2]$.
+        \begin{enumerate}
+            \item $\Var(X)=\E(X^2)-\E(X)^2$
+        \end{enumerate}
 \end{enumerate}
 \end{document}

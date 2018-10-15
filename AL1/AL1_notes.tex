@@ -312,6 +312,40 @@ Note that $|C_g|=1$ if and only if $C_g=\{g\}$ if and only if $x^{-1}gx=g$ for a
 \begin{theorem}
     For any $g\in G$, $|C_g|\cdot|C_G(g)|=|G|$.
 \end{theorem}
+\begin{proof}
+    Consider $\alpha:\{\text{Right cosets of $D_G(g)$}\}\longrightarrow C_g$ defined by $C_G(g)\cdot x\mapsto x^{-1}gx$.
+    This is well defined and injective:
+    \begin{align*}
+        C_G(g)x=C_G(g)y &\Leftrightarrow xy^{-1}\in C_G(g)\\
+                        &\Leftrightarrow g(xy^{-1})\\
+                        &\Leftrightarrow (xy^{-1})g
+    \end{align*}
+    so it suffices to show the map is surjective.
+    In fact, any element of $C_g$ is of the form $x^{-1}gx=\alpha(C_G(g)x)$.
+    Thus $\alpha$ is bijective, so $|G:C_G(x)|=|C_g|$ and
+    \[|G|=|G:C_G(g)|\cdot|C_G(g)|=|C_g|\cdot|C_G(g)|\]
+\end{proof}
+\begin{corollary}
+    If $G$ is finite, $g\in G$, then $|C_g|\mid|G|$.
+\end{corollary}
+We have the following nice application:
+\begin{theorem}
+    If $|G|=p^2$ for $p$ prime, then $G$ is commutative.
+\end{theorem}
+\begin{proof}
+    For any $g\in G$, $|C_g|\mid|G|=p^2$ so $|C_g|$ there are three cases.
+    Note that $|C_g|=p^2$ is impossible, since $C_1=\{1\}$ and the remainder has fewer elements.
+    Thus let $a$ denote the number of conjugacy classes of size $1$ by $a$, and the number of conjugacy classes of size $p$ by $b$.
+    Since $G$ is a disjoint union of conjugacy classes, we have $|G|=p^2=a+bp$ so that $p|a$.
+    Furthermore, $a\neq 0$ since $|C_1|=1$, so $a\geq p$.
+    Furthermore, $|C_g|=1$ if and only if $g\in Z(G)$, so $a=|Z(G)|\geq p$.
+    Since $Z(G)\leq G$, by Lagrance, $|Z(G)|\mid|G|=p^2$, so $|Z(G)|=p$ or $|Z(G)|=p^2$.
+    If $|Z(G)|=p$, pick any $x\in G$ with $x\notin Z(G)$ and consider $C_G(x)$.
+    Since $Z(G)\leq C_G(x)$, we must have $p+1\leq |C_G(x)|$ and $|C_G(x)|=p^2$ so $C_G(x)=G$ and $x\in Z(G)$, a contradiction.
+    Thus $Z(G)=p^2$ and the group is commutative.
+\end{proof}
+Note that if $|G|=p$ prime, then $G$ is cyclic.
+Since $o(g)||G|=p$, and $o(g)\neq 1$ if $g\neq 1$; we must have $o(g)=p$ and $\langle g\rangle=G$.
 \section{Examples of Finite Groups}
 \subsection{Cyclic Groups}
 \begin{definition}
@@ -499,7 +533,8 @@ This is certainly not unique: for example $(26)=(21)(16)(21)$.
 \subsubsection{Centralizers of Permutation Groups}
 \begin{example}
     Consider $g=(12)(34)\in S_4$.
-    Then $C_{S_4}(g)=\{x\in S_4\mid gx=xg\}=\{I,(12)(34),(12),(34),(14)(23),(1324),(1423)\}$.
+    Then
+    \[C_{S_4}(g)=\{x\in S_4\mid gx=xg\}=\{I,(12)(34),(12),(34),(14)(23),(1324),(1423)\}\]
 \end{example}
 The key idea is to observe that $x^{-1}gx=g$, which is called the conjugate of $g$ by $x$.
 \begin{example}
