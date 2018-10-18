@@ -1230,4 +1230,97 @@ Then the values of $f(x)$ not probabilities: consider $a\in\R$, $\epsilon\to 0$.
 Then
 \[\Pr(a\leq X\leq a+\epsilon)=\int_a^{a+\epsilon}f(x)\d{x}\approx f(a)\epsilon+o(\epsilon)\]
 is the best linear approximation of the cumulative distribution at $a$.
+\begin{definition}
+    The expected value of $X$ is $\E(X)=\int_{-\infty}^\infty xf_X(x)\d{x}$, if the integral is absolutely convergent.
+\end{definition}
+\begin{proposition}
+    $\E(Y)=\E(g(X))=\int_{-\infty}^\infty g(x)f_X(x)\d{x}$.
+\end{proposition}
+\begin{proof}
+    Let $Y$ be a non-negative random variable with density $f_Y(y)$.
+    Then we will see that $\E(Y)=\int_0^{\infty}\Pr(Y>y)\d{y}$.
+    Note that
+    \begin{align*}
+        \int_0^\infty \Pr(Y>y)\d{y}&=\int_0^\infty \int_y^\infty f_Y(x)\d{x}\d{y}\\
+                                   &=\iint_D H(x,y)\d{x}\d{y}\\
+                                   &= \int_0^\infty\int_0^x f_Y(x)\d{y}\d{x}\\
+                                   &= \int_0^\infty x f_Y(x)\d{x}\\
+                                   &= \E(Y)
+    \end{align*}
+    Without loss of generality, assume $g(x)\geq 0$ (or write $g(x)=g_+(x)-g_-(x)$).
+    Thus $Y=g(X)\geq 0$, so
+    \begin{align*}
+        \E(g(X)) &= \E(Y)\\
+                 &= \int_0^\infty \Pr(Y>y)\d{y}\\
+                 &= \int_0^\infty \Pr(g(X)>y)\d{y}\\
+                 &= \int_{-\infty}^\infty \int_0^{g(x)}f_X(x)\d{y}\d{x}\\
+                 &= \int_{-\infty}^\infty g(x)f_X(x)\d{x}
+    \end{align*}
+    For any $y_0>0$, $\{(x,y)\in U|y=y_0\}=D_{y_0}$.
+    Thus $(x,y)\in U$ if and only if $g(x)>y>0$, so $U$ is the domain between the $x-$axis and the graph of $g$.
+\end{proof}
+Consider the Cantor function.
+Suppose this function had a density function $f(x)$, we would have that $F'(x)=f(x)$ for almost every $x$.
+Conversely, $F'(x)=0$ almost everywhere.
+\section{Important Absolutely Continuous Distributions}
+\subsection{Uniform Distribution}
+We say $X\sim\operatorname{UNI}[\alpha,\beta]$ for $\alpha<\beta$ if
+\[f_X(x)=
+    \begin{cases}
+        \frac{1}{\beta-\alpha} &:\alpha\leq x\leq\beta\\
+        0 &:\text{otherwise}
+    \end{cases}
+\]
+so that
+\[F_X(x)=
+    \begin{cases}
+        0 &:x <\alpha\\
+        \frac{x-\alpha}{\beta-\alpha} &:\alpha\leq x\leq\beta\\
+        1 &:x >\beta
+    \end{cases}
+\]
+Now if $Y\sim\operatornae{UNI}[0,1]$, then
+\[\E(Y)=\int_0^1 x\d{x}=\frac{1}{2},\quad\E(Y^2)=\int_0^1 x^2\d{x}=\frac{1}{3}\]
+so that
+\[\Var(Y)=\frac{1}{3}-\frac{1}{4}=\frac{1}{12}\]
+and in general,
+\[\E(X)=(\beta-\alpha)\E(Y)+\alpha=\frac{\beta+\alpha}{2}\]
+\[\Var(X)=(\beta-\alpha)^2\Var(Y)=\frac{(\beta-\alpha)^2}{12}\]
+\begin{example}
+    Buses leave from every station every 15 minutes, starting at 7am.
+    What is the chance that I have to wait at least 10 minutes if
+    \begin{enumerate}
+        \item My arrival time at the station is uniform between 7am and 8am?
+    \end{enumerate}
+\end{example}
+\subsection{Standard Normal Distribution}
+We say $Z$ is standard normal if $Z\sim N(0,1)$ if it has density
+\[\phi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\]
+Then its cumulative distribution function is given by
+\[\Phi(x)=\int_{-\infty}^x f(t)\d{x}\]
+cannot be expressed in terms of elementary functions.
+However, we do have $\Phi(0)=1/2$, and $\Phi(-x)=1-\Phi(x)$.
+Let's show that $\int_{-\infty}^\infty f(x)\d{x}=1$.
+We have
+\begin{align*}
+    I^2 &= \int_{-\infty}^\infty e^{-x^2/2}\d{x}\cdot\int_{-\infty}^\infty e^{-y^2/2}\d{y}\\
+        &= \iint_{\R^2}e^{-(x^2+y^2)/2}\d{x}\d{y}\\
+        &= \int_0^\infty\int_0^{2\pi}e^{-r^2/2}r\d{\theta}\d{r}\\
+        &= 2\pi\int_0^\infty re^{-r^2/2}\d{r}=2\pi
+\end{align*}
+as reqired.
+Furthermore, $\E(Z)=0$ since $xf(x)$ is an odd function.
+As well,
+\begin{align*}
+    \Var(Z) &= \E(Z^2)=\int_{-\infty}^\infty x^2 f(x)\d{x}\\
+            &= \frac{1}{\sqrt{2\pi}}\int_{-\infty}^\infty x^2e^{-x^2/2}\d{x}\\
+            &= \frac{1}{\sqrt{2\pi}}\frac{1}{\sqrt{2\pi}}\left(\left[-xe^{-x^2/2}\right]_{0}^\infty+\int_{-\infty}^\infty e^{-x^2}\d{x}\right)\\
+            &= \frac{1}{\sqrt{2\pi}}\cdot\sqrt{2\pi}=1
+\end{align*}
+\begin{definition}
+    A random variable $\eta$ is standard if $\E(\eta)=0$ and $\Var(\eta)=1$.
+\end{definition}
+Let $X$ be an arbitrary random variable with $\mu=\E(X)$ and $\sigma^2=\Var(X)$.
+Then $Y=(X-\mu)/\sigma$ is standard.
+
 \end{document}

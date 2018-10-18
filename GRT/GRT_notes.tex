@@ -152,6 +152,7 @@ Note that we write $\binom{V}{2}$ instead of $V\times V$ to make it clear that w
     Each time, the number of connected components increases by one.
     After deleting all edges, we have $n$ components, at the beginning, we have one, so we deleted $n-1$ edges.
 \end{proof}
+\subsection{Pr\"ufer Codes}
 We now have an interesting question: how many different trees can be given on $n$ labelled vertices?
 To investigate this, we consider the Pr{\"u}fer code. Delete the smallest labelled degree one vertex and write up its unique neighbour's label.
 Continue doing this until only one point remains.
@@ -814,6 +815,7 @@ For example:
 \end{center}
 Both the red and blue matchings are stable, but the red matching favours $B$, while the blue matching favours $A$.
 \section{Colourings}
+We will get the full Canadian\textsuperscript{TM} experience and spell ``colour'' properly throughout.
 \subsection{Vertex Colourings}
 \begin{definition}
     A \textbf{proper coloring} of a graph is a function $c:V(G)\to\N$ such that, for any $\{u,v\}\in E(G)$, $c(u)\neq c(v)$.
@@ -848,7 +850,7 @@ Here are some options:
     Now define 
     \begin{align*}
         V(M_{k+1})&:=V(M_k)\cup\{u_i:i=1,\ldots,n=|V(M_k)|\}\cup\{z\}\\
-        E(M_{k+1}) &:= E(M_k)\cup\left\{\{u_i,u_j\}:\{v_i,v_j\}\in E(M_k)\}\cup\left\{\{z,u_i\}:i=1,\ldots,n=|V(M_k)|\right\}
+        E(M_{k+1}) &:= E(M_k)\cup\left\{\{u_i,u_j\}:\{v_i,v_j\}\in E(M_k)\right\}\cup\left\{\{z,u_i\}:i=1,\ldots,n=|V(M_k)|\right\}
     \end{align*}
     Connect $u_i$ to every neighbour of $v_i$, and $z$ to every $u_i$.
     \begin{center}
@@ -940,7 +942,7 @@ In fact, we have the following strong statements:
 \begin{definition}
     For a graph $G$, its \textbf{line graph} $L(G)$ is defined as follows:
     \begin{align*}
-        V(L(G) &= E(G)\\
+        V(L(G)) &= E(G)\\
         E(L(G)) &= \{ \{e,e'\}:e,e'\in E(G), e\cap e'\neq\emptyset\}
     \end{align*}
 \end{definition}
@@ -1015,4 +1017,41 @@ Also, we can have $\ch(G)>\chi(G)$.
 \begin{conjecture}
     For every finite loopless $F$, $\ch(L(F))=\chi(L(F))$.
 \end{conjecture}
+\begin{theorem}
+    For all $k\geq 2$, there exists $G$ such that $\chi(G)=2$ and $\ch(G)>k$.
+\end{theorem}
+\begin{proof}
+    Fix $n_k=\binom{2k-1}{k}$ and let $G_k=K_{n_k,n_k}$.
+    Now for every vertex in $A$, assign a unique $l\in\binom{[2k-1]}{k}$ to each vertex; and similarly for $B$.
+    We claim there is no proper list coloring with respect to these lists.
+    For contradiction, assume there is a proper list coloring $c$.
+    Then $|c(A)|:=|\{c(v):v\in A\}|\geq k$ since if $c(A)<k$, then there is a vertex $v$ with a list not containing any of these colours.
+    Similarly, $|c(G)\geq k|$.
+    However, for a proper colouring, we need $c(A)\cap c(B)=\emptyset$ so $|c(A)\cup c(B)|\geq 2k$, a contradiction since we only have $2k-1$ colours in all the lists.
+\end{proof}
+We now introduce the ``Dinitz problem''.
+Given an $n\times n$ matrix with a set of $n$ numbers at each entry, is it always possible to choose for every entry one of the elements of the set so that we obtain a Latin square?
+A Latin square has the property that every row and column has distinct entries.
+
+Equivalently, we ask the question: is it true that $\ch(L(K_{n,n}))=n$?
+\begin{theorem}[Galvin]
+    If $F$ is bipartite and $G=L(F)$, then $\ch(G)=\chi(G)$.
+\end{theorem}
+\begin{corollary}
+    The answer to Dinitz's question is affirmative.
+\end{corollary}
+\begin{theorem}[K\"onig]
+    If $F$ is bipartite, then $\chi_e(F)=\Delta(F)$.
+\end{theorem}
+Note that we do not require that $F$ is simple.
+\begin{proof}
+    If $F$ is is regular of degree $d$, then this is true: get a perfect matching, colour all the edges the same, delete those edges, and we are left with a regular bipartite graph with degrees all $d-1$.
+    Repeat this $d-1$ times to get a colouring.
+    Furthermore, this also holds when we have multiple edges between vertices.
+
+    If $F$ is not regular and has $\Delta(F)=d$, we extend to a (not necessarily simple) $d-$regular graph.
+    We can assume $|A|=|B|$: if there are additional isolated vertices, we can ignore them.
+    But then if $F$ is not $d-$regular, there must be some vertex in $A$ and a vertex in $B$ with degree less than $d$.
+    Join them, and repeat this until we are done.
+\end{proof}
 \end{document}

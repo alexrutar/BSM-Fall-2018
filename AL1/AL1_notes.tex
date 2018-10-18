@@ -292,7 +292,7 @@ These are indeed groups:
 We certainly have $1\in C_G(g)$.
 Also, if $x,y\in G$, then $gx=xg$ and $gy=yg$ so that $gxy=xgy=xyg$.
 If $x\in C_G(g)$, then $gx=xg$ so $g=xgx^{-1}$ and $x^{-1}g=gx^{-1}$.
-
+\subsection{Conjugacy Classes}
 This definition inspires the following definition:
 \begin{definition}
     We say that $f$ is a \textbf{conjugate} of $g$ if and only if there exists $x\in G$ such that $x^{-1}gx=f$.
@@ -346,6 +346,105 @@ We have the following nice application:
 \end{proof}
 Note that if $|G|=p$ prime, then $G$ is cyclic.
 Since $o(g)||G|=p$, and $o(g)\neq 1$ if $g\neq 1$; we must have $o(g)=p$ and $\langle g\rangle=G$.
+
+Now if $H\leq G$, then $x^{-1}Hx=\{x^{-1}hx:h\in H\}\leq G$, as can be verified.
+\begin{definition}
+    A subgroup $K$ of $G$ is \textbf{conjugate} to $H$ in $G$ if and only if there exists $x\in G$ with $x^{-1}Hx=K$.
+    We write $H\sim K$, and the equivalence classes are called \textbf{conjugacy classes} of subgroups.
+\end{definition}
+\begin{theorem}
+    \begin{enumerate}[nolistsep]
+        \item Conjugate elements are of the same order.
+        \item Conjugate subgroups are isomorphic.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item We have
+            \begin{align*}
+                (x^{-1}gx)^k=1 &\Leftrightarrow (x^{-1}gx)(x^{-1}gx)\cdots(x^{-1}gx)=1\\
+                               &\Leftrightarrow x^{-1}g^Kx=1\\
+                               &\Leftrightarrow g^kx=x\\
+                               &\Leftrightarrow g^k=1
+            \end{align*}
+        \item I claim that the map $\alpha:H\to x^{-1}Hx$ by $h\mapsto x^{-1}hx$ is an isomorphism.
+            We have $\alpha(h_1h_2)=x^{-1}h_1h_2x=x^{-1}h)1xx^{-1}h_2x=\alpha(h_1)\alpha(h_2)$, and bijectivity can be verified easily.
+    \end{enumerate}
+\end{proof}
+For any group $G$, we always have $C_\{1\}=\{\{1\}\}$ and $C_G=\{G\}$.
+A particularly nice type of conjugacy class are the ones with only 1 element.
+We have
+\[|C_H|=1\Leftrightarrow C_H=\{H\}\Leftrightarrow x^{-1}Hx=H(\forall x\in G)\Leftrightarrow Hx=xH(\forall x\in G)\]
+\begin{definition}
+    A subgroup $H$ which satisfies $Hx=xH$ for all $x\in G$ is called a \textbf{normal} subgroup.
+    We say $H\triangleleft G$.
+\end{definition}
+\begin{definition}
+    The \textbf{centralizer} of a subgroup $H$ in $G$ is
+    \[C_G(H)=\{x\in G:hx=xh(\forall h\in H)\}=\bigcap\limits_{h\in H}C_G(h)\leq G\]
+\end{definition}
+Note that intersections of subgroups are subgroups.
+\begin{definition}
+    The \textbf{normalizer} of a subgroup $H$ in $G$ is
+    \[N_G(H)=\{x\in G:Hx=xH\}=\{x\in G:x^{-1}Hx=H\}\leq G\]
+\end{definition}
+It is easy to verify this is a subgroup.
+We thus have $H\triangleleft G$ if and only if $N_G(H)=G$.
+We have some properties:
+\begin{proposition}
+    \begin{enumerate}
+        \item $C_G(G)\leq N_G(H)$.
+            In general, equality does not hold.
+        \item $H\leq N_G(H)$.
+        \item $H\leq C_G(H)$ iff $H$ is commutative.
+        \item $N_G(H)=G$ iff $H$ is normal.
+        \item $C_G(H)=G$ iff $H\leq Z(G)$.
+    \end{enumerate}
+\end{proposition}
+\begin{example}
+    Let $G=D_4$, $H=\langle r\rangle$.
+    Then $s\in N_6(H)$ but $s\notin C_G(H)$.
+\end{example}
+\begin{proposition}
+    A subgroup $H$ in $G$ is normal if and only if
+    \begin{enumerate}
+        \item $Hx=xH$ for all $x\in G$.
+        \item $x^{-1}Hx=H$ for all $x\in G$.
+        \item $N_G(H)=G$.
+        \item For any $h\in H$, $x\in G$, $x^{-1}hx\in H$.
+        \item $H$ is a union of some conjugacy classes.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We only see $(4)\Leftrightarrow (5)$.
+    We have
+    \[\forall h\in H\forall x\in G x^{-1}hx\in H\Leftrightarrow\forall h\in H C_h\subseteq H\]
+    which means that all conjugacy classes are either disjoint from $H$, or in $H$.
+\end{proof}
+We will most commonly use condition (4) to check normality.
+\begin{example}
+    For example, fix $G=GL_n(\R)$, so $SL_n(\R)=\{A\in M_n(\R):\det(A)=1\}$.
+    This is indeed a subgroup: let's also verify that it is a normal subgroup.
+    Also, if $h\in SL_n(\R)$ and $x\in GL_n(\R)$, then $\det(x^{-1}hx)=\det(x^{-1})\det(h)\det(x)=\det(h)=1$ so $x^{-1}hx\in SL_n(\R)$.
+\end{example}
+Why are normal subgroups nice?
+If $H\triangleleft G$, and $x,y\in G$, then $(Hx)(Hy)=Hxy$.
+We thus have an operation on cosets of $H$.
+Furthermore, this action satisfies the properties of the group.
+Thus $\{Hx:x\in G\}$ with the operation $HxHy=Hxy$ is a group, called the factor group or quotient group of $G$ by $H$.
+\begin{example}
+    Consider $G=\Z^\times_{13}$, $H=\langle 3\rangle$.
+    Then $H2=\{256\}$, $H4=\{4,10,12\}$, $H7=\{7,8,11\}$.
+    We have
+    \begin{tabular}{c|c|c|c|c|}
+        &H&H2&H4&H7\\
+        \hline
+        H &H&H2&H4&H7\\
+        H2&H2&H4&H7&H\\
+        H4&H4&H7&H&H2\\
+        H7&H7&H&H2&H4
+    \end{tabular}
+
 \section{Examples of Finite Groups}
 \subsection{Cyclic Groups}
 \begin{definition}

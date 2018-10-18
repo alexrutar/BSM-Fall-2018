@@ -1071,10 +1071,9 @@ Fix the notation as above.
 \begin{definition}
     Fix a Borel measure $\mu$.
     The \textbf{Lebesgue outer measure} is defined $\mu(E)=\inf\{\mu(G):E\subset G\text{ open}\}$.
-    % The \textbf{Lebesgue inner measure} is defined $\mu(E)=\sup\{\mu(G):K\subset E\text{ compact}\}$.
 \end{definition}
 \begin{definition}
-    We say that $E\subset X$ is \textbf{regular} if the inner and outer measures coincide.
+    We say that $E\subset X$ is \textbf{regular} if $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$.
     Similarly, $E\subset X$ is \textbf{locally regular} if there exists a compact $K$ so that $K\cap E$ is regular.
 \end{definition}
 \begin{proof}
@@ -1133,6 +1132,121 @@ Fix the notation as above.
     Since $\mu(K)\leq\Lambda f$ for all $K\prec f$.
     Let $\epsilon>0$, so we have $G\in\tau$, $G\supset K$ such that $\mu(G)\leq\mu(K)+\epsilon$.
     Then by Urysohn's lemma, get some $f$ so that $\mu(K)\leq\Lambda f\leq\mu(G)$, so $\Lambda f\leq\mu(K)+\epsilon$ and the result holds.
+\end{proof}
+\textbf{Claim 3: If $0\leq f\leq 1$, then $\Lambda f\leq\mu(\supp f)$.}
+\begin{proof}
+    Let $G\supset\supp f$ be open, so $f\prec G$ and $\mu(G)\geq\Lambda f$.
+    Then $\mu(\supp f)=\inf\{\mu(G):E\subset G\in\tau\}\geq\Lambda f$.
+\end{proof}
+\textbf{Claim 4: If $G\in\tau$, then $G$ is regular.}
+\begin{proof}
+    We must show $\mu(G)=\sup\{\mu(K):K\subset E\text{ compact}\}$.
+    Take $\gamma<\mu(G)$.
+    We know that $\sup\{\mu(K):K\subset G\text{ compact}\}\leq\mu(G)$, so we prove the $\geq$ case.
+    We need $K$ compact so that $\mu(K)>\gamma$.
+    Let $f\prec G$ be such that $\Lambda f>\gamma$.
+    Then $\mu(\supp f)>\gamma$ is compact, as desired.
+\end{proof}
+\textbf{Claim 5: If $E_i$ are disjoint regular, then $\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)=\sum\limits_{i=1}^\infty \mu(E_i)$.}
+\begin{proof}
+    We first prove this for two compact sets.
+    Thus let $K_1,K_2$ be disjoint compact sets.
+    Then $K_2^c$ is open and $K_2^c\supset K_1$.
+    By Urysohn's lemma, get $f\in C_c(X)$ so that $K_1\prec f\prec K_2^c$ and $x\in K_1$ implies $f(x)=1$, and $x\in K_2$ implies $f(x)=0$.
+    Since $K_1\cup K_2$ is compact, for all $\epsilon>0$, get $g\prec K_1\cup K_2$ such that $\mu(K_1\cup K_2)+\epsilon>\Lambda g$.
+    Note that $K_1\prec f\cdot g$ and $K_2\prec(1-f)\cdot g$.
+    Thus $\mu(K_1)+\mu(K_2)\leq\Lambda(f\cdot g)+\Lambda((1-f)\cdot g=\Lambda g<\mu(K_1\cup K_2)+\epsilon$ which is true for any $\epsilon>0$.
+    Thus $\mu(K_1)+\mu(K_2)\leq\mu(K_1\cup K_2)\leq\mu(K_1)+\mu(K_2)$ as required.
+
+    We now prove that $\mu(\cup E_i)\geq\sum\mu(E_i)$.
+    If $\mu(\cup E_i)=+\infty$, we are done, so assume $\mu(\cup E_i)<+\infty$.
+    If the $E_i$ are regular, then there is a compact set $H_i\subset E_i$ so that
+    \[\mu(H_i)>\mu(E_i)-\frac{\epsilon}{2^i}\]
+    Let $K_n=\bigcup\limits_{i=1}^n H_i$.
+    Now
+    \begin{align*}
+        \mu\left(\bigcup\limits_{i=1}^\infty E_i\right) &\geq \mu(K_n)\\
+                                                        &= \sum\limits_{i=1}^n \mu(H_i)\\
+                                                        &> \sum\limits_{i=1}^n\mu(E_i)-\epsilon
+    \end{align*}
+    As well, this holds for any $\epsilon>0$ and $n\in\N$, so we are done.
+\end{proof}
+\textbf{Claim 6: If the $E_i$ are regular, then $\bigcup\limits_{i=1}^\infty E_i$ is regular when $\mu(\cup E_i)<\infty$.}
+\begin{proof}
+    We have
+    \begin{align*}
+        \mu\left(\bigcup\limits_{i=1}^\infty E_i\right) &\leq \sum\limits_{i=1}^N\mu(E_i)+\epsilon\\
+                                                        &\leq \mu(K_N)+2\epsilon
+    \end{align*}
+    Thus for any $\epsilon>0$, get $N$ so that
+    \[\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)-2\epsilon\leq\mu(K_n)\]
+    so $\cup E_i$ is regular.
+\end{proof}
+\textbf{Claim 6(?): $E$ is regular and $\mu(E)<\infty$ if and only if for any $\epsilon>0$, there exists $K$ compact, $G$ open so that $K\subset E\subset G$ and $\mu(G\setminus K)<\epsilon$.}
+\begin{proof}
+    There exists by regularity (and the definition of the outer measure) $K,G$ so that
+    \[\mu(E)-\frac{\epsilon}{2}\leq \mu(K)\leq \mu(G)\leq \mu(E)+\epsilon/2\]
+    As well, $\mu(G)=\mu(K\cup(G\setminus K))=\mu(K)+\mu(G\setminus K)$ and $\mu(G\setminus K)=\mu(G)-\mu(K)<\epsilon$.
+
+    Conversely, let $K\subset E\subset G$ and $\mu(G\setminus K)<\epsilon$.
+    Then
+    \[\mu(E)\leq\mu(G)=\mu(K)+\mu(G\setminus K)<\mu(K)+\epsilon\]
+    so $\mu(E)<\infty$ and $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$, and $E$ is regular.
+\end{proof}
+\textbf{Claim 7:
+    \begin{enumerate}
+        \item Let $A,B$ be regular with $\mu(A),\mu(B)<\infty$.
+            Then $A\setminus B$, $A\cup B$, $A\cap B$ are regular and have finite measure.
+        \item If $E$ is regular and $\mu(E)<\infty$, then $E$ is locally regular.
+        \item If $E_i$ are regular, then $\bigcup\limits_{i=1}^\infty E_i$ is regular.
+    \end{enumerate}
+}
+\begin{proof}
+    Recall that for any $\epsilon>0$, there exists $K_1\subset A \subset G_1$ and $K_2\subset B\subset G_2$ such that $\mu(G_1\setminus K_1)<\epsilon$ and $\mu(G_2\setminus K_2)<\epsilon$.
+    \begin{enumerate}
+        \item Note that $A\setminus B\subset G_1\setminus K_2\subset(G_1\setminus K_1)\cup(K_1\setminus G_2)\cup(G_2\setminus K_2)$, where $K_1\setminus G_2$ is compact.
+            Thus $\mu(A\setminus B)\leq\epsilon+\mu(K_1\setminus G_1)+\epsilon<\infty$ and $\mu(A\setminus B)-2\epsilon\leq\mu(K_1\setminus G_2)$ so $A\setminus B$ is regular.
+            Finally since $A\cup B=(A\setminus B)\cup B$, $A\cup B$ is regular and $\mu(A\cup B)<\infty$.
+            Thus $A\cap B=(A\cup B)\setminus( (A\setminus B)\cup(B\setminus A))$ is regular and has measure less than infinity.
+        \item Let $E$ be regular, $\mu(E)<\infty$, and $K$ be a compact set.
+            Then $\mu(K)<\infty$, $K$ is regular, $E\cap K$ is regular and $E$ is locally regular.
+        \item Set $F_1=E_1$, $F_n=E_n\setminus\left(\bigcup\limits_{i=1}^{n-1}E_i\right)$ so $\bigcup\limits_{i=1}^\infty F_i=\bigcup\limits_{i=1}^\infty E_i$ and the $F_i$ as disjoint.
+            By Claim 5, $\cup F_i$ is regular and $F_i$ are regular.
+    \end{enumerate}
+\end{proof}
+\textbf{Claim 8: If $E$ is locally regular and $\mu(E)<\infty$, then $E$ is regular.}
+\begin{proof}
+    Let $\epsilon>0$ and $G\supset E$ be open so that $\mu(G)<\mu(E)+1<\infty$.
+    As well, $G$ is regular, so there exists $K$ with $\mu(G)<\mu(K)+\epsilon/2$.
+    Now,
+    \begin{align*}
+        \mu(E)&=\mu((E\setminus K)\cup (E\cap K))\leq \mu(E\setminus K)+\mu(E\cap K)\\
+              &\leq\mu(G\setminus K)+\mu(E\cap K)\\
+              &<\frac{\epsilon}{2}+\mu(E\cap K)
+    \end{align*}
+    so $\mu(E\cap K)>\mu(E)-\epsilon/2$.
+    Then since $E$ is locally regular, $E\cap K$ is regular and get a compact set $L\subset E\cap K$ such that $\mu(L)>\mu(E\cap K)-\epsilon/2>\mu(E)-\epsilon$.
+    Thus $E$ is regular.
+\end{proof}
+\textbf{Claim 9: $\mathcal{M}$ is a $\sigma-$algebra, $M\subset\tau$, and $\mu$ is countably additive on $\mathcal{M}$.}
+\begin{proof}
+    Let $A\in\mathcal{M}$: we see that $A^c\in\mathcal{M}$.
+    For any $K$ compact, $A\cap K$ is regular.
+    Let $K$ be compact and take $A^c\cap K=K\setminus(A\cap K)$ is regular by Claim 7.
+
+    Now let $A_n\in\mathcal{M}$: we see that $A:=\bigcup\limits_{n=1}^\infty A_n\in\mathcal{M}$.
+    Let $K$ be an arbitrary compact set, so
+    \[A\cap K=\bigcup\limits_{n=1}^\infty (A_n\cap K)\]
+    is regular by Claim 7.
+    
+    We now show $\mathcal{M}\supset\tau$.
+    It suffices by closure under complement that al the closed sets are in $\mathcal{M}$.
+    If $A$ is closed, then $A\cap K$ is compact and thus regular, so $A\in\mathcal{M}$.
+
+    Finally, let $E_i\in\mathcal{M}$ be disjoint: we see that $\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)=\sum\limits_{i=1}^\infty \mu(E_i)$.
+    It suffices to show $\geq$.
+    If $\mu(E_i)=+\infty$, we are done, so assume $\mu(E_i)<\infty$ for all $i$.
+    But then by Claim 8, $E_i$ are regular, and the result holds by Claim 5.
 \end{proof}
 
 \end{document}
