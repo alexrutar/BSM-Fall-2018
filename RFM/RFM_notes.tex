@@ -1248,5 +1248,46 @@ Fix the notation as above.
     If $\mu(E_i)=+\infty$, we are done, so assume $\mu(E_i)<\infty$ for all $i$.
     But then by Claim 8, $E_i$ are regular, and the result holds by Claim 5.
 \end{proof}
+\textbf{Claim 10: $\Lambda f=\int_X f\d{\mu}$ for all $f\in C_c(X)$.}
+\begin{proof}
+    It suffices to prove this for real valued functions.
+    If $f=u+iv$, then $\Lambda f=\Lambda u+i\Lambda v=\int_X u\d{\mu}+i\int_X v\d{\mu}=\int_X f\d{\mu}$.
+    Furthermore, it suffices to show $\Lambda f\leq\int_X f\d{\mu}$ since $\Lambda(-f)\leq\int_X -f\d{\mu}$ so that $-\Lambda f\leq -\int_X f\d{\mu}$ and $\Lambda f\geq\int_X f\d{\mu}$, implying equality.
 
+    As well, it is enough to prove that $\Lambda \leq\int f$ for $f\geq 0$.
+    Let $K=\supp f$ be compact, and $a=\min f$, $b=\max f$.
+    Let $\epsilon>0$ be arbitrary.
+    For every $K$, there exists $G\supset K$ so that $\mu(G)\leq\mu(K)+\epsilon$.
+    Then by Urysohn's lemma, there exists $h\in C_c(X)$ so that $K\prec g\prec G$.
+    Thus $|a|\cdot h(x)=|a|$ for all $x\in K$, so $F=f+|a|h\geq 0$ since $f\geq -|a|$.
+    Now
+    \[\Lambda f\leq\int_X F\d{\mu}=\int_X f+|a|\int_X h\]
+    so $\Lambda f\leq\int_X f+|a|\left(\int_X h-\Lambda g\right)$.
+    As well, by Claim 2,
+    \[\mu(K)\leq\Lambda h\leq\mu(G)\]
+    so that
+    \[\int_X\chi_K\leq\int_X h\d{\mu}]\leq \int_X\chi_G=\mu(G)\]
+    and $|\Lambda h-\int h|<\epsilon$.
+    Thus $\Lambda f\leq\int f+|a|\epsilon$ for all $\epsilon>0$, so $\Lambda f\leq\int f$.
+
+    It now remains to show $\Lambda f\leq\int_X f\d{\mu}$ for $f\geq 0$.
+    Since $f=Mf/M$ where $M=\max f$, we can assume $0\leq f\leq 1$.
+    Fix $K=\supp f$, let $\epsilon>0$ be arbitrary.
+    Let $0=c_0<c_1<c_2<\cdots<c_n=1$ with $c_k-c_{k-1}<\epsilon$ for all $k$ and $\mu(f^{-1}(c_k))=0$ for all $k=1,\ldots,n-1$.
+    The existence of such a set follows from Assignment 6.
+    Let $K_j=K\cap f^{-1}([c_{j-1},c_j])$ for $j=1,2,\ldots,n$ and $L_j=K\cap f^{-1}([c_{j-1},c_j))$ for $j=1,2,\ldots,n-1$.
+    To $K_j$ and $\epsilon$, there exists $G_j\supset K_j$ such that $\mu(G_j)\leq\mu(K_j)+\frac{\epsilon}{2^j}$.
+    By Urysohn's lemma, get $h_j$ so that $K_h\prec h_j\prec G_j$, so $f\leq\sum\limits_{j=1}^nc_j h_j$ since for $x\notin\supp f=K$, $f=0$, and otherwise, there exists $j$ so that $x\in K_j$ implies $h_j=1$ and $f(x)\leq c_j=c_jh_j(x)\leq\sum\limits c_ih_i$.
+    Then
+    \begin{align*}
+        \Lambda f\leq\Lambda(\sum c_j h_j)&=\sum\limits_{i=1}^n c_j\Lambda h_j\\
+                                          &\leq\sum\limits_{j=1}^n c_j\mu(G_j)\\
+                                          &\leq \sum\limits_{j=1}^n c_j\mu(K_j)+\sum\limits c_j\frac{\epsilon}{2^j}\\
+                                          &\leq \sum\limits_{j=1}^n (c_{j-1}+c_j-c_{j-1})\mu(L_j)+\epsilon\\
+                                          &\leq \sum\limits_{j=1}^n c_{j-1}\mu(L_j)+\epsilon\cdot\mu(K)+\epsilon\\
+        \intertext{where $g$ is a simple function such that $g(x)=c_{j-1}$ if $x\in L_j$ and $g\leq f$. Then}
+                                          &= \int_X g\d{\mu}+\epsilon(1+\mu(K))\\
+                                          &\leq \int_X f\d{\mu}+\epsilon(1+\mu(K))
+    \end{align*}
+    for any $\epsilon>0$, and we are done!
 \end{document}

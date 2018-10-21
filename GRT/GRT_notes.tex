@@ -108,21 +108,22 @@
 \section{A Brief Introduction}
 \subsection{Basic Definitions}
 \begin{definition}
-    A \textbf{graph} $G=(V,E)$ consists of a vertex set $V$ and edge set $E$ where $E\subseteq\binom{V}{2}$.
+    A \textbf{simple graph} $G=(V,E)$ consists of a vertex set $V$ and edge set $E$ where $E\subseteq\binom{V}{2}$.
 \end{definition}
 Note that we write $\binom{V}{2}$ instead of $V\times V$ to make it clear that we cannot have loops and multiple edges.
+If the graph is undirected, edges are unordered pairs $\{v_1,v_2\}$ of vertices; we write $(v_1,v_2)$ for directed edges.
 \begin{definition}
-    Two graphs $F$ and $G$ are \textbf{isomorphic} if there exists a bijective mapping $f:V(F)\to V(G)$ such that for every $a,b\in V(F)$: $\{a,b\}\in E(F)\Leftrightarrow \{F(a),f(b)\}\in E(G)$.
+    Two graphs $F$ and $G$ are \textbf{isomorphic} if there exists a bijective mapping $f:V(F)\to V(G)$ such that for every $a,b\in V(F)$: $\{a,b\}\in E(F)\Leftrightarrow \{f(a),f(b)\}\in E(G)$.
 \end{definition}
 \begin{definition}
     The \textbf{degree} of a vertex $v\in V(G)$ is the number of edges having $v$ as an endpoint.
     We denote this number by $d(v)$, and $\Delta(G)$ to denote the maximal degree in $G$, and $\delta(G)$ to denote the minimal degree in $G$.
 \end{definition}
 \begin{definition}
-    The \textbf{neighbourhood} of a graph $U$ is denoted by $N(U):=\{v\in V(G):\exists u\in U\text{ s.t. }\{v,u\}\in E(G)\}$.
+    The \textbf{vertex neighbourhood} of a graph $U$ is denoted by $N(U):=\{v\in V(G):\exists u\in U\text{ s.t. }\{v,u\}\in E(G)\}$.
 \end{definition}
 \begin{definition}
-    A \textbf{path} is asequence $v_1e_1v_2e_2\ldots v_ie_iv_{i+1}\ldots e_jv_{j+1}$ where each $v_i\in V(G)$ and $e_i=\{v_i,v_{i+1}\}\in E(G)$ where all $v_i$'s are different.
+    A \textbf{path} is a sequence $v_1e_1v_2e_2\ldots v_ie_iv_{i+1}\ldots e_jv_{j+1}$ where each $v_i\in V(G)$ and $e_i=\{v_i,v_{i+1}\}\in E(G)$ where all $v_i$'s are different.
     A \textbf{cycle} is a path in which $v_1=v_{j+1}$.
 \end{definition}
 \begin{definition}
@@ -189,16 +190,48 @@ Properties:
     Thus $b_j\notin V(T_{j+1})=\{b_{j+1},b_{j+2},\ldots,b_{n-1},a_{n-1}\}$ so $b_j$ is indeed degree one; $a_j\in V(T_{j+1})$ and $T_j$ is a tree.
     If $b_j$ was not the smallest degree 1 vertex, then there exists some $k>j$ such that $b_k<b_j$ and $b_k$ has degree one in $T_j$.
     But then $b_k\notin\{b_1,\ldots,b_{j-1},a_j,\ldots,a_{n-1}\}$ so $(*)$ would have chosen it in place of $b_j$, a contradiction.
+
 \end{proof}
+Here's an illustration of a particular tree along with the corresponding Pr\"ufer code.:
+\begin{center}
+    \begin{tikzpicture}[lvtx/.style={inner sep=3pt,circle,draw=black,thick}]
+        \node[lvtx] (1) at (0,0){\tiny 1};
+        \node[lvtx] (2) at (0,1){\tiny 3};
+        \node[lvtx] (3) at (1,1){\tiny 2};
+        \node[lvtx] (4) at (1,2){\tiny 6};
+        \node[lvtx] (5) at (2,0){\tiny 5};
+        \node[lvtx] (6) at (2,2){\tiny 7};
+        \node[lvtx] (7) at (2,3){\tiny 4};
+
+        \path[]
+            (1) edge[thick] (3)
+            (3) edge[thick] (2)
+            (3) edge[thick] (5)
+            (3) edge[thick] (4)
+            (4) edge[thick] (6)
+            (4) edge[thick] (7);
+        \node (l) at (5,1.5){$\Longrightarrow\qquad(2,2,6,2,6,7)$};
+    \end{tikzpicture}
+\end{center}
+We then have
+\begin{align*}
+    a_1&=2 & b_1 &= \min\{k\in[7],k\notin\{2,2,6,2,6,7\}\}=1\\
+    a_2&=2 & b_2 &= \min\{k\in[7],k\notin\{1,2,6,2,6,7\}\}=3\\
+    a_3&=6 & b_3 &= \min\{k\in[7],k\notin\{1,3,6,2,6,7\}\}=4\\
+    a_4&=2 & b_4 &= \min\{k\in[7],k\notin\{1,3,4,2,6,7\}\}=5\\
+    a_5&=6 & b_5 &= \min\{k\in[7],k\notin\{1,3,4,5,6,7\}\}=2\\
+    a_6&=7 & b_6 &= \min\{k\in[7],k\notin\{1,3,4,5,2,7\}\}=6
+\end{align*}
+so that the edges are given by $E(G)=\{ \{1,2\},\{3,2\},\{4,6\},\{5,2\},\{2,6\},\{6,7\}\}$.
+
 
 \section{Paths, Circuits, and Cycles}
 \subsection{Eulerian Circuits}
-K\"onigsberg (modern Kaliningrad)
 \begin{definition}
     An \textbf{Eulerian circuit} is a closed walk in a graph that contains every edge exactly once.
     An \textbf{Eulerian path} is a walk containing every edge exactly once and not (necessarily) ending at the same vertex.
 \end{definition}
-Note that we do allow multiple edges between vertices (graph is necessary simple).
+Note that we do allow multiple edges between vertices.
 We also assume that our graph is connected.
 \begin{theorem}[Euler]
     A graph contains an Eulerian circuit if and only if every vertex has even degree.
@@ -239,7 +272,8 @@ Here is a graph for which this condition holds, but does not have a Hamiltonian 
 \begin{center}
     \begin{tikzpicture}[
         vtx/.style={circle,radius=0.5pt,fill=black,inner sep=2pt},
-        edge/.style={thick}
+        edge/.style={thick},
+        scale=0.5
         ]
         \node[vtx, fill=red] (1a) at (18:2cm){};
         \node[vtx, fill=red] (2a) at (90:2cm){};
@@ -263,8 +297,8 @@ Here is a graph for which this condition holds, but does not have a Hamiltonian 
     \end{tikzpicture}
 \end{center}
 The condition holds: delete $k=l_1+l_2$ vertices, where $l_1$ is in the ``outer cycle'' and $l_2$ is in the ``inner cycle''.
-(Above, $l_2=2$ and $l_1=0$.)
-Then the outer cycle may not fall apart into more than $l_1$ components, the inner cycle may not fall apart into more than $l_2$ component, so if $l_1,l_2>0$.
+(Above, $l_1=0$ and $l_2=2$.)
+Then the outer cycle may not fall apart into more than $l_1$ components, the inner cycle may not fall apart into more than $l_2$ component, so if $l_1,l_2>0$, then there are at most $l_1+l_2$ components.
 If $l_1$ or $l_2$ is $0$, then the graph remains connected.
 
 Furthermore, there does not exist a Hamiltonian cycle.
@@ -353,20 +387,21 @@ We then fill in the interior edges as required, until the inner cycle, in which 
 \begin{theorem}[Dirac, 1952]
     If $G$ is a graph on $n$ vertices, with every degree being at least $\frac{n}{2}$, then $G$ contains a Hamiltonian cycle.
 \end{theorem}
+\begin{proof}
+    Follows from Ore's Theorem.
+\end{proof}
+This bound is tight: for every graph on $n$ vertices, $f(n)\geq n/2$ is the minimal requirement since the graph composed of two disconnected components $K_{n/2}$ has degree $n/2-1$ everywhere but does not have a Hamiltonian cycle.
 As a fun fact, this is not Paul Dirac, but rather Gabriel Andrew Dirac (Paul Dirac's stepson).
-Note that we must have $f(n)\geq n/2$.
-If not, then the graph composed of two disconnected components $K_{n/2}$ has degree $n/2-1$ everywhere but does not have a hamiltonian cycle.
-We also have the following stronger theorem:
 \begin{theorem}[Ore, 1960]
     If $G$ is a graph on $n$ vertices such that for every nonadjacent pair of vertices $u,v\in V(G)$, $d(u)+d(v)\geq n$ is satisfied, then $H$ contains a Hamiltonian cycle.
 \end{theorem}
 \begin{proof}
     Assume for contradiction we have $G_0$ satisfying the condition but does not have a Hamiltonian cycle.
-    Saturate $G_0$ go obtain $G$: if two vertices are non-adjacent and connecting them still creates a Hamiltonian cycle, then connect them.
-    Observe that the new graph is still a counterexample since the condition will obviously remain true.
-    Do this maximally, so that the addition of any edge would create a Hamiltonian cycle.
+    Saturate $G_0$ go obtain $G$: if two vertices are non-adjacent and connecting them does not create a Hamiltonian cycle, then connect them.
+    This new graph is still a counterexample since whenever we increase the degree of some vertices, they are no longer non-adjacent.
+    Do this maximally, so that the addition of any edge would create a Hamiltonian cycle and $G$ still satisfies Ore's condition.
 
-    Now, if $a,b\in V(G)$ are non-adjacent in $G$, then there exists a Hamiltonian path starting at $a$ and ending at $b$.
+    Now, if $a,b\in V(G)$ are non-adjacent in $G$, then there exists a Hamiltonian path starting at $a$ and ending at $b$ (since adding $\{a,b\}$ would create a Hamiltonian cycle).
     Consider such a Hamiltonian path $(x_1,x_2,\ldots,x_n)$.
     \begin{center}
         \begin{tikzpicture}
@@ -403,6 +438,9 @@ We also have the following stronger theorem:
     Let $G$ be a graph on $n$ vertiecs with degrees $d_1\leq d_2\leq\cdots\leq d_n$.
     Then for every $k<n/2$, we have $d_k\geq k+1$, then $G$ contains a Hamiltonian cycle.
 \end{theorem}
+\begin{proof}
+    Again, follows from Chv\'atal's Theorem below.
+\end{proof}
 \begin{theorem}[Chv\'atal, 1972]
     \hfill
     \begin{enumerate}[nolistsep, label=(\roman*)]
@@ -416,8 +454,8 @@ We also have the following stronger theorem:
 \begin{proof}
     \begin{enumerate}[label=(\roman*)]
         \item Assume that the statement is false, consider a counterexample $G_0$, and saturate it to obtain $G$.
-            This works: if an edge can be added without creating a Hamiltonian cycle; then after adding we will still have a counterexample, the validity of the condition cannot be destroyed by adding an edge.
-            From Ore's proof, we know that for every $a,b\in V(G)$ that are non-adjacent, there exists a Hamiltonian path from $a$ to $b$ and $d(a)+d(b)\leq n-1$.
+            This works: adding edges only increases the degrees of the vertices, and thus the values of $d_k$ and $d_{n-k}$, so the condition still holds.
+            Now, from Ore's proof, we know that for every $a,b\in V(G)$ that are non-adjacent, there exists a Hamiltonian path from $a$ to $b$ and $d(a)+d(b)\leq n-1$.
             Consider an $a,b\in V(G)$, $\{a,b\}\notin E(G)$ pair for which $d(a)+d(b)$ is maximal
             \begin{center}
                 \begin{tikzpicture}
@@ -446,20 +484,18 @@ We also have the following stronger theorem:
                     \node (X) at (8,-1){\large $\times$};
                 \end{tikzpicture}
             \end{center}
-            We may assume $d(a)\leq d(b)$.
-            Then we have $d(a)\leq\frac{n-1}{2}<\frac{n}{2}$.
-            For notation, $h=d(a)$.
-            We claim that $d_h\leq h<\frac{n}{2}$.
+            We may assume $d(a)\leq d(b)$ so that $d(a)\leq\frac{n-1}{2}<\frac{n}{2}$.
+            For notation, fix $h=d(a)$; we claim that $d_h\leq h<\frac{n}{2}$.
             We show $d_h\leq h$.
             
-            From the Ore proof argument, we know that $b$ has at least as many non-neighbours as many neighbours $a$ has, i.e. $h$.
-            Each of these non-neighbours $x$ of $b$ could have been chosen for $a$ (as a non-adjacent pair for $b$), but it was not, do $d(x)\leq d(a)=h$.
-            Thus there exists an index greater than or equal to $h$ with degree less than or equal to $h$.
-            This exactly means $d_h\leq h$, and we have our claim.
+            Now consider the vertices $x$ which are not neighbours of $b$.
+            Since $\{x,b\}$ is a non-adjacent pair of $b$ which is not maximal, we must have $d(x)\leq d(a)=h$.
+            Furthermore, from the Ore proof argument, we know that the number of non-neighbours of $b$ is at least as large as $d(a)=h$, so there are at least $h$ vertices with $d(x)\leq h$.
+            Thus $d_h\leq h$ and we have our claim.
 
-            Thus by our condition, $d_{n-h}\geq n-h$, so there exist $h+1$ degrees $\geq n-h$.
-            Then by the Pidgeonhole Principle, there exists at least one non-neighbour of $a$, call it $y$, that has degree $\geq n-h$.
-            But then $a,y$ is a non-adjacent pair with $d(a)+d(y)\geq h+n-h=n>d(a)+d(b)$, a contradiction to the choice of $a,b$.
+            Thus by our condition, $d_{n-h}\geq n-h$, so there exist $h+1$ vertices with degree at least $n-h$.
+            Since $d(a)=h$, there exists some non-neighbour $y$ of $a$ with $d(y)\geq n-h$.
+            But then $\{a,y\}$ is a non-adjacent pair with $d(a)+d(y)\geq h+n-h=n>d(a)+d(b)$, a contradiction to the choice of $\{a,b\}$.
         \item Assume $d_1'\leq\cdots\leq d_n'$ violates our condition.
             Then we have $k$ so that $d'_k\leq k<n/2$ and $d'_{n-k}\leq n-k-1$.
             Fix such a $k$, then
@@ -487,7 +523,10 @@ We also have the following stronger theorem:
 \end{proof}
 \section{Matchings}
 \begin{definition}
-    A \textbf{matching} in a graph is a subset $M\leq E(G)$ such that all edges in $E(G)$ are independent, meaning that if $e,f\in M$, then $e\cap f=\emptyset$.
+    Two edges $e,f$ are \textbf{independent} if $e\cap f=\emptyset$; i.e. they do not share any endpoints.
+\end{definition}
+\begin{definition}
+    A \textbf{matching} in a graph is a subset $M\subset E(G)$ such that all edges in $E(G)$ are independent.
 \end{definition}
 \begin{definition}
     A matching is \textbf{maximal} if no edges can be added to it, \textbf{maximum} if there is no larger matching, and \textbf{perfect} if it covers all the vertices.
@@ -518,6 +557,7 @@ Below we have two matchings: a maximal matching in red, and a perfect and maximu
 \begin{definition}
     A graph $G=(V,E)$ is \textbf{bipartite} if $V=A\cup B$ with $A\cap B=\emptyset$, and for all $e\in E(G)$, $|e\cap A|=|e\cap B|=1$ (every edge has an endpoint in $A$ and an endpoint in $B$).
 \end{definition}
+Bipartite graphs have a natural characterization:
 \begin{theorem}
     A graph is bipartite if and only if it contains no odd cycles.
 \end{theorem}
@@ -571,15 +611,45 @@ Below we have two matchings: a maximal matching in red, and a perfect and maximu
     A bipartite graph $G=(A,B;E)$ admits a matching covering $A$ if and only if for every $U\subseteq A$, $V\subseteq B$, $|N(U)|\geq |U|$.
 \end{theorem}
 \begin{corollary}[Frobenius]
-    A bipartite graph $G=(A,B;E)$ contains a perfect matching if and ony if Hall's condition holds and $|A|=|B|$.
+    A bipartite graph $G=(A,B;E)$ contains a perfect matching if and only if Hall's condition holds and $|A|=|B|$.
 \end{corollary}
-We need a few definitions to prove these theorems.
+Here are some definitions for matchings that will be useful in the proof:
 \begin{definition}
     Given a matching $M\subseteq E(G)$, an \textbf{alternating path} (with respect to $M$) is a path such that every second edge belongs to $M$.
 \end{definition}
 \begin{definition}
     An alternating path beginning and ending at vertices not covered by any matching edge (from $M$) is called an \textbf{augumenting path}.
 \end{definition}
+The intuitive reason to consider an augumenting path is that it is one such that the matching can be extended to a larger one by considering the complement of the edges in the matching with respect to the path.
+Below is an augumenting path along with a new matching that can be constructed from it (both in red).
+\begin{center}
+    \begin{tikzpicture}
+        \node[vtx] (a) at (0,0){};
+        \node[vtx] (b) at (0,1){};
+        \node[vtx] (c) at (1,0){};
+        \node[vtx] (d) at (1,1){};
+        \node[vtx] (e) at (2,0){};
+        \node[vtx] (f) at (2,1){};
+        \draw[thick] (a) -- (b);
+        \draw[thick,dashed,red] (b) -- (c);
+        \draw[thick] (c) -- (d);
+        \draw[thick,dashed,red] (d) -- (e);
+        \draw[thick] (e) -- (f);
+        \begin{scope}[shift={(3,0)}]
+            \node[vtx] (a) at (0,0){};
+            \node[vtx] (b) at (0,1){};
+            \node[vtx] (c) at (1,0){};
+            \node[vtx] (d) at (1,1){};
+            \node[vtx] (e) at (2,0){};
+            \node[vtx] (f) at (2,1){};
+            \draw[thick,dashed,red] (a) -- (b);
+            \draw[thick] (b) -- (c);
+            \draw[thick,dashed,red] (c) -- (d);
+            \draw[thick] (d) -- (e);
+            \draw[thick,dashed,red] (e) -- (f);
+        \end{scope}
+    \end{tikzpicture}
+\end{center}
 \begin{proof}[Hall]
     Let $M\subseteq E(G)$ be a matching in a bipartite graph $G=(A,B;E)$ for which there exists no augumenting path.
     Assume $M$ does not cover $A$, let the set of vertices in $A$ not covered by $M$ be called $W$, so $W\neq\emptyset$.
@@ -646,12 +716,12 @@ We need a few definitions to prove these theorems.
     Let $T'$ be the set of vertices in $A$ that are the pairs of the vertices in $T$ according to $M$.
     We have $|T'|=|T|$, and we claim that $U=T'\cup W$ violates the condition.
     In particular, we show that $N(T'\cup W)\subseteq T$.
-    Indeed, $N(T'\cup W)=N(T')\cup N(W)$.
+    Write $N(T'\cup W)=N(T')\cup N(W)$ and we show each part separately.
     \begin{enumerate}[nolistsep]
-        \item $N(W)\subseteq T$ since any single edge starting at some $w\in W$ can ... as an alternating path, so its other end must be in $T$ by definition (of $T$).
+        \item $N(W)\subseteq T$ since any single edge starting at some $w\in W$ must be adjacent to a matching, so it is part of an alternating path and its other end must be in $T$ by definition (of $T$).
         \item $N(T')\subseteq T$.
-            Let $v\in T'$; then $v$ has a matched pair $v\in T$ (i.e., $\{v,v'\}\in M$) and since $v\in T$, there exists an alternating path from $W$ to $r$.
-            Thus path does not contain the matching edge $\{v,v'\}$, so $P\cup\{v,v'\}$ is still an alternating path and if $z$ is a neighbour of $v'$ not yet in the path, then $P\cup\{v,v'\}\cup \{v',z\}$ is as an alternating path that goes from $W$ to $z$.
+            Let $v'\in T'$; then $v'$ has a matched pair $v\in T$ (i.e., $\{v,v'\}\in M$) and since $v\in T$, there exists an alternating path from $W$ to $v$.
+            This path does not contain the matching edge $\{v,v'\}$, so $P\cup\{v,v'\}$ is still an alternating path and if $z$ is a neighbour of $v'$ not yet in the path, then $P\cup\{v,v'\}\cup \{v',z\}$ is as an alternating path that goes from $W$ to $z$.
             Since $z\in T$ by definition, we have $N(T')\subseteq T$.
     \end{enumerate}
     Thus $N(T'\cup W)\subseteq T$.
@@ -664,7 +734,7 @@ We need a few definitions to prove these theorems.
     The \textbf{matching number} $\nu(G)$ of a graph $G$ is the size of the number of edges in a maximum matching.
 \end{definition}
 \begin{definition}
-    The \textbf{(vertex) covering number} $\tau(G)$ of a graph $G$ is the minimum number of vertices that ``cover'' all edges, i.e. has the property that every edge is represented by at least one of them.
+    The \textbf{(vertex) covering number} $\tau(G)$ of a graph $G$ is the minimum number of vertices such that every edge contains a vertex.
 \end{definition}
 Note that $\nu(G)\leq\tau(G)$ since every edge in a matching needs a separate point in a vertex covering.
 Strict inequality can occur; for example any odd cycle.
@@ -681,29 +751,27 @@ This is an example of a ``minimax'' property: if equality holds, then both value
     Thus $\tau(G)\leq |T|+|A\setminus(T'\cup W)|=|M|$ and equality holds.
 \end{proof}
 \subsection{Tutte's Theorem and Applications}
+Let $c_{\text{odd}}$ denotes the number of components with odd size; that is, the number of components with an odd number of vertices.
 \begin{theorem}[Tutte]
     A graph $G$ contains a perfect matching iff for any $S\subseteq V(G)$, we must have $c_{\text{odd}}(G\setminus S)\leq |S|$.
-    $c_{\text{odd}}$ denotes the number of components with odd size.
 \end{theorem}
 \begin{proof}[Lov\'asz]
-    $(\Rightarrow)$ In the odd components, (i.e. components with an odd number of vertices) of $G\setminus S$ at least one vertex must be matched to a vertex in $S$.
+    $(\Rightarrow)$ In each odd component of $G\setminus S$ at least one vertex must be matched to a vertex in $S$.
     Thus $|S|$ cannot be smaller than the number of such components, which is $c_{\text{odd}}(G\setminus S)$.
 
     $(\Leftarrow)$ Assume the statement is false and let $G_0$ be a counterexample.
-    Saturate $G_0$: add edges until impossible without creating a perfect matching.
-    We must show that we cannot increase the number of odd components by adding edges.
+    Saturate $G_0$: add a maximal number of edges without creating a perfect matching.
     If the edge joins two even components, then we get a new even component; or two odd components, and we have a new even component; or an even and an odd component, and we have a new odd component.
-    In any case, the number of odd components stays the same and the graph remains a counterexample.
-    Let the saturated graph be denoted by $G$.
+    In any case, the number of odd components stays the same and the graph still satisfies the condition.
+    Denote the saturated graph by $G$.
 
-    It is sufficient to prove that deleting the points of $G$ that are connected to all other vertex, the remaining graph is the union of vertex disjoint graphs.
-    Suppose this is true: then in $G\setminus S$ (where $S:=\{v\in V(G):\{u,v\}\in E(G)\forall u\in V(G),u\neq v\}$), we can create a perfect matching within each even component and every vertex except one in the odd components (since the components are complete).
+    First suppose that deleting the points of $G$ that are connected to all other vertices results in a union of vertex disjoint complete graphs.
+    Suppose this is true: then in $G\setminus S$ (where $S:=\{v\in V(G):\{u,v\}\in E(G)\forall u\in V(G)\setminus\{v\}\}$), we can create a perfect matching within each even component and every vertex except one in the odd components (since the components are complete).
     We can then pair these components arbitrarily in $S$, since $S$ is connected to everything.
     Then there must be only an even number of vertices in $S$ remaining, or $G$ violates the condition with $S=\emptyset$; and these vertices are mutually connected.
 
-    Thus assume this claim is not true.
-    Then there exist vertices $a,b,c\in V(G)$ inducing a path on $3$ vertices.
-    Also, $c\notin S$.
+    Now assume not.
+    Then there exist vertices $a,b,c\in V(G)$ with $c\notin S$ and $\{a,b\}\notin E(G)$ inducing a path on $3$ vertices.
     Thus we have some $d\in V(G)$ so that $\{c,d\}\notin E(G)$.
     \begin{center}
         \begin{tikzpicture}[
@@ -1054,4 +1122,75 @@ Note that we do not require that $F$ is simple.
     But then if $F$ is not $d-$regular, there must be some vertex in $A$ and a vertex in $B$ with degree less than $d$.
     Join them, and repeat this until we are done.
 \end{proof}
+\subsection{Galvin's Theorem}
+We are now in a position to prove Galvin's Theorem.
+\begin{definition}
+    Let $G$ be a digraph.
+    A subset $U\subseteq V(G)$ is called a \textbf{kernel} if the following conditions are satisfied:
+    \begin{enumerate}[nolistsep]
+        \item $U$ is an independent set
+        \item For every $v\in V(G)\setminus U$, there exists $u\in U$ so that $(v,u)\in E(G)$.
+    \end{enumerate}
+\end{definition}
+\begin{lemma}
+    Let $G$ be a graph with a list of available colors $L(v)$ assigned to every vertex $v\in V(G)$.
+    If $G$ has an orientation satisfying the following two conditions, then $G$ is properly list colorable from the given lists.
+    \begin{enumerate}[nolistsep]
+        \item For all $v\in V(G)$, $|L(v)|\geq d_+(v)+1$.
+        \item Every subgraph of our oriented $G$ has a kernel.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Consider all vertices that have color 1 in their list and label them $Y_1$.
+    The subgraph induced by $Y_1$ (in the oriented version of $G$) contains a kernel $U_1$.
+    Colour vertices in $U_1$ with colour 1 and delete them and delete color 1 from every list of the remaining vertices.
+
+    Now for the remaining points, both conditions still hold.
+    Condition 1 holds since either $L(v)$ remained the same or decreased by 1 color.
+    In the latter case, since $U_1$ is a kernel, $v$ must have at least 1 edge sent to $U_1$, so $d_+(v)$ is at least 1 smaller.
+    Condition 2 also holds since the induced subgraphs are induced subgraphs of $G$.
+    As well, our colouring so far is proper, and we will never violate the colouring later since we deleted colour 1 from all other vertices.
+
+    Now repeat this construction for all the colours in all the lists.
+    We will never have isolated vertices since $|L(v)|\geq d_+(v)+1$.
+    Eventually, the entire graph is colored: any vertex having only 1 color on its list already at some state of the process must have $d_+(v)=0$ by condition 2, so when its only colour is considered, it will be a member of the corresponding kernel and thus become coloured with its only available colour.
+\end{proof}
+Let's restate Galvin's theorem here.
+\begin{theorem}[Galvin]
+    If $F$ is bipartite and $G=L(F)$, then $\ch(G)=\chi(G)$.
+\end{theorem}
+\begin{center}
+    \begin{tikzpicture}[scale=2]
+        \node[vtx] (a1) at (0,2){};
+        \node[vtx] (a2) at (0,1){};
+        \node[vtx] (a3) at (0,0){};
+        \node[vtx] (b1) at (2,2){};
+        \node[vtx] (b2) at (2,1){};
+        \node[vtx] (b3) at (2,0){};
+
+        \draw (a1) -- node[fill=white]{1}(b1);
+        \draw (a1) -- node[fill=white]{3}(b2);
+        \draw (a1) -- node[fill=white]{2}(b3);
+        \draw (b3) -- node[fill=white]{1}(a2);
+        \draw (b3) -- node[fill=white]{3}(a3);
+    \end{tikzpicture}
+\end{center}
+\begin{proof}[Galvin 1995]
+    Consider an optimal colouring of $G=L(F)$, i.e. the edges of $F$ with colour $1,2,\ldots,\chi(G)[=\chi_e(F)=\Delta(F)]$.
+    We create the following orientation of $G$: for $e,f\in V(G)=E(F)$ with $e\cap f\neq\emptyset$, orient the edge $\{e,f\}\in E(G)$ as $(e,f)$ if either $e\cap f\in A$ and $c(f)<c(f)$ or $e\cap f\in B$ and $c(f)<c(e)$.
+    By the Lemma, it suffices to show that the two conditions hold for this orientation and lists of size $\chi(G)$.
+
+    To see condition 1 of the lemma, consider $e\in E(F)=V(G)$.
+    Then $d_+(e)\leq\chi(G)-c(e)+c(e)-1=\chi(G)-1=|L(e)|-1$.
+
+    To see condition 2, consider the linear order consistent with our orientation at every vertex $v\in V(G)$ as a preference list of the neighbours of $v$ in $F$, and realize that a stable matching is the equivalent to a kernel in the oriented $G$.
+    Since every induced subgraph of $G$ belongs to a subgraph of $F$, which is certainly bipartite, we have a stable matching by Gale-Shapley, our induced subgraph will have a kernel.
+\end{proof}
+\section{Planarity}
+In order to transition to the notion of planarity, let's talk about the 4-colour theorem.
+\begin{definition}
+    A graph is called \textbf{planar} if it can be drawn on the plane such that edges do not cross.
+\end{definition}
+A graph is planar if and only if it can be drawn on the sphere $S_2$ without edge crossings.
+This follows by the stereographic projection.
 \end{document}
