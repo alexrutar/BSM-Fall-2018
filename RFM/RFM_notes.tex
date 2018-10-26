@@ -1275,7 +1275,7 @@ Fix the notation as above.
     Fix $K=\supp f$, let $\epsilon>0$ be arbitrary.
     Let $0=c_0<c_1<c_2<\cdots<c_n=1$ with $c_k-c_{k-1}<\epsilon$ for all $k$ and $\mu(f^{-1}(c_k))=0$ for all $k=1,\ldots,n-1$.
     The existence of such a set follows from Assignment 6.
-    Let $K_j=K\cap f^{-1}([c_{j-1},c_j])$ for $j=1,2,\ldots,n$ and $L_j=K\cap f^{-1}([c_{j-1},c_j))$ for $j=1,2,\ldots,n-1$.
+    Let $K_j=K\cap f^{-1}([c_{j-1},c_j])$ for $j=1,2,\ldots,n$ and $L_j=K\cap f^{-1}([c_{j-1},c_j))$ for $j=1,2,\ldots,n-1$. %]
     To $K_j$ and $\epsilon$, there exists $G_j\supset K_j$ such that $\mu(G_j)\leq\mu(K_j)+\frac{\epsilon}{2^j}$.
     By Urysohn's lemma, get $h_j$ so that $K_h\prec h_j\prec G_j$, so $f\leq\sum\limits_{j=1}^nc_j h_j$ since for $x\notin\supp f=K$, $f=0$, and otherwise, there exists $j$ so that $x\in K_j$ implies $h_j=1$ and $f(x)\leq c_j=c_jh_j(x)\leq\sum\limits c_ih_i$.
     Then
@@ -1290,4 +1290,93 @@ Fix the notation as above.
                                           &\leq \int_X f\d{\mu}+\epsilon(1+\mu(K))
     \end{align*}
     for any $\epsilon>0$, and we are done!
+\end{proof}
+\section{Regularity Properties of Borel Measures}
+We have the Riesz representation theorem in a locally compact Hausdorff space.
+Our aim is to intruduce the Lebesgue measure in $\R^k$ which respects translation as well.
+\begin{definition}
+    A measure defined on the family of Borel sets is called a \textbf{Borel measure}.
+\end{definition}
+\begin{definition}
+    Let $\mu:\mathcal{B}\to[0,+\infty]$ be a Borel measure.
+    \begin{enumerate}[nolistsep]
+        \item $E$ is called \textbf{outer regular} if $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$.
+        \item $E$ is called \textbf{inner regular} if $\mu(E)=\sup\{\mu(K):K\subset E,K\text{ compact}\}$
+        \item $\mu$ is called \textbf{regular} if every $E\in\mathcal{B}$ is inner and outer regular.
+    \end{enumerate}
+\end{definition}
+\begin{definition}
+    A set $E\subset X$ is called \textbf{$\sigma-$compact} if $E=\bigcup\limits_{n=1}^\infty E_n$, for $E_n$ compact.
+\end{definition}
+\begin{definition}
+    A $G_\delta$ set is one of the form $\bigcap\limits_{n=1}^\infty A_n$ with $A_n$ open, and a $F_\sigma$ set is one of the form $\bigcup\limits_{n=1}^\infty B_n$ for $B_n$ closed.
+\end{definition}
+\begin{theorem}
+    Let $X$ be a locally compact, $\sigma-$compact Hausdorff space.
+    Let $\mathcal{M}\supset\mathcal{B}$ be a $\sigma-$algebra, $\mu:\mathcal{M}\to[0,+\infty]$ be a measure such that
+    \begin{enumerate}[nolistsep,label=(\roman*)]
+        \item $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$
+        \item $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$, $\mu(E)<\infty$
+        \item $\mu(K)<\infty$ for $K$ compact.
+    \end{enumerate}
+    Then
+    \begin{enumerate}[nolistsep]
+        \item For all $E\in\mathcal{M}$ and $\epsilon>0$, there exists $F$ closed and $G$ open so that $F\subset E\subset G$ and $\mu(G\setminus F)<\infty$.
+        \item $\mu$ is regular
+        \item For all $E\in\mathcal{M}$, there exists a $F_\sigma$ set $A$ and a $G_\delta$ set $B$ so $A\subset E\subset B$ and $\mu(B\setminus A)=0$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Since $X$ is $\sigma-$compact, $X=\bigcup\limits_{n=1}^\infty K_n$, $K_n$ compact.
+    \begin{enumerate}
+        \item By (iii), we have $\mu(K_n\cap E)<\infty$.
+            Thus by (i), get $G_n$ open so that $G_n\supset K_n\cap E$ with $\mu(G_n\setminus(K_n\cap E))<\frac{\epsilon}{2^{n+1}}$.
+            Let $G=\bigcup\limits_{n=1}^\infty G_n$ be open, so that $G\setminus E\subset\bigcup(G_n\setminus(K_n\cap E))$ and $\mu(G\setminus U)<\frac{\epsilon}{2}$.
+            Repeat this for $E^c$: get an open set $H$ such that $\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
+            Then $F=H^c\subse E$ satisfies $\mu(E\setminus F)=\mu(F^c\setminus E^c)=\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
+            Then $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
+            Then $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
+        \item $E$ is outer regular by (i).
+            If $\mu<\infty$, then $E$ is inner regular by (ii).
+            If $\mu(E)=\infty$, let $F\subset E$ be given by 1.
+            Then $\mu(F)=+\infty$, or $\mu(E)$ would be finite.
+            Let $H_n=\bigcup\limits_{k=1}^n(F\cap K_k)$ compact, $H_n\subset F$.
+            Then $\bigcup\limits_{n=1}^\infty H_n=F$, and $\mu(H_n)\to\mu(F)=\infty$.
+            Thus $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$.
+        \item Apply 1 wih $\epsilon=1/j$ for $j\in\N$.
+            Then there exists $F_j\subset E\subset G_j$ so $\mu(G_j\setminus F_j)<\frac{1}{j}$.
+            Let $A=\bigcup\limits_{j=1}^\infty F_j$ and $B=\bigcap\limits_{j=1}^\infty G_j$.
+            Then $A\subset E\subset B$ and $\mu(B\setminus A)\leq\mu(G_j\setminus F_j)<\frac{1}{j}$, so $\mu(B\setminus A)=0$.
+    \end{enumerate}
+\end{proof}
+\begin{theorem}
+    Let $X$ be locally compact and Hausdorff, and assume that every open set is $\sigma-$compact.
+    Let $\lambda:\mathcal{B}\to[0,\infty]$ be a Borel measure such that $\lambda(K)<\infty$.
+    Then $\lambda$ is regular.
+\end{theorem}
+\begin{proof}
+    Let $\Lambda f=\int_X f\d{\lambda}$.
+    Then $\Lambda:C_c(X)\to\C$ is a positive linear functional.
+    By the Riesz representation theorem, there exists $\mu:\mathcal{M}\to[0,\infty]$ such that $\int_Xf\d{\mu}=\Lambda f=\int_Xf\d{\lambda}$.
+    We see that $\lambda=\mu$ on $\mathcal{B}$.
+    We first prove this for open sets.
+    Let $G\in\tau$; then there exists $K_n$ so $G=\bigcup\limits_{n=1}^\infty K_n$.
+    By Urysohn's lemma, there exists $f_i$ such that $K_i\prec f_i\prec G$.
+    Let $g_n=\max\{f_1,f_2,\ldots,f_n\}$, so $g_n\in C_c(X)$, and $g_n\to\chi_G$ pointwise.
+    But then
+    \begin{align*}
+        \lambda(G) &= \int_X\chi_G\d{\lambda}\\
+                   &= \int_X\lim_{n\to\infty}g_n\d{\lambda}\\
+                   &= \lim_{n\to\infty}\int_X g_n\d{\lambda}\\
+                   &= \lim_{n\to\infty}\int_X g_n\d{\mu}\\
+                   &= \int_X\lim_{n\to\infty}g_n\d{\mu}\\
+                   &= \int_X\chi_G\d{\mu}\\
+                   &=\mu(G)
+    \end{align*}
+
+    Now for any $E\in\mathcal{B}$, apply (i).
+    Then $F\subset E\subset G$, $\mu(G\setminus F)<\epsilon$.
+    Since $G\setminus F$ is open, $\lambda(G\setminus F)=\mu(G\setminus F)<\epsilon$ so $\lambda(G)\leq\lambda(E)+\epsilon$.
+    Thus $|\mu(E)-\lambda(E)|<\epsilon$ for all $\epsilon>0$ so $\lambda(E)=\mu(E)$.
+\end{proof}
 \end{document}

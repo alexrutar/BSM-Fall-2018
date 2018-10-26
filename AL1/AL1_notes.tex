@@ -444,7 +444,52 @@ Thus $\{Hx:x\in G\}$ with the operation $HxHy=Hxy$ is a group, called the factor
         H4&H4&H7&H&H2\\
         H7&H7&H&H2&H4
     \end{tabular}
-
+\end{example}
+\begin{proposition}
+    \begin{enumerate}
+        \item Index 2 subgroups are normal.
+        \item Any subgroup of a commutative group is normal.
+        \item Any subgroup of the center is normal.
+        \item If $H\leq G$, $|H|=K$ and $H$ is the only subgroup of $G$ of size $K$, then $H\triangleleft G$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item If $H\leq G$ with $[G:H]=2$, we know $g^2\in H$ for all $g\in G$.
+            Then for $h\in H$, $x\in G$, $x^{-1}hx=x^{-2}xhxhh^{-1}=(x^{-1})^2(xh)^2h^{-1}\in H$.
+        \item If $H\leq G$, $G$ commutative, if $h\in H$ and $x\in G$, then $hx=xh$ and $x^{-1}hx=h\in H$.
+        \item Elements of the center commute with everything.
+        \item For any $x\in G$, $x^{-1}Hx\leq G$ and $|x^{-1}Hx|=|H|$ so $x^{-1}Hx=H$
+    \end{enumerate}
+\end{proof}
+\subsection{Group Homomorphisms}
+\begin{definition}
+    A map $\alpha:G\to H$ is called a \textbf{homomorphism} (of groups) iff $\alpha(xy)=\alpha(x)\alpha(y)$ for every $x,y\in G$.
+\end{definition}
+Homomorphisms are isomorphisms that are not (necessarily) bijective.
+\begin{example}
+    \begin{enumerate}
+        \item The identity map ($g\mapsto g$), the constant identity map ($g\mapsto 1$).
+        \item The map $\alpha:\C^\times\to\R^\times$ given by $z\mapsto|z|$.
+        \item The map $\alpha:\GL_n(\R)\to\R^\times$ by $A\mapsto\det(A)$, since $\det(AB)=\det(A)\det(B)$.
+        \item If $H\triangleleft G$, the map $\alpha:G\to G/H$ by $x\mapsto Hx$.
+    \end{enumerate}
+\end{example}
+For a homomorphism $\alpha:G\to H$ of groups, we have the following properties.
+\begin{proposition}
+    \begin{enumerate}
+        \item $\alpha(1_G)=1_H$
+        \item $\alpha(g^{-1})=\alpha(g)^{-1}$
+        \item $\alpha(g^k)=\alpha(g)^k$ for any $k\in\Z$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item $1_H\alpha(1_G)=\alpha(1_G)=\alpha(1_G1_G)=\alpha(1_G)\alpha(1_G)$
+        \item $\alpha(g)\alpha(g^{-1})=\alpha(gg^{-1})=\alpha(1_G)=1_H$, so they are inverses.
+        \item Follows directly by above and induction.
+    \end{enumerate}
+\end{proof}
 \section{Examples of Finite Groups}
 \subsection{Cyclic Groups}
 \begin{definition}
@@ -629,6 +674,7 @@ This is certainly not unique: for example $(26)=(21)(16)(21)$.
             Thus $A_n(12)=A_nf$, so there are only two cosets of $A_n$: $A_n$ and $A_n(12)$, and the result follows by Lagrange's Theorem.
     \end{enumerate}
 \end{proof}
+As well, we also have $A_n\triangleleft S_n$, and $S_n/A_n\cong C_2$.
 \subsubsection{Centralizers of Permutation Groups}
 \begin{example}
     Consider $g=(12)(34)\in S_4$.

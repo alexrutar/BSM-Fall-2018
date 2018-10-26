@@ -1322,5 +1322,79 @@ As well,
 \end{definition}
 Let $X$ be an arbitrary random variable with $\mu=\E(X)$ and $\sigma^2=\Var(X)$.
 Then $Y=(X-\mu)/\sigma$ is standard.
+In particular, $Z$ is standard normal if $f_Z(x)=f(x)+\frac{1}{\sqrt{2\pi}}e^{-x^2/2}$ and $F_Z(x)=\Phi(x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^x e^{-t^2/2}\d{t}$.
+\begin{definition}
+    Let $\mu\in\R$, $\sigma>0$ be fixed parameters.
+    Then $X\sim\mathcal{N}(\mu,\sigma^2)$ if $X=\sigma Z+\mu$, with $Z\sim\mathcal{N}(0,1)$.
+\end{definition}
+\begin{example}
+    The amount of beer in a class is normally distributed with expected value 0.5l with standard deviation 3cl.
+    What is the chance that you get less than 4.5dl?
+\end{example}
+\begin{solution}
+    Let's use dl everywhere.
+    We have $X\sim\mathcal{N}(5,0.09)$ since $\sigma=0.3$.
+    Then
+    \[\Pr(X\leq 4.5)=\Pr\left(\frac{X-\mu}{\sigma}\leq\frac{4.5-5}{0.3}\right)=\Phi(-1.66)=1-\Phi(1.66)\approx 0.0485\]
+\end{solution}
+\begin{theorem}[deMoivre-Laplace]
+    Let $X\sim\Binom(n,p)$ with $p$ fixed and $n\to\infty$ and fix $a<b$.
+    Then
+    \[\Pr\left(a<\frac{X-np}{\sqrt{np(1-p)}}\leq b\right)\underset{n\to\infty}{\longrightarrow}\Phi(b)-\Phi(a)\]
+\end{theorem}
+\begin{proof}[Stirling's Formula]
+    For any $k\geq 1$,
+    \[0\leq\int_k^{k+1}\ln(x)\d{x}-\frac{\ln k+\ln(k+1)}{2}\leq\frac{1}{k^2}\]
+    which follows by the Lagrange remainder.
+    We then have
+    \[0\leq\int_1^N\ln(x)\d{x}-\sum\limits_{k=1}^{N-1}\frac{\ln k+\ln(k+1)}{2}\leq\sum\limits_{k=1}^{N-1}\frac{1}{k^2}\]
+    where $\int_1^N\ln x\d{x}=N\ln N-N+1$.
+    As well,
+    \begin{align*}
+        \sum\limits_{k=1}^{N-1}\frac{\ln k+\ln(k+1)}{2} = \ln(N!)-\ln(\sqrt{N})
+    \end{align*}
+    so $\ln(N^N)-\ln(e^N)-\ln(N!)+\ln(\sqrt{N})\to C$ as $N$ goes to infinity.
+\end{proof}
+\begin{example}
+    Flip a coin 40 times.
+    What is the probability that there are 20 heads?
+    
+    We have $X\sim\Binom(40,1/2)$, $\E(X)=20$ and $\Var(X)=10$.
+    Then
+    \begin{align*}
+        \Pr(X=20) &= \Pr(19.5<X\leq 20.5)\\
+                  &= \Pr\left(\frac{19.5-20}{\sqrt{10}}<\frac{X-20}{\sqrt{10}}\leq\frac{20.5-20}{\sqrt{10}}\right)\\
+                  &= \Pr\left(\frac{-0.5}{\sqrt{10}}<Z\leq\frac{0.5}{\sqrt{10}}\right)\\
+                  &= 2\Phi\left(\frac{0.5}{\sqrt{10}}\right)-1\\
+                  &= 0.1272
+    \end{align*}
+    and the true value is approximately $0.1254$.
+\end{example}
+\begin{example}
+    There is a class with 400 students.
+    Every student shows up at the lecture with 0.6 chance.
+    How many seats are needed to ensure that everybody who shows up can sit down with 99\% chance?
+
+    Let $X$ denote the number of students who show up, so $X\sim\Binom(400,0.6)$.
+    Then $\E(X)=240$ and $\sigma(X)=\sqrt{400\cdot 0.6\cdot 0.4}=\sqrt{96}$.
+    We want
+    \[0.99\leq\Pr(X\leq a)=\Pr\left(\frac{X-240}{9.8}\leq\frac{9-240}{9.8}\right)=\Phi\left(\frac{a-240}{9.8}\right)\]
+    and since $\Phi(2.33)\approx 0.9901$, we want $a-240\geq2.33\cdot 9.8$ and $a\geq\approx 2.63$.
+\end{example}
+\begin{example}
+    How many times does a fair coin have to be flipped to ensure that the proportion of heads is between 0.49 and 0.51 with 95\% chance?
+
+    Let $X$ denote the number of heads, with $X\sim\Binom(n,1/2)$.
+    We want
+    \begin{align*}
+        0.95&\leq\Pr(0.49<X/n\leq 0.51)\\
+            &=\Pr(0.49n\leq X\leq 0.51n)\
+            &= \Pr\left(\frac{0.49n-0.51n}{\sqrt{n}/2}\leq\frac{X-n/2}{\sqrt{n}/2}\leq\frac{0.01n}{\sqrt{n}/2}\right)\\
+            &= \Phi(0.02\sqrt{n})-(1-\Phi(0.02\sqrt{n}))
+    \end{align*}
+    i.e. $\Phi(1.96)\approx 0.975\leq\Phi(0.02\sqrt{n})$, in other words that $1.96\leq 0.02\sqrt{n}$ and $n\geq 9604$.
+\end{example}
+\[0.96\leq \Pr\left(\left\lvert\frac{X}{n}-p\right\rvert\leq 0.02\right)=\cdots\]
+will get $Cp(1-p)\leq n$, and this holds for $C/4\leq n$.
 
 \end{document}

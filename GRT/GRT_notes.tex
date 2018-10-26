@@ -764,15 +764,26 @@ Let $c_{\text{odd}}$ denotes the number of components with odd size; that is, th
     If the edge joins two even components, then we get a new even component; or two odd components, and we have a new even component; or an even and an odd component, and we have a new odd component.
     In any case, the number of odd components stays the same and the graph still satisfies the condition.
     Denote the saturated graph by $G$.
+    As well, define $S:=\{v\in V(G):\{u,v\}\in E(G)\forall u\in V(G)\setminus\{v\}\}$ to be the set of vertices connected to every other vertex.
 
-    First suppose that deleting the points of $G$ that are connected to all other vertices results in a union of vertex disjoint complete graphs.
-    Suppose this is true: then in $G\setminus S$ (where $S:=\{v\in V(G):\{u,v\}\in E(G)\forall u\in V(G)\setminus\{v\}\}$), we can create a perfect matching within each even component and every vertex except one in the odd components (since the components are complete).
+    First assume that $G\setminus S$ results in a union of vertex disjoint complete graphs.
+    Then in $G\setminus S$ , we can create a perfect matching within each even component and every vertex except one in the odd components (since the components are complete).
     We can then pair these components arbitrarily in $S$, since $S$ is connected to everything.
     Then there must be only an even number of vertices in $S$ remaining, or $G$ violates the condition with $S=\emptyset$; and these vertices are mutually connected.
 
     Now assume not.
-    Then there exist vertices $a,b,c\in V(G)$ with $c\notin S$ and $\{a,b\}\notin E(G)$ inducing a path on $3$ vertices.
+    Then there is some component that is not complete and get $a,a'$ with $\{a,a'\}\notin E(G)$.
+    Now consider a shortest path from $a$ to $a'$ within the component, and let $a,c,b$ denote the first three vertices in the path.
+    Then $c\notin S$ and $\{a,b\}\notin E(G)$.
     Thus we have some $d\in V(G)$ so that $\{c,d\}\notin E(G)$.
+    Since $G$ is saturated, there exists a perfect matching $M_1$ in $G\cup\{\{a,b\}\}$ and $M_2$ in $G\cup\{\{c,d\}\}$.
+    Start a walk from $d$ along alternating edges in $M_1$ and $M_2$.
+    Let $P$ be a longest such path.
+    Then $P$ can end only in $a$, $b$, or $c$: since the matching is perfect, every other vertex has an edge in each matching, and we can never return to an earlier vertex in the path.
+    Then there are two cases.
+
+    The matching $M_1$ is drawn with squiggles, and the matching $M_2$ is drawn with dashes.
+    The additional edges are drawn in red.
     \begin{center}
         \begin{tikzpicture}[
                 scale=3,
@@ -790,23 +801,44 @@ Let $c_{\text{odd}}$ denotes the number of components with odd size; that is, th
             \node[vtx] (j) at (0,0.75){};
 
             \draw[thick] (a) -- (c) -- (b);
-            \draw[thick,dashed] (a) -- (b);
-            \draw[thick,dashed] (c) -- (d);
-            \draw[thick] (d) -- node[above right]{\small$\in M_1$}(e);
-            \draw[thick,sqg] (e) -- node[below right]{\small$\in M_2$}(f);
-            \draw[thick] (f) -- node[below]{\small$\in M_1$}(g);
-            \draw[thick,sqg] (g) -- node[below]{\small$\in M_2$}(h);
-            \draw[thick] (h) -- node[below left]{\small$\in M_1$}(i);
-            \draw[thick,sqg] (i) -- node[above left]{\small$\in M_2$}(j);
-            \draw[thick] (j) -- node[above]{\small$\in M_1$}(c);
+            \draw[thick,sqg,red] (a) -- node[below]{}(b);
+            \draw[thick,dashed,red] (c) -- node[below]{}(d);
+            \draw[thick,sqg] (d) -- node[above right]{}(e);
+            \draw[thick,dashed] (e) -- node[below right]{}(f);
+            \draw[thick,sqg] (f) -- node[below]{}(g);
+            \draw[thick,dashed] (g) -- node[below]{}(h);
+            \draw[thick,sqg] (h) -- node[below left]{}(i);
+            \draw[thick,dashed] (i) -- node[above left]{}(j);
+            \draw[thick,sqg] (j) -- node[above]{}(c);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tikzpicture}[
+                scale=3,
+                sqg/.style={decorate, decoration={snake, amplitude=1.1}}
+            ]
+            \node[vtx,label=below:{$a$}] (a) at (0,0){};
+            \node[vtx,label=below:{$b$}] (b) at (1,0){};
+            \node[vtx,label=above:{$c$}] (c) at (0.5,0.75){};
+            \node[vtx,label=above:{$d$}] (d) at (1,0.75){};
+            \node[vtx] (e) at (1.5,0){};
+            \node[vtx] (f) at (1,-0.75){};
+            \node[vtx] (g) at (0.5,-0.75){};
+            \node[vtx] (h) at (0,-0.75){};
+            \node[vtx] (i) at (-0.5,0){};
+
+            \draw[thick] (a) -- (c) -- (b);
+            \draw[thick,sqg,red] (a) -- (b);
+            \draw[thick,dashed,red] (c) -- (d);
+            \draw[thick,sqg] (d) -- node[above right]{}(e);
+            \draw[thick,dashed] (e) -- node[below right]{}(f);
+            \draw[thick,sqg] (f) -- node[below]{}(g);
+            \draw[thick,dashed] (g) -- node[below]{}(h);
+            \draw[thick,sqg] (h) -- node[below left]{}(i);
+            \draw[thick,dashed] (i) -- node[above left]{}(a);
         \end{tikzpicture}
     \end{center}
-    Since $G$ is saturated, there exists a perfect matching $M_1$ in $G\cup\{\{a,b\}\}$ and $M_2$ in $G\cup\{\{c,d\}\}$.
-    Start a walk from $d$ along alternating edges in $M_1$ and $M_2$.
-    Let $P$ be a longest such path.
-    Then $P$ can end only in $a$, $b$, or $c$.
 
-    First consider that we end in $c$.
+    Suppose we end in $c$.
     Then the edge set $M_2\setminus P\cup(M_1\cap P)$ forms a perfect matching.
     If $P$ ends in $a$ or $b$, then without loss of generality we may assume it ends in $a$.
     Now consider the cycle $C=P\cup\{a,c\}\cup\{c,d\}$.
@@ -818,7 +850,7 @@ Let $c_{\text{odd}}$ denotes the number of components with odd size; that is, th
     Let $G$ be a graph with a linear order of the neighbours of $v\in V(G)$ for every $v\in V(G)$ (these are called \textbf{preference lists}).
     A matching $M\subseteq E(G)$ is said to be \textbf{stable} with respect to these preference lists if there exists no edge in $e\in E(G)\setminus M$, $e=\{a,b\}$, such that both $a$ and $b$ prefer each other more than it current pair according to $M$.
 \end{definition}
-A stable matching may not exist: for example, cyclic preferences in $K_3$
+A stable matching may not exist: for example, cyclic preferences in $K_3$ (see below).
 As well, a stable matching may not be a maximum matching (though it must be maximal).
 \begin{center}
     \begin{tikzpicture}[scale=3]
@@ -845,16 +877,14 @@ As well, a stable matching may not be a maximum matching (though it must be maxi
 \begin{proof}
     We give an algorithm that produces a stable matching.
     It works in rounds.
-
     During the first round, each $b\in B$ ``offers'' a pairing to the neighbour that is first on their preference list.
     Then each $w\in W$ chooses the neighbour that is highest on their preference list, offers a wait to that neighbour, and denies all other offers.
-
     During the second round, each $b\in B$ who got an answer of ``wait'' will do nothing, and those who got denied make an offer to the second on their preference list.
     Now for each $w\in W$, do as in round 1: say ``wait'' for the best, and ``no'' to the others.
 
     Repeat this process until there are no more new offers made.
-    Clearly, this is a matching, so it suffices to show it is stable.
-    It is also stable: eupose there is an $e\in E(G)\setminus M$ where $M$ is the matching obtained.
+    Clearly, this is a matching, so we show that it is stable as well.
+    To see this, let $e\in E(G)\setminus M$ where $M$ is the matching obtained.
     There can be two reasons $e=\{b,w\}\notin M$:
     \begin{enumerate}[nolistsep]
         \item $b$ never offered to $w$, but then it is because $b$ got accepted by someone he prefers.
@@ -863,6 +893,7 @@ As well, a stable matching may not be a maximum matching (though it must be maxi
             But then this happens because $w$ got a better offer (according to her preference list), so she has a better partner.
             Thus $e$ is not a ``destabalizing'' edge.
     \end{enumerate}
+    Thus the matching is stable.
 \end{proof}
 Interestingly, this leads to an optimal matching for the set $B$, but not for the set $W$.
 For example:
@@ -886,7 +917,7 @@ Both the red and blue matchings are stable, but the red matching favours $B$, wh
 We will get the full Canadian\textsuperscript{TM} experience and spell ``colour'' properly throughout.
 \subsection{Vertex Colourings}
 \begin{definition}
-    A \textbf{proper coloring} of a graph is a function $c:V(G)\to\N$ such that, for any $\{u,v\}\in E(G)$, $c(u)\neq c(v)$.
+    A \textbf{proper colouring} of a graph is a function $c:V(G)\to S$ (a set of ``available colours'') such that, for any $\{u,v\}\in E(G)$, $c(u)\neq c(v)$.
 \end{definition}
 \begin{definition}
     The minimum number of colours needed for a proper colouring of $G$ is called the \textbf{chromatic number} $\chi(G)$ of $G$.
@@ -897,18 +928,12 @@ We will get the full Canadian\textsuperscript{TM} experience and spell ``colour'
 \begin{remark}
     A graph is bipartite if and only if $\chi(G)=2$.
 \end{remark}
+Recall that $\Delta(G)$ and $\delta(G)$ denote the largest and smallest degree elements, respectively.
 We certainly have $\chi(G)\leq\Delta(G)+1$ by choosing colours greedily.
 However, greedy colourings certainly do not yield optimal colourings.
-For example, consider $K_{n,n}-nK_2$.
 We can refine this argument so that $\chi(G)\leq\max\{\delta(F):F\subseteq G\}+1$.
 We also have $\chi(G)\geq\omega(G)$.
 It is possible that $\chi(G)>\omega(G)$; for example, in the 5-cycle.
-Here are some options:
-\begin{enumerate}
-    \item For all $G$, $\chi(G)\leq\omega(G)+1$.
-    \item Not 1, but there exists $f:\N\to\N$ so that for all $G$, $\chi(G)\leq f(\omega(G))$.
-    \item Perhaps there exists no such function.
-\end{enumerate}
 \begin{theorem}
     For all $k\in\N$, there exists $G_k$ such that $\omega(G_k)=2$ and $\chi(G_k)=k$.
 \end{theorem}
@@ -972,13 +997,16 @@ Here are some options:
     Now we show that $\chi(M_{k+1})=\chi(M_k)+1=k+1$.
     We certainly have $\chi(M_{k+1})\leq k+1$ by colouring every vertex in $U$ by a new colour, and the new vertex any of the original colours.
     Furthermore, $\chi(M_k)\geq k+1$.
-    Consider the modified colouring of the ``$M_k-$part'' of $M_{k+1}$ as follows.
+    Suppose for contradiction we have a $k-$colouring of $M_{k+1}$.
+    We then get a colouring of the ``$M_k-$part'' of $M_{k+1}$ as follows.
     \[c'(v_i) =
         \begin{cases}
             c(v_i)&:c(v_i)\neq c(z)\\
             c(u_i)&:c(v_i)= c(z)\\
         \end{cases}
     \]
+    We see that this is a valid colouring, so let $\{v_i,v_j\}\in E(M_k)$ so that $\{u_i,v_j\}\in E(M_{k+1})$.
+
     If $\{v_i,v_j\}\in E(M_k)$, then $\{u_i,v_j\}\in E(M_{k+1})$ so that $c'(v_i)\neq c'(v_j)$.
     If $c(v_i)\neq c(z)\neq c(v_j)$, $c'(v_i)=c(v_i)\neq c(v_j)=c'(v_j)$.
     If $c(v_i)=c(z)=c(u_i)$, then $\{v_i,v_j\}\notin M$.
@@ -995,18 +1023,20 @@ A stronger result was proven by Erd\"os using the ``probabilistic method''.
 \end{definition}
 \subsection{Edge Colourings}
 \begin{definition}
-    A \textbf{proper edge colouring} of a graph $G$ is a function $f:E(G)\to\N$ such that if $e,e'\in E(G)$ and $e\cap e'\neq\emptyset$, then $f(e)\neq f(e')$.
-    The minimum number of colours needed for a proper edge colouring of $G$ is the edge chromatic number $\chi_e(G)$ or $\chi'(G)$.
+    A \textbf{proper edge colouring} of a graph $G$ is a function $f:E(G)\to S$ such that if $e,e'\in E(G)$ and $e\cap e'\neq\emptyset$, then $f(e)\neq f(e')$.
+    The minimum number of colours needed for a proper edge colouring of $G$ is the \textbf{edge chromatic number} $\chi_e(G)$ or $\chi'(G)$.
 \end{definition}
 We certainly have $\chi_e(G)\geq\Delta(G)$.
-However, $3=\chi_E(C_{2k+1})>\Delta(C_{2k+1})=2$.
-In fact, we have the following strong statements:
+Furthermore, $3=\chi_E(C_{2k+1})>\Delta(C_{2k+1})=2$, so this inequality can hold strictly.
+However, it turns out that this is the worst case scenario, as described in the following theorem:
 \begin{theorem}[Vizing]
     For any finite simple $G$, $\Delta(G)\leq\chi_e(G)\leq\Delta(G)+1$.
 \end{theorem}
+We also have the following theorem (which we will not prove).
 \begin{theorem}[Shannon]
     For any finite $G$ (perhaps with parallel edges), $\chi_e(G)\leq\frac{3}{2}\Delta(G)$.
 \end{theorem}
+Before we prove Vizing's theorem, consider the following construction.
 \begin{definition}
     For a graph $G$, its \textbf{line graph} $L(G)$ is defined as follows:
     \begin{align*}
@@ -1014,11 +1044,13 @@ In fact, we have the following strong statements:
         E(L(G)) &= \{ \{e,e'\}:e,e'\in E(G), e\cap e'\neq\emptyset\}
     \end{align*}
 \end{definition}
-With this definition, a proper vertex colouring of $L(G)$ is equivalent to a proper edge colouring of $G$ so $\chi_e(G)=\chi(L(G))$.
-In fact, $\omega(L(G))=\Delta(G)$ unless $\Delta(G)\leq 2$ but $K_3\subseteq G$.
+In this sense, an edge colouring is a special case of vertex colouring.
+A proper vertex colouring of $L(G)$ is equivalent to a proper edge colouring of $G$ so $\chi_e(G)=\chi(L(G))$.
+In fact, $\omega(L(G))=\Delta(G)$ unless $\Delta(G)\leq 2$ and $K_3\subseteq G$ (we claim this without proof).
 These graphs are collections of vertex disjoint paths and cycles.
+Now let's prove Vizing's theorem.
 \begin{proof}[Vizing]
-    Let $G$ be finite and simple with $\Delta(G)=\Delta$.
+    Let $G$ be finite and simple with $\Delta(G)=:\Delta$ for simplicity.
     We provide a construction for colouring the edges of $G$ with $\Delta+1$ colours.
     Assume we start colouring the edges of $G$ from a set of $\Delta+1$ colours and if we colour all edges, we are done.
     If we get stuck, we can resolve the situation as follows.
@@ -1028,33 +1060,41 @@ These graphs are collections of vertex disjoint paths and cycles.
     Thus let $h(v)$ denote a ``well-chosen'' element of $H(v)$.
     \begin{center}
         \begin{tikzpicture}[scale=2]
-            \node[vtx] (a) at (0,0){};
-            \node[vtx,label=above right:{$h(y)$}] (b) at (0:1cm){};
-            \node[vtx,label=right:{$h(y_1)$}] (c) at (330:1cm){};
-            \node[vtx,label=below right:{$h(y_2)$}] (d) at (300:1cm){};
-            \node[vtx,label=below:{$y_3$}] (e) at (270:1cm){};
-            \draw[thick] (a) -- (b);
-            \draw[thick] (a) -- node[above right]{$h(y)$} (c);
-            \draw[thick] (a) -- node[above right]{$h(y_1)$} (d);
+            \node[vtx,label=above left:{$x$}] (x) at (0,0){};
+            \node[vtx,label=above right:{$y$}] (y) at (0:2cm){};
+            \node[vtx,label=above right:{$y_1$}] (y1) at (330:2cm){};
+            \node[vtx,label=right:{$y_2$}] (y2) at (300:2cm){};
+            \node[inner sep=0.7pt,circle,fill=black] (d1) at (270:1cm){};
+            \node[inner sep=0.7pt,circle,fill=black] (d2) at (260:1cm){};
+            \node[inner sep=0.7pt,circle,fill=black] (d3) at (250:1cm){};
+            \node[vtx,label=left:{$y_{k}$}] (yk) at (220:2cm){};
+
+            % \node[vtx,label=below right:{$h(y_2)$}] (d) at (300:1cm){};
+            % \node[vtx,label=below:{$y_3$}] (e) at (270:1cm){};
+            \draw[thick] (x) -- (y);
+            \draw[thick] (x) -- node[fill=white]{$h(y)$} (y1);
+            \draw[thick] (x) -- node[fill=white]{$h(y_1)$} (y2);
+            \draw[thick] (x) -- node[fill=white]{$h(y_{k-1})$} (yk);
+            % \draw[thick] (x) -- node[above right]{$h(y_1)$} (d);
         \end{tikzpicture}
     \end{center}
     Assume we get stuck on some edge $\{x,y\}$.
     This means $H(x)\cap H(y)=\emptyset$, and choose $h(x),h(y)$ so $h(x)\neq h(y)$.
-    Since $h(y)\notin H(x)$, there exists $y_1$ so that $\{x,y_1\}\in E(G)$ and we already have coloured it $h(y)$.
-    If there exists $h(y_1)\in H(y_1)$ such that $h(y_1)\in H(x)$, then recolour $\{x,y_1\}$ with $h(y_1)$ and colour $\{x,y\}$ with (the already available at $x$) $h(y)$.
-    Otherwise, there exists $y_2$ so that $\{x,y_2\}\in E(G)$ and $\{x,y_2\}$ is coloured $h(y_1)$.
-    If there exists $h(y_2)\in H(y_2)\cap H(x)$, then recolour $\{x,y_1\}$ to $h(y_2)$ making $h(y_1)$ available at $x$, and repeat what we did before.
+    Since $h(y)\notin H(x)$, there exists $y_1$ so that $\{x,y_1\}\in E(G)$ with colour $h(y)$.
+    Suppose also that $h(y_1)\notin H(y_i)$, and get $y_2$ so that $\{x,y_2\}\in E(G)$ with colour $h(y_1)$.
 
-    Repeat this process.
-    We either finally arrive at a $y$ with $H(y)\cap H(x)\neq\emptyset$; and then the re-ordering method applies, or we find a ``loop'': we arrive at a $y_k$ such that $H(y_k)\cap H(x)=\emptyset$ but $h(y_k)$ is not a new colour in the process and $h(y_k)=h(y_i)$ for some $0\leq i<k$.
-    Consider the subgraph of those edges that are already coloured and their colour is one of $h(x)$ and $h(y_k)$.
-    Call this subgraph $F$.
+    Repeat this, until we arrive at one of two terminal cases.
+    If we arrive at some $y_k$ so that $H(y_k)\cap H(x)\neq\emptyset$, then we can recursively recolour the previous vertices: colour $\{x,y_k\}$ with the available colour $c_k$.
+    But then $\{x,y_{k-1}\}$ can be re-coloured $c_{k-1}=h(y_k)$; and continue this until we colour $\{x,y\}$ with $h(y_1)$ and the situation is resolved.
+
+    We can also find a ``loop'': we arrive at a $y_k$ such that $H(y_k)\cap H(x)=\emptyset$ but $h(y_k)$ is not a new colour in the process and $h(y_k)=h(y_i)$ for some $0\leq i<k$.
+    Let $F$ denote the subgraph of edges that are already coloured with either $h(x)$ or $h(y_k)$.
     We have $\Delta(F)\leq 2$, so $F$ is the union of vertex disjoint paths or a cycles.
-    Also, $d_F(x)=1=d_F(y_1)=d_F(y_k)$, so they are all endpoints of some path component of $F$.
+    Also, $d_F(x)=d_F(y_i)=d_F(y_k)=1$, so they are all endpoints of some path component of $F$.
     In particular, they cannot all be in the same component, so $y_i$ or $y_k$ is in a different path component of $F$ than the one containing $x$.
     Without loss of generality, assume it is $y_k$.
     Then flip the two colours $h(x)$, $h(y_k)$ in the component of $y_k$ in the component of $y_k$, so $h(x)$ becomes available at $y_k$ while it is still available at $x$.
-    Then apply the known process: recolour $\{x,y_k\}$ with $h(x)$, and repeat until $\{x,y\}$ is coloured.
+    Then apply the recursive process: recolour $\{x,y_k\}$ with $h(x)$, and repeat until $\{x,y\}$ is coloured.
 \end{proof}
 \subsection{List Colourings}
 \begin{definition}
@@ -1193,4 +1233,39 @@ In order to transition to the notion of planarity, let's talk about the 4-colour
 \end{definition}
 A graph is planar if and only if it can be drawn on the sphere $S_2$ without edge crossings.
 This follows by the stereographic projection.
+In general, our goal is to characterize planarity.
+\subsection{Euler's Formula}
+If $G$ is a connected planar graph with $n$ vertices, $e$ edges, and it is drawn on the plane with $f$ faces, then $n+f=e+2$.
+Note that $f$ is counted so that the infinite fase is also taken into account.
+
+Now observe that if $L$ is a convex polyhedron, its graph (where the vertices are the vertices of $L$, and the edges are the edges of $L$) is always planar.
+Therefore Euler's formula has the consequence that if $L$ is a convex polyhedron with $n$ vertices, $e$ edges, and $f$ faces, then $n+f=e+2$.
+\begin{proof}
+    Consider a connected graph $G$ with a planar embedding on $n$ vertices, $e$ edges, and $f$ faces.
+    If $G$ has no cycles, then it is a tree, so $f=1$ and $e=n-1$ so $n+f=e+2$.
+    If $G$ contains a cycle, consider a cycle that is a boundary of some face and delete one of its edges.
+    Then $n$ remains the same, $e$ and $f$ both decreases by 1.
+    Thus the truth value of the statement remains the same, so we continue this process until we have no cycles and are left with a tree.
+    For a tree, the statement holds, so the statement holds for the initial graph.
+\end{proof}
+\begin{theorem}
+    If $G$ is a planar graph with $n$ vertices and $e$ edges, then $e\leq 3n-6$.
+\end{theorem}
+\begin{proof}
+    Let $G$ be embedded on the plane and let the number of faces with exactly $i$ edges at their boundary be denoted $f_i$.
+    We use the convention of counting pendant edges twice.
+    Then we can write $f=f_3+f_4+\cdots+f_k$.
+    As well, $3f_3+4f_4+\cdots+kf_k=2e$ and
+    \begin{equation*}
+        2e = 3f_3+4f_4+\cdots+kf_k\geq 3(f_3+f_4+\cdots+f_k)=3f
+    \end{equation*}
+    so $f\leq 2e/3$.
+    Now applying Euler's Formula gives $n+\frac{2}{3}e\geq e+2$ so that $3n-6\geq e$.
+\end{proof}
+\begin{corollary}
+    $K_5$ is not planar.
+\end{corollary}
+\begin{proof}
+    We have $5$ vertices and $10$ edges, contradicting the above inequality.
+\end{proof}
 \end{document}
