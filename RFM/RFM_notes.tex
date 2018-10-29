@@ -550,11 +550,11 @@ For example, a function with a finite number of discontinuities is Riemann integ
 \section{Towards Integration}
 \subsection{Simple Functions}
 \begin{definition}
-    $s:X\to\R$ or $\C$ is called a simple function if its range is finite.
+    $s:X\to\R$ or $\C$ is called a \textbf{simple function} if its range is finite.
 \end{definition}
 \begin{proposition}
     Let $s$ be a simple function, so that $R(s)=\{\alpha_1,\alpha_2,\ldots,\alpha_n\}$.
-    Then $s=\sum\limits_{i=1}^n \alpha_i\chi_{A_i}$ where $A_i=s^{-1}(\{\alpha_i\})$ and $s$ is measurable if and only if $A_i\in\mathcal{M}$.
+    Then $s=\sum\limits_{i=1}^n \alpha_i\chi_{A_i}$ where $A_i=s^{-1}(\{\alpha_i\})$ and $s$ is \textbf{measurable} if and only if $A_i\in\mathcal{M}$.
 \end{proposition}
 \begin{proof}
     Obvious.
@@ -570,7 +570,7 @@ It is clear that we should define the integral of a simple function as the sum o
     \end{enumerate}
 \end{theorem}
 \begin{proof}
-    Let $n\in\N$, $t\geq0$, and $k_n(t)=[2^{n}\cdot t]$ (i.e. $k_n(t)\leq 2^{n}\cdot t<k_n(t)+1$).
+    Let $n\in\N$, $t\geq0$, and define $k_n(t)=[2^{n}\cdot t]$ (i.e. $k_n(t)\leq 2^{n}\cdot t<k_n(t)+1$).
     Then define
     \[\phi_n(t)=\begin{cases}k_n(t)\cdot 2^{-n}&\text{if }t\leq n\\n&\text{if }t>n\end{cases}\]
     I've drawn $\phi_1$ below:
@@ -588,18 +588,17 @@ It is clear that we should define the integral of a simple function as the sum o
             \draw[thick] (d) -- (2,1);
         \end{tikzpicture}
     \end{center}
-    Then $t-2^{-n}\leq\phi_n(t)\leq t$, $\lim\phi_n(t)=t$, and $\phi_n\leq \phi_{n+1}$.
+    Then $t-2^{-n}\leq\phi_n(t)\leq t$, $\lim\phi_n(t)=t$ uniformly, and $\phi_n\leq \phi_{n+1}$, so the sequence of functions is monotone.
     Define $s_n=\phi_n\circ f$, so for any $x\in X$, $\lim s_n(x)=\lim \phi_n\circ f(x)=f(x)$.
     Note that $s_n$ is simple since it has finite range (from $\phi_n$), and $s_n\leq s_{n+1}$ because $\phi_n\leq \phi_{n+1}$, and $s_n\leq f$ since $\phi_n(t)\leq t$.
-    Furthermore, $\phi_n$ is measurable since its level sets are intervals, so $\phi_n\circ f$ is measurable.
+    Furthermore, $\phi_n$ is measurable since its level sets are intervals, so $s_n=\phi_n\circ f$ is measurable.
 \end{proof}
 \subsection{Integration of Positive Functions}
-Let $(X,\mathcal{M},\mu)$ be a measure space.
 \begin{definition}
-    Let $S:X\to[0,+\infty)$ be a measurable simple function $s=\sum\limits_{n=1}^n\alpha_i X_{A_i}$.%]
+    Let $s:X\to[0,+\infty)$ be a measurable simple function $s=\sum\limits_{n=1}^N\alpha_i X_{A_i}$. %]
     Let $E\in\mathcal{M}$.
-    Then define the \textbf{integral of $s$} over $E$ be with respect to $\mu$ as
-    \[\int_E s\d{\mu}=\sum\limits_{n=1}^n\alpha_i\mu(A_i\cap E)\]
+    Then define the \textbf{integral} of $s$ over $E$ with respect to $\mu$ as
+    \[\int_E s\d{\mu}=\sum\limits_{n=1}^N\alpha_i\mu(A_i\cap E)\]
     where we define $0\cdot\infty=0$.
 \end{definition}
 \begin{definition}
@@ -624,7 +623,9 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
 \begin{proof}
     \begin{enumerate}
         \item Note that
-            \[\left\{\int_E s\d{\mu}:0\leq s\leq f\right\}\subset\left\{\int_E s\d{\mu}:0\leq s\leq g\}\]
+            \begin{equation*}
+                \left\{\int_E s\d{\mu}:0\leq s\leq f\right\}\subset\left\{\int_E s\d{\mu}:0\leq s\leq g\right\}
+            \end{equation*}
         \item Let $0\leq s\leq f$ be simple measurable.
             Then
             \[\int_A s\d{\mu}=\sum\limits\alpha_i\mu(A\cap A_i)\leq \sum\alpha_i\mu(B\cap A_i)=\int_B s\d{mu}\]
@@ -645,13 +646,14 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
             This is true for any $0\leq s\leq f$, and taking supremums yields the result.
         \item If $\mu(E)=0$ then $\mu(A_i\cap E)=0$, and $\int_E s\d{\mu}=\sum\alpha_i\mu(A_i\cap E)=0$ and taking supremums, the result holds.
         \item Exercise.
-            First prove if $0\leq s\leq f\cdot\chi_E$, then $\int_X s\d\{\mu\}=\int_E s\d{\mu}$.
-            Then prove $\left\{\int_E s\d{\mu}:0\leq s\leq f\cdot\chi_E\right\}=\left\{|\int_E s\d{\mu}:0\leq s\leq f\right\}$.
+            First prove if $0\leq s\leq f\cdot\chi_E$, then $\int_X s\d{\mu}=\int_E s\d{\mu}$.
+            Then prove
+            \begin{equation*}\left\{\int_E s\d{\mu}:0\leq s\leq f\cdot\chi_E\right\}=\left\{\int_E s\d{\mu}:0\leq s\leq f\right\}\end{equation*}
     \end{enumerate}
 \end{proof}
 \begin{proposition}
     Let $s$ be a simple and measurable.
-    Then $\phi(E)=\int_es\d{\mu}$ is a measure.
+    Then $\phi(E)=\int_Es\d{\mu}$ is a measure.
 \end{proposition}
 \begin{proof}
     $\phi(\emptyset)=0$, so $\phi$ is not constant $+\infty$.
@@ -693,25 +695,27 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
         \item $0\leq f_1\leq f_2\leq\cdots$
         \item $f(x):=\lim_{n\to\infty} f_n(x)$ for all $x\in X$
     \end{enumerate}
-    Then $f$ is measurable, and $\int_X f\d{\mu}=\lim\int_x f_n\d{\mu}$.
+    Then $f$ is measurable, and $\int_X f\d{\mu}=\lim_{n\to\infty}\int_X f_n\d{\mu}$.
 \end{theorem}
 \begin{proof}
     It was already proven that $f$ is measurable.
     We have $\int_X f_n\d{\mu}\leq \int_x f_{n+1}\d{\mu}$ for all $n$, so $\alpha:=\lim_{n\to\infty}\int_X f_n \d{\mu}$ exists.
     We also have $f_n\leq f$, so $\int f_n\leq \int f$ and $\alpha\leq\int_X f_n\d{\mu}$.
-    Thus we wish to show $\alpha\geq \int_xf\d{\mu}$.
-    It suffices to prove that $\alpha\geq\int_x s\d{\mu}$ for any simple $s\leq f$.
-    Let $c\in(0,1)$; it suffices to show that $\alpha\geq\int_x c\cdot s\d{\mu}$.
+    Thus we wish to show $\alpha\geq \int_Xf\d{\mu}$.
+    It suffices to prove that $\alpha\geq\int_X s\d{\mu}$ for any simple $s\leq f$.
+    Furthermore, if $c\in(0,1)$, it suffices to show that $\alpha\geq\int_X c\cdot s\d{\mu}$.
+
     Define $E_n=\{x\in X:f_n(x)\geq c\cdot s(x)\}$.
-    We have $E_1\subset E_2\subset\cdots$ so that $\bigcup E_n=X$.
+    We have $E_1\subset E_2\subset\cdots$ so that $\bigcup\limits_{n=1}^\infty E_n=X$.
     Then
     \begin{equation*}
         \int_X f_n\d{\mu} \geq \int_{E_n} f_n\d{\mu}\geq \int_{E_n} c\cdot s\d{\mu}
     \end{equation*}
-    Let $\phi(E)=\int_E s\d{\mu}$, so $\int_{E_n}s\d{\mu}=\phi(E_n)\to \phi(\cup E_n)=\phi(X)=\int_X s\d{\mu}$.
+    Let $\phi(E)=\int_E s\d{\mu}$, so $\int_{E_n}s\d{\mu}=\phi(E_n)$.
+    Thus $\lim_{n\to\infty}\phi(E_n)=\phi(X)=\int_X s\d{\mu}$.
     Thus
     \begin{equation*}
-        \alpha\geq c\cdot \lim_{n\to\infty}\phi(E_n)=c\cdot\int_X s\d{\mu}=\int_X cs\d{\mu}
+        \alpha\geq c\cdot \lim_{n\to\infty}\phi(E_n)=c\cdot\int_X s\d{\mu}=\int_X c\cdot s\d{\mu}
     \end{equation*}
     as desired.
 \end{proof}
@@ -737,7 +741,7 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
 \end{proof}
 \begin{corollary}
     If $f_n:X\to[0,+\infty]$ is a sequence of measurable functions, then
-    \[\sum_{n=1}^\infty \int_X f_n\d{\mu}=\int_x\sum\limits_{n=1}^\infty f_n\d{\mu}\]
+    \[\sum_{n=1}^\infty \int_X f_n\d{\mu}=\int_X\sum\limits_{n=1}^\infty f_n\d{\mu}\]
 \end{corollary}
 \begin{example}
     Let $X=\N$, $\mathcal{M}=\mathcal{P}(X)$, $\mu(E)$ is the counting measure.
@@ -756,7 +760,7 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
     \[\int_X\lim\inf f_n\d{\mu}\leq\lim\inf\int_X f_n\d{\mu}\]
 \end{lemma}
 \begin{proof}
-    Let $g_k=\inf\{f_k,f_{k+1},\ldots\}$ so $\lim\inf f_n=\lim_{n\to\infty}$ and $g_n$ is increasing.
+    Let $g_k=\inf\{f_k,f_{k+1},\ldots\}$ so $\lim\inf f_n=\lim_{n\to\infty} g_n$ and $g_n$ is increasing.
     Note that $g_k\leq f_k$ for any $k$, so $\int_x g_k\d{\mu}\leq\int_X f_k\d{\mu}$.
     Thus
     \begin{align*}
@@ -817,10 +821,10 @@ Unlike the Riemann integral, we take the supremum over lower sums only.
     Let $f\in L^1(\mu)$.
     Then $f=u+iv$ and denote $u=\re f$, $v=\im f$.
     Let $E\in\mathcal{M}$; then the integral of $f$ over $E$ with respect to $\mu$ is
-    \[\int_Ef\d{\mu}=\int_Eu^+\d{\mu}-\int_E u^-\d{\mu}\+i\left(\int_E v^+\d{\mu}-\int_E v^-\d{\mu}\right)\]
+    \[\int_Ef\d{\mu}=\int_Eu^+\d{\mu}-\int_E u^-\d{\mu}+i\left(\int_E v^+\d{\mu}-\int_E v^-\d{\mu}\right)\]
 \end{definition}
 \begin{theorem}
-    Let $f,g\in L^1(\mu)$, $\alpha,\beta\in\C$, so $\alpha f+\betag=L^1(\mu)$ and
+    Let $f,g\in L^1(\mu)$, $\alpha,\beta\in\C$, so $\alpha f+\beta g=L^1(\mu)$ and
     \[\int_X(\alpha f+\beta g)\d{\mu}=\alpha\int_X f\d{\mu}+\beta\int_X g\d{\mu}\]
 \end{theorem}
 \begin{proof}
@@ -869,7 +873,7 @@ Indeed, we have the following theorem:
     Assuming that this holds, then $\lim\int_X|f-f_n|\d{\mu}=0$ and
     \[0\leq\lim\left\lvert\int_Xf\d{\mu}-\int_Xf_n\d{\mu}\right\rvert\leq\int_X|f-f_n|\d{\mu}=0\]
 
-    The first two inequalities are obvious: we must show that $\lim\sup\int_X|f_f_n|\d{\mu}\leq 0$.
+    The first two inequalities are obvious: we must show that $\lim\sup\int_X|f_n|\d{\mu}\leq 0$.
     Firstly, we have
     \begin{align*}
         \int_X 2g\d{\mu} &= \int_X \left(2g-\lim_{n\to\infty}|f-f_n|\right)\d{\mu}\\
@@ -1016,7 +1020,7 @@ For example, it is challenging to give meaning to boundary conditions of functio
 \subsection{Construction of the Lebesgue measure}
 We begin from the Riemann integral $\int_a^b f(x)\d{x}$ for a continuous function $f$.
 Define $\supp f=\overline{\{x\in\R:f(x)\neq 0\}}$.
-For continuous functions with compact (bounded) support, define $\Lambda f=\int_\R f(x)\d{x}$ is the Riemann integral, which is a functional.
+For continuous functions with compact (bounded) support, define $\Lambda f=\int_{\R} f(x)\d{x}$ is the Riemann integral, which is a functional.
 In particular,
 \[\text{measure}((a,b))=\text{length}((a,b))=\sup\{\Lambda f:f\text{ is continuous, compact support, }0\leq f\leq 1,\supp f\subset(a,b)\}\]
 We will extend this to a $\sigma-$algebra containing the Borel sets.
@@ -1333,7 +1337,7 @@ Our aim is to intruduce the Lebesgue measure in $\R^k$ which respects translatio
             Thus by (i), get $G_n$ open so that $G_n\supset K_n\cap E$ with $\mu(G_n\setminus(K_n\cap E))<\frac{\epsilon}{2^{n+1}}$.
             Let $G=\bigcup\limits_{n=1}^\infty G_n$ be open, so that $G\setminus E\subset\bigcup(G_n\setminus(K_n\cap E))$ and $\mu(G\setminus U)<\frac{\epsilon}{2}$.
             Repeat this for $E^c$: get an open set $H$ such that $\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
-            Then $F=H^c\subse E$ satisfies $\mu(E\setminus F)=\mu(F^c\setminus E^c)=\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
+            Then $F=H^c\subset E$ satisfies $\mu(E\setminus F)=\mu(F^c\setminus E^c)=\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
             Then $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
             Then $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
         \item $E$ is outer regular by (i).

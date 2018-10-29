@@ -99,6 +99,8 @@
 \pagenumbering{roman}
 \tableofcontents
 \pagenumbering{arabic}
+\setcounter{chapter}{-1}
+\chapter{A Brief Introduction}
 \chapter{Fundamentals of Groups}
 \section{Basics of Groups}
 \begin{definition}
@@ -143,15 +145,12 @@ We have our first basic proposition:
 \begin{proof}
     Obvious.
 \end{proof}
-\subsection{The group $\Z_m$}
-\begin{definition}
-    Let $\sim$ be an equivalence relation.
-    We then define the \textbf{quotient group} $G/\sim$ given by the equivalence classes of elements in $G$.
-\end{definition}
+\section{The group $\Z_m$}
 To construct $\Z_m$, we define $\Z_m=\Z/\sim$ where $a\sim b$ if $a\cong b\pmod{m}$.
 Since we have a division algorithm in $\Z$, for any $d\in\Z$, we can write $d=tm+r$ with $0\leq r\leq m-1$.
 Thus $\overline{d}=\overline{r}$, so we can represent $\Z_m=\{\overline{0},\overline{1},\ldots,\overline{m-1}\}$.
 As a result we usually do not bother writing $\overline{\cdot}$.
+To show that this is a group, we must show that its operations are well defined.
 \begin{proposition}
     We have $\overline{a}+\overline{b}=\overline{a+b}$ and $\overline{a}\cdot\overline{b}=\overline{ab}$.
 \end{proposition}
@@ -171,6 +170,7 @@ As a result we usually do not bother writing $\overline{\cdot}$.
     Then by B\'ezout's Lemma, get $x,y$ so that $xa+ym=1$, so $xa\cong 1\pmod{1}$ and $\overline{xa}=\overline{1}$ and $\overline{x}\overline{a}=\overline{1}$ and we have our multiplicative inverse.
 \end{proof}
 We thus have $|\Z_m^\times|=\phi(m)$.
+\chapter{Fundamentals of Groups}
 \section{Subgroups}
 \begin{definition}
     A subset $H$ of a group $G$ is called a \textbf{subgroup} if $H$ is also a group with the same operation.
@@ -246,25 +246,30 @@ This inspires the following theorem:
         \item The map $\cdot g:H\to Hg$ is bijective since it has an inverse.
         \item This is a special case of (4) with $x=g$, $y=1$.
         \item Suppose $Hx\cap Hy\neq\emptyset$.
-            Thus let $z\in Hx\cap Hy$ and write $z=h_1x=h_2y$.
+            Thus let $z\in Hx\cap Hy$ so we can write $z=h_1x=h_2y$.
             Then for any $hx\in Hx$, $hx=hh_1^{-1}h_1x=hh_1^{-1}h_2y\in Hy$ so $Hx\subseteq Hy$.
             The identical argument works in reverse, so equality holds.
-        \item Assume $Hx=Hy$, and if $x\in Hx$, then $x\in Hy$ so $x=hy$ and $xy^{-1}=h$.
-            Conversely, suppose $xy^{-1}\in H$, then $xy^{-1}y\in Hy$ so $x\in Hy$.
+        \item Assume $Hx=Hy$, and let $x\in Hx$.
+            Then $x\in Hy$ as well so $x=hy$ and $xy^{-1}=h\in H$.
+            Conversely, suppose $xy^{-1}\in H$; then $xy^{-1}y\in Hy$ so $x\in Hy$.
             Also, $x\in Hx$ so $x\in Hx\cap Hy\neq\emptyset$ so by (3), $Hx=Hy$.
     \end{enumerate}
 \end{proof}
+Thus all the cosets of $H$ have the same size as $H$, and cosets with different elements are disjoint.
+Therefore the following definition makes sense:
 \begin{definition}
-    The \textbf{index} of a subgroup $H$ in a group $G$ is denoted $|G:H|$ and denotes the number of distinct right cosets of $H$.
+    The \textbf{index} of a subgroup $H$ in a group $G$ is denoted $[G:H]$ and denotes the number of distinct right cosets of $H$.
 \end{definition}
-\begin{proposition}
-    $Hx\mapsto x^{-1}H$ is a one-to-one correspondence between right cosets and left cosets.
-\end{proposition}
-Thus $G$ is a disjoint union of $|G:H|$ right cosets of $H$, each of size $|H|$.
+Thus $G$ is a disjoint union of $[G:H]$ right cosets of $H$, each of size $|H|$.
 Therefore we have
 \begin{corollary}
     $|G|=|G:H|\cdot|H|$
 \end{corollary}
+We also have the following theorem:
+\begin{proposition}
+    $Hx\mapsto x^{-1}H$ is a one-to-one correspondence between right cosets and left cosets.
+\end{proposition}
+As an application of the previous results, we have the following theorem.
 \begin{theorem}[Lagrange]
     Suppose $G$ is a finite group.
     Then
@@ -292,7 +297,7 @@ These are indeed groups:
 We certainly have $1\in C_G(g)$.
 Also, if $x,y\in G$, then $gx=xg$ and $gy=yg$ so that $gxy=xgy=xyg$.
 If $x\in C_G(g)$, then $gx=xg$ so $g=xgx^{-1}$ and $x^{-1}g=gx^{-1}$.
-\subsection{Conjugacy Classes}
+\section{Conjugacy Classes}
 This definition inspires the following definition:
 \begin{definition}
     We say that $f$ is a \textbf{conjugate} of $g$ if and only if there exists $x\in G$ such that $x^{-1}gx=f$.
