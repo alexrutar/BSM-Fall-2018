@@ -20,6 +20,7 @@
 \DeclareMathOperator{\R}{\mathbb{R}}
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
+\DeclareMathOperator{\ch}{ch}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -1074,7 +1075,7 @@ Now let's prove Vizing's theorem.
             \draw[thick] (x) -- (y);
             \draw[thick] (x) -- node[fill=white]{$h(y)$} (y1);
             \draw[thick] (x) -- node[fill=white]{$h(y_1)$} (y2);
-            \draw[thick] (x) -- node[fill=white]{$h(y_{k-1})$} (yk);
+            \draw[thick] (x) -- node[fill=white]{$h(y_k)$} (yk);
             % \draw[thick] (x) -- node[above right]{$h(y_1)$} (d);
         \end{tikzpicture}
     \end{center}
@@ -1268,4 +1269,92 @@ Therefore Euler's formula has the consequence that if $L$ is a convex polyhedron
 \begin{proof}
     We have $5$ vertices and $10$ edges, contradicting the above inequality.
 \end{proof}
+\begin{theorem}
+    If $G$ is planar and contains no $C_3$, then $|E(G)|\leq 2|V(G)-4$.
+\end{theorem}
+\begin{proof}
+    Consider a planar drawing of $G$.
+    Let the number of faces with exactly $i$ edges on their boundary be $f_i$.
+    Then $f=f_3+f_4+\cdots+f_k$ for some $k$, where for $G$ $f_3=0$ by $C_3\not\subseteq G$.
+    Then by $2e=\sum\limits_{i=3}^k if_i=\sum\limits_{i=4}^kif_i\geq\sum\limits_{i=4}^k 4f_i=4f$.
+    Thus $f\leq e/2$, so $n+e/2\geq e+2$ and $2n-4\geq e$.
+\end{proof}
+\begin{corollary}
+    $K_{3,3}$ is not planar.
+\end{corollary}
+\begin{proof}
+    $C_3\not\subseteq K_{3,3}$, but $g=|E(K_{3,3})|\not\leq 2|V(K_{3,3})-4|=8$.
+\end{proof}
+We know that $G$ cannot be planar if $K_5$ or $K_{3,3}$ or any edge subdivision is a subgraph of $G$.
+Surprisingly, the converse holds as well:
+\begin{theorem}[Kuratowski]
+    $G$ is planar if and only if it has no subgraph isomorphic to a possibly subdivided version of $K_5$ or $K_{3,3}$.
+\end{theorem}
+\begin{definition}
+    Two graphs are called \textbf{topologically isomorphic} if they can be obtained from each other by edge subdivision and its inverse operation.
+\end{definition}
+Is the Petersen graph planar?
+No, it contains an edge-subdivided $K_{3,3}$:
+\begin{center}
+    \begin{tikzpicture}[
+        vtx/.style={circle,radius=0.5pt,draw=black},
+        edge/.style={thick}
+        ]
+        \node[vtx] (1a) at (18:2cm){};
+        \node[vtx] (2a) at (90:2cm){$B$};
+        \node[vtx] (3a) at (162:2cm){};
+        \node[vtx] (4a) at (234:2cm){$A$};
+        \node[vtx] (5a) at (306:2cm){$A$};
+
+        \node[vtx] (1b) at (18:4cm){$B$};
+        \node[vtx] (2b) at (90:4cm){$A$};
+        \node[vtx] (3b) at (162:4cm){$B$};
+        \node[vtx] (4b) at (234:4cm){};
+        \node[vtx] (5b) at (306:4cm){};
+
+        \draw[edge,red] (1b) -- (2b);
+        \draw[edge,red] (2b)-- (3b);
+        \draw[edge,blue] (3b) -- (4b);
+        \draw[edge] (4b) -- (5b);
+        \draw[edge,green] (5b) -- (1b);
+        \draw[edge,blue] (1a) -- (1b);
+        \draw[edge,red] (2a) -- (2b);
+        \draw[edge,green] (3a) -- (3b);
+        \draw[edge,blue] (4a) -- (4b);
+        \draw[edge,green] (5a) -- (5b);
+        \draw[edge] (1a) -- (3a);
+        \draw[edge,green] (3a) -- (5a);
+        \draw[edge,green] (5a) -- (2a);
+        \draw[edge,blue] (2a) -- (4a);
+        \draw[edge,blue] (4a) -- (1a);
+    \end{tikzpicture}
+\end{center}
+\begin{definition}
+    A graph $F$ is a \textbf{minor} of another graph $G$ is $F$ can be obtained from $G$ by subsequently performing the following operations:
+    \begin{itemize}[nolistsep]
+        \item Deleting a vertex
+        \item Deleting an edge
+        \item Contracting an edge
+    \end{itemize}
+    Only allowing the first operation results in an induced subgraph, and allowing the first two operations results in an arbitrary subgraph.
+\end{definition}
+Furthermore, if $F$ is a topological subgraph of $G$, then $F$ is also a minor of $G$.
+\begin{theorem}[Wagner]
+    $G$ is planar if and only if it has no minor isomorphic to $K_5$ or $K_{3,3}$.
+\end{theorem}
+One can check that indeed the following two properties for a graph are equivalent:
+\begin{itemize}[nolistsep]
+    \item $G$ does not contain a topological $K_5$ or $K_{3,3}$
+    \item $G$ does not contain a $K_5$ or $K_{3,3}$ minor.
+\end{itemize}
+One can think of a topological minor as a connected component (equiv a tree) that was contracted to obtain each point, along with unique edges between the disjoint trees.
+Then one can find branching points which can be used to form the topological minor.
+
+However this does not necessarily work for $K_5$.
+There are two cases: there is a vertex of degree 4 which branches to every other vertex in each component (and we have $K_5$ as a topological minor), or there are two vertices which branch to 3 trees each.
+Then label these two branching points differently, and then join the remaining branching points to finish $K_{3,3}$.
+\begin{theorem}[Robertson-Seymour]
+    In any infinite sequence of finite simple graphs, there are two such that one is a minor of the other.
+\end{theorem}
+
 \end{document}

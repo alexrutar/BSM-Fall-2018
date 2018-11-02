@@ -21,6 +21,7 @@
 \DeclareMathOperator{\F}{\mathbb{F}}
 \DeclareMathOperator{\GL}{GL}
 \DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\im}{im}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -495,6 +496,69 @@ For a homomorphism $\alpha:G\to H$ of groups, we have the following properties.
         \item Follows directly by above and induction.
     \end{enumerate}
 \end{proof}
+\begin{definition}
+    The \textbf{image} of $\alpha$ is given by $\im(\alpha)=\{\alpha(g):g\in G\}\leq H$.
+\end{definition}
+The image of $\alpha$ is a subgroup since it is a subgroup.
+We also define
+\begin{definition}
+    The \textbf{kernel} of $\alpha$ is given by $\ker(\alpha)=\{x\in G:\alpha(x)=1_H\}\trianglelefteq G$.
+\end{definition}
+To see it is a normal subgroup, we have $1_G\in\ker(\alpha)$, and it is certainly a subgroup.
+Then by the normality test, if $x\in\ker(\alpha)$ and $g\in G$, then
+\begin{align*}
+    \alpha(g^{-1}xg)&=\alpha(g^{-1})\alpha(x)\alpha(g)\\
+                    &= \alpha(g^{-1})\alpha(g)\\
+                    &= \alpha(1_G)\\
+                    &= 1_U
+\end{align*}
+so $g^{-1}xg\in\ker(\alpha)$ as well.
+\begin{theorem}[First Isomorphism]
+    For a homomorphism $\alpha:G\to H$, $G/\ker(\alpha)\cong\im(\alpha)$.
+\end{theorem}
+\begin{proof}
+    Consider the map $\beta:G/\ker(\alpha)\to\im(\alpha)$ given by $\ker(\alpha)x\mapsto\alpha(x)$.
+    
+    This map is well defined and injective: we have
+    \begin{align*}
+        \ker(\alpha)x=\ker(\alpha)y &\Leftrightarrow xy^{-1}\in\ker(\alpha)\\
+                                    &\Leftrightarrow \alpha(xy^{-1})=1\\
+                                    &\Leftrightarrow\alpha(x)\alpha(y)^{-1}=1\\
+                                    &\Leftrightarrow \alpha(x)=\alpha(y)
+    \end{align*}
+    It is also surjective since any element if $\im(\alpha)$ is of the form $\alpha(x)$, which is the image of $\beta(\ker(\alpha)x)$.
+    Finally,
+    \begin{align*}
+        \beta( (\ker(\alpha)x)(\ker(\alpha)x) ) &= \beta(\ker(\alpha)xy)\\
+                                                &= \alpha(xy)\\
+                                                &= \alpha(x)\alpha(y)\\
+                                                &= \beta(\ker(\alpha)x)\beta(\ker(\alpha)y)
+    \end{align*}
+    so $\beta$ is a bijective homomorphism, which is an isomorphism.
+\end{proof}
+\begin{example}
+    Consider the map $\alpha\GL_n(\R)\to\R^\times$ given by $A\mapsto\det(A)$.
+    We have $\im(\alpha)=\R^\times$ and $\ker(\alpha)=\SL_n(\R)$, so $\SL_n(\R)\trianglelefteq\GL_n(\R)$.
+\end{example}
+\begin{theorem}
+    Let $\mathcal{N}$ denote the set of normal subgroups of $G$.
+    For any group $G$, the set of normal subgroups of $G$ is equal to the collection of kernels of homomorphisms of $G$, and the factor gr
+    Noral subgroups of $G=$kernels of homomorphisms of $G$
+    Factor groups of $G$ $=$ images of homomorphisms of $G$
+\end{theorem}
+\begin{proof}
+    We know $\ker(\alpha)\trianglelefteq G$ for all homomorphisms $\alpha:G\to H$.
+    Conversely, for $N\trianglelefteq G$, consider $\alpha:G\to G/N$ by $g\mapsto Ng$.
+    Then $\im(\alpha)=\{Ng:g\in G\}=G/N$, and $\ker(\alpha)=\{g\in G:Ng=N\}=N$.
+    This also show that any factor group is the image of a homomorphism.
+    Converselty, for any $\alpha:G\to H$, and $\im(\alpha)\cong G/\ker(\alpha)$ by the first isomorphism theorem.
+\end{proof}
+\section{Direct Products of Groups}
+\begin{definition}
+    For groups $A,B$, the \textbf{direct product group} is the group with set $A\times B$ and operation $(a_1,b_1)(a_2,b_2)=(a_1a_2,b_1b_2)$.
+\end{definition}
+Define an operation $(a_1,b_1)\cdot(a_2,b_2)=(a_1a_2,b_1b_2)$.
+\chapter{Examples of Finite Groups and Rings}
 \section{Examples of Finite Groups}
 \subsection{Cyclic Groups}
 \begin{definition}
