@@ -1382,4 +1382,145 @@ Our aim is to intruduce the Lebesgue measure in $\R^k$ which respects translatio
     Since $G\setminus F$ is open, $\lambda(G\setminus F)=\mu(G\setminus F)<\epsilon$ so $\lambda(G)\leq\lambda(E)+\epsilon$.
     Thus $|\mu(E)-\lambda(E)|<\epsilon$ for all $\epsilon>0$ so $\lambda(E)=\mu(E)$.
 \end{proof}
+\section{Construction of the Lebesgue Measure}
+We have the Riesz Representation Theorem in a locally compact Hausdorff space.
+\begin{definition}
+    Let $E\subset\R^k$, $x\in\R^k$.
+    Then $E+x=\{y+x:y\in E\}$ is the \textbf{translate} of $E$.
+\end{definition}
+\begin{definition}
+    We define a $k-$cell in $\R^k$ by $W=I_1\times I_2\times\cdots\times I_k$ where $I_j$ is an interval.
+    We also define $\vol(W)=(b_1-a_1)(b_2-a_1)\cdots(b_k-a_k)$ where $a_j,b_j$ are the endpoints of the $I_j$.
+\end{definition}
+We know that $\vol(W+x)=\vol(W)$ for any $k-$cell $W$ and $x\in\R$.
+\begin{theorem}
+    There exists a $\sigma-$algebra $\mathcal{M}$ in $\R^k$ and a complete measure $m:\mathcal{M}\to[0,+\infty]$ satisfying
+    \begin{enumerate}
+        \item $m(W)=\vol(W)$ for any $k-$cell $W$.
+        \item $\mathcal{M}\supset\mathcal{B}$ and $E\in\mathcal{M}$ if and only if there exists $A\in F_\sigma,B\in G_\delta$ such that $A\subset E\subset B$ and $m(B\setminus A)=0$.
+        \item $m$ is translation invarient: $m(E+x)=m(E)$.
+        \item If $\mu$ is a translation invariant Borel measure, and $\mu(K)<\infty$ for all $K$ compact, then there exists $c\in\R$ so that $\mu(E)=c\cdot m(E)$.
+        \item If $T:\R^k\to\R^k$ is linear, then there exists $\Delta(T)\in\R$ such that $m(T(E))=\Delta(T)\cdot m(E)$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    For $f\in C_c(\R^k)$, let $\Lambda f=\int_{R^k}f(x)\d{x}$ (the Riemann Integral).
+    Then $\Lambda:C_c(\R^k)\to\C$ is a positive linear functional, so by the Riesz representation theorem, there exists a unique measure $m$ and $\mathcal{M}\supset\mathcal{B}$ so for all $f\in C_c(\R^k)$, $\Lambda f=\int_{\R^k}f\d{m}$.
+
+    We first see (i).
+    By the definition of $m$, for an open $k-$cell $W$, $m(W)=\sup\{\Lambda f:f\prec W\}=\vol(W)$ (by definition of the Riemann integral).
+    If $W$ is an arbitrary $k-$cell, then there exist open $k-$cells $W_n$ such that $W=\bigcap\limits_{n=1}^\infty W_n$.
+    Then $\vol(W_n)\to\vol(W)$, so $m(W_n)\to m(W)$, and $\vol(W_n)=m(W_n)$.
+    Thus $\vol(W)=m(W)$.
+
+    \textit{Let $\lambda$ be a Borel measure.
+    If $\lambda(W)=m(W)$ for all $W$ $k-$cells, then $\lambda(E)=m(E)$ for all $E\in\mathcal{B}$.}
+    For any $G$ open, $G=\bigcup\limits_{n=1}^\infty W_n$ disjointly, so $\lambda(G)=m(W)$.
+    Then since $\lambda$ and $m$ are regular, $\lambda(E)=\inf\{\lambda(G):E\subset G\in\tau\}=\inf\{m(G):E\subset G\in\tau\}=m(E)$ for all $E\in\mathcal{B}$.
+
+    We now see (iii).
+    Dfine $\lambda(E)=m(E+X)$.
+    If $W$ is a box, then $\lambda(W)=m(W+x)=\vol(W+x)=\vol(W)=m(W)$, so by the lemma, $\lambda(E)=m(E)$ for all $E\in\mathcal{B}$.
+    Then regularity implies $\lambda(E)=m(E)$ for all measurable $E$.
+
+    We have (iv): let $c=\mu([0,1]^k)=c\cdot\vol([0,1]^k)$.
+    Translation invariance of $\vol$ implies $\mu(W)=c\cdot\vol(W)$.
+
+    We have (v).
+    If $\dim(\im(T))<k$, then $m(\im(T))=0$ so $\Delta(T)=0$.
+    Otherwise, $T$ is a homeomorphism so $T(E)\in\mathcal{B}$ for all $E\in\mathcal{B}$.
+    Let $\mu(E)=m(T(E))$.
+    Then $\mu(E+x)=m(T(E)+T(x))=m(T(E))=\mu(E)$, so $\mu$ is translation invariant.
+    Then by (iv), $\mu(E)=c\cdot m(E)$ and set $\Delta(T)=c$.
+\end{proof}
+\begin{theorem}
+    If $A\subset\R$ for which every set is Lebesgue measurable, then $m(A)=0$.
+\end{theorem}
+\begin{proof}
+    Partition $\R$ into cosets by $\Q$; let $E$ be a set containing exactly one element of each class (axiom of choice).
+    Now if $r\neq s$, $r,s\in\Q$, then $(E+r)\cap (E+s)=\emptyset$.
+    But then $\R=\bigcup\limits_{r\in\Q}(E+r)$ disjointly.
+    Given $A$, define $A_t=A\cap (E+t)$ for $t\in\Q$.
+    Now let $K\subset A_t$, so $K\subset E+t$.
+    Since $(K+r_1)\cap (K+r_2)=\emptyset$, define $H=\bigcup\limits_{r\in\Q\cap[0,1]}(K+r)$ is a countable disjoint union.
+    But then $\infty>m(H)=\sum_r m(K)$ so $m(K)=0$ and $m(A_t)=0$.
+    But then
+    \[\bigcup\limits_{t\in\Q}A_t=\cup(A\cap(E+t))=A\cap\left(\bigcup\limits_{t\in\Q}(E+t)\right)=A\cap\R=A\]
+    so $m(A)=0$ as well.
+\end{proof}
+Let $X$ be a locally compact, Hausdorff topological space.
+Let $\mathcal{M}$ be a $\sigma-$algebra, $\mu$ be a measure satisfying the properties in the Riesz representation theorem.
+We then have
+\begin{theorem}[Lusin]
+    Let $F:X\to\C$ be a measurable function, with $\supp f\subset A$ and $\mu(A)<\infty$.
+    Then for any $\epsilon>0$, there exists $g\in C_c(X)$ such that $\mu(\{x\in X:f(x)\neq g(x)\})<\epsilon$ and $\sup_X|G|\leq\sup_X|f|$.
+\end{theorem}
+\begin{proof}
+    If $\supp g\subset A$, then $f(x)=0=g(x)$ if $x\in A^c$ and $\{x\in X:f(x)\neq g(x)\}=\{x\in A:f(x)\neq g(x)\}$.
+    Then $\mu(A)<\infty$ so there exists $K\subset A$ compact, with $\mu(A\setminus K)<\epsilon/2$.
+    Then
+    \[\mu\left(\{x\in A:f(x)\neq g(x)\}\right)\leq\mu\left(\{x\in K:f(x)\neq g(x)\}\right)+\frac{\epsilon}{2}\]
+    We may assume that $A$ is compact.
+
+    We first prove this for $0\leq f\leq 1$.
+    For $t\geq 0$ and each $N\in\N$, let $k_n(t)$ satisfy $k_n(t)\leq t\cdot 2^n<k_n(t)+1$, and define
+    \[\phi_n(t)=
+        \begin{cases}
+            k_n(t)\cdot 2^{-n},&0\leq t\leq n\\
+            n,&t >n
+        \end{cases}
+    \]
+    Let $s_n(x)=\phi_n(f(x))$ and $t_n=s_n-s_{n-1}$.
+    Then since
+    \[k_{n-1}(t)\leq t\cdot 2^{n-1}<k_{n-1}(t)+1\Longrightarrow 2k_{n-1}(t)\leq t\cdot 2^n<2k_{n-1}(t)+2\]
+    is the largest even number below $t\cdot 2^n$.
+    Then $k_n-2k_{n-1}\in\{0,1\}$ for all $t$.
+    Since $0\leq f\leq 1$,
+    \[t_n(x)=\phi_n(f(x))-\phi_{n-1}(f(x))=2^{-n}\cdot k_n(f(x))-2^{-(n-1)}\cdot k_{n-1}(f(x))\]
+    this becomes
+    \[2^n\cdot t_n(x)=k_n(f(x))-2\cdot k_{n-1}(f(x))\in\{0,1\}\]
+    which is the characteristic function of some set, which we denote $T_n$.
+    Furthermore, $f(x)=\sum\limits_{n=1}^\infty t_n(x)$.
+    Let $V\supset A$ be open so that $\overline{V}$ is compact.
+    Let $K_n$ be compact, $V_n$ be an open set such that $K_n\subset T_n\subset V_n\subset V$ with $\mu(V_n\setminus K_n)<\epsilon/2^n$.
+    By Urysohn's lemma, there exists $h_n\in C_c(X)$ with $K_n\prec h_n\prec V_n$.
+    Let $g=\sum\limits_{n=1}^\infty 2^{-n}\cdot h_n$, which converges uniformly so that $g$ is continuous and $\supp g\subset\overline{V}$.
+    If $x\in K_n$, then $h_n(x)=1$ and $t_n(x)=2^{-n}$, so $2^{-n}\cdot h_n(x)=t_n(x)$.
+    If $x\notin V_n$, then $h_n(x)=0$ so $t_n(x)=0$, so $2^{-n}\cdot h_n(x)=t_n(x)$.
+    Thus
+    \[S=\{x\in A:f(x)\neq g(x)\}\subset\bigcup\limits_{n=1}^\infty\left(V_n\setminus K_n\right)\]
+    and $\mu(S)\leq\sum \mu(V_n\setminus K_n)<\epsilon$.
+
+    Now if $f$ is bounded, $0\leq f/M\leq 1$ follows directly by the above.
+
+    For $f$ bounded and real valued, note that $0\leq f+k\leq 2K$ and get $g\in C_c(x)$ near $f+K$.
+    Then $g-K$ satisfies the required values.
+
+    Now for any real valued function, let $B_n=\{x\in X:|f(x)|>n\}\Rightarrow\bigcap\limits_{n=1}^\infty B_n=\emptyset$, with $\mu(B_1)\leq\mu(\supp f)<\infty$ and $B_{n+1}\subset B_n$ for all $n$.
+    Thus $\mu(B_n)\to\mu(\bigcap B_n)=0$.
+    Let $N$ be such that $\mu(B_N)<\epsilon/2$, so if $x\notin B_N$, $f(x)\leq N$ and define $\tilde f(x)=(1-\chi_{B_n(x)})f(x)$.
+    Then $\tilde f$ is bounded, and get $\tilge g\in C_c(x)$ to $\tilde f$.
+    In particular, $\mu(\tilde f\neq\tilde g)<\epsilon/2$.
+    Then let $g=\tilde g$ and
+    \[\mu(g\neq f)\leq\mu(f\neq \tilde f)+\mu(\tilde f\neq\tilde g)=\epsilon\]
+
+    Finally, let $f$ be complex valued and $f=f_1+if_2$.
+    Then get $g_1,g_2\in C_c(X)$ and set $g=g_1+ig_2$.
+    We will prove that $\sup|G|\leq\sup|f|$.
+    If $\sup|f|=\infty$ we are done, so let $R=\sup_X|f|$.
+    Let
+    \[\phi(z)=
+        \begin{cases}
+            z &:|z|\leq R\\
+            \frac{R\cdot z}{|Z|}&: |z|>R
+        \end{cases}
+    \]
+    then $\phi$ is continuous and $|\phi|\leq R$.
+    We already have $g\in C_c(X)$ so that $\mu(f\neq g)<\epsilon$.
+    Let $\tilde g=\phi\circ g$, which is also continuous and $|g_1|\leq R$.
+    Finally, $\mu\{\tilde g\neq f\}=\mu\{\phi\circ f\neq\phi\circ g\}\leq\mu\{g\neq f\}<\epsilon$.
+\end{proof}
+\begin{corollary}
+    In the same context, let $f:X\to\C$ be measurable, $\supp f\subset A$, and $\mu(A)<\infty$ and $|f|\leq 1$.
+    Then there exists $g_n\in C_c(X)$ with $|g_n|\leq 1$ and $\lim g_n(x)=f_n(x)$ almost everywhere.
 \end{document}

@@ -1356,5 +1356,100 @@ Then label these two branching points differently, and then join the remaining b
 \begin{theorem}[Robertson-Seymour]
     In any infinite sequence of finite simple graphs, there are two such that one is a minor of the other.
 \end{theorem}
+\subsection{Colouring Planar Graphs}
+If $G$ is planar, then $\chi(G)\leq 6$ by $\chi(G)\leq\max\{\delta(F):F\subseteq G\}+1$.
+We also have $G$ planar, then $e\leq 3n-6$, so $\delta(G)<6$.
+
+\begin{proposition}
+    If $G$ is planar, then $\chi(G)\leq 5$.
+\end{proposition}
+\begin{proof}
+    Assume that the statement is not true, and let $G$ be a minimal counterexample.
+    We first see that $\delta(G)=5$.
+    Certainly $\delta(G)\geq 5$ by minimality of $G$, and $\delta(G)\leq 5$ by $G$ being planar (from before).
+
+    Now consider a planar drawing of $G$ and consider its minimum degree vertex $v$ and its neighbourhood.
+    Let the neighbours of $v$ be $a,b,c,d,g$ in the (say) clockwise order in our planar drawing.
+    Consier a proper 5-coloring of $G\setminus\{v\}$.
+    Since this is not extendable to $G$, we must have all $5$ colours appearing on $a,b,c,d,g$.
+    Since this is no extendable to $G$, we must have all 5 colours on $a,b,c,d,g$.
+
+    Consider $F_{a,c}$, the induced subgraph of $G$ that is induced by the vertices having colours $k(a)$ or $k(c)$ where $k$ is the 5-colouring of $G\setminus\{v\}$.
+    Then $a$ and $c$ must be in the same connected component, or we could flip all the colours in one of the connected components.
+    Then get a path connecting $a$ and $c$, and by the Jordan Curve theorem, this path separates $b$ from $g$ and $d$.
+    However, the same argument works for $F_{b,d}$, a contradiction.
+\end{proof}
+What about the choice number?
+There exists a planar $G$ such that $\ch(G)\geq 4$ (for example, $K_4$).
+By the same reasoning as above, we also have $\ch(G)\leq 6$.
+\begin{theorem}[Thomassen]
+    If $G$ is planar, then $\ch(G)\leq 5$.
+\end{theorem}
+In fact, we prove a stronger statement.
+We call an ``almost-triangulation'' a planar drawing in which every face except possibly the infinite face is a triangle.
+We prove this: let $w$ be a tiven almost-triangulation with lists of available colour $L(v)$ assigned to every vertex $v$ such that $|K(v)|=5$ for all vertices that are not on the infinite face, while for vertices on the infinite face, we have the following: two neighbouring vertices of the infinite face, $a$ and $b$, and they each have different lists of size 1 $L(a)=\{\alpha\}\neq\{\beta\}=L(b)$; and for all other vertices, we have lists of 3 colours.
+Then this almost-triangulation has a proper list colouring with respect to the given lists.
+
+This implies the theorem since any planar drawing can be made an almost-triangulation by adding edges, and 5-element lists can be reduced to lists of the size above.
+\begin{proof}
+    We consider two cases in an induction proof.
+    \begin{enumerate}[nolistsep]
+        \item There is a ``long diagonal'' connecting two of the vertices of the infinite face (that is not an edge of the infinite face).
+        \item There is no long diagonal.
+    \end{enumerate}
+    The induction is on the number of vertices.
+    When $n=1,2$ it is trivial, and when $n=3$ it is a 3-cycle and it is certainly fine.
+
+    Now for the induction step, we have the two cases.
+    \begin{enumerate}
+        \item Cut the graph along the long diagonal to get $G_1,G_2$.
+            $G_1$ is exactly as described in the statement, so it can be properly list coloured from the given lists.
+            Then give the endpoints of the copied long diagonal in $G_2$ so that the endpoint colours are fixed; and by induction, colour it as well.
+            Since the endpoints have the same colouring, we can put the two coloured graphs back together to obtain a proper list colouring of $G$.
+        \item Let $u\in V(G)$ be the neighbour of $a$ on the infinite face different from $b$.
+            Consider the neighbourhood of $u$, $N(u)=\{w,v_1,v_2,\ldots,v_k\}$ where $w$ is on the infinite face different from $a$.
+            We have $|L(w)|=3$ and $|L(v_i)=5|$ for all $i=1,\ldots,k$.
+            Choose two different colours in $L(u)\setminus\{\alpha\}$, they certainly exist by $|L(U)|=3$.
+            These are, say $\gamma$ and $\delta$.
+            Delete $\gamma$ and $\delta$ from all the lists, and by induction we can list colour $G\setminus\{u\}$ from the modified lists.
+            This can be extended to a list colouring of $G$ since $u$ shares no colour in its list with any $\{v_1,\ldots,v_k\}$, and at least one of $\delta$ or $\gamma$ will not be used in $w$.
+    \end{enumerate}
+\end{proof}
+\begin{definition}
+    A graph on a surface is called a \textbf{quadrangulation} if every face is a quadrangle.
+\end{definition}
+Note that every quadrangulation on the sphere is 2-choosable (since we have no odd cycles).
+\begin{theorem}[Archdeacon-Hutchinson-Akkamoto-Negani-Ota; Moher-Seymour]
+    If $G$ is a quadrangulation of a non-orientable surface such that $G$ has an odd cycle cutting the surface along which makes the surface orientable, then $\chi(G)>3$.
+\end{theorem}
+\begin{corollary}[Young]
+    If $G$ is a quadrangulation of the projective plane, then $\chi(G)=2$ or $\chi(G)=4$.
+\end{corollary}
+\begin{proof}[sketch]
+    Assume $G$ is as in the theorem, and we colour it with 3 colours properly.
+    Orient the edges towards the larger colour.
+    Also orient the faces.
+    Two neighbouring faces are oriented consistently if they walk through their common edge in the opposite direction.
+    By the condition, there exists an orientation of the faces such that it is inconsistent only along an odd cycle.
+    
+    Now let for a face $f$ and $e$ an edge, define
+    \begin{equation*}l(e,f)=
+        \begin{cases}
+            +1 &\text{if $e$ is traveresed by the same orientation of $F$ in the same direction}\\
+            -1 &\text{otherwise}
+        \end{cases}
+    \end{equation*}
+    But then
+    \begin{align*}
+        \sum\limits_{e,F,e\in F}l(e,F) &= \sum\limits_{e}\left(\sum\limits_{F\ni e} l(e,F)\right)\\
+                                       &= \text{ sum of an odd number of $\pm 2's$}\\
+                                       &\equiv 2\pmod{4}
+    \end{align*}
+    while
+    \begin{align*}
+        \sum\limits_{e,F,e\in F}l(e,F) &= \sum\limits_{F}\left(\sum\limits_{e\in F} l(e,F)\right)
+                                       &= 0
+    \end{align*}
+\end{proof}
 
 \end{document}

@@ -293,7 +293,7 @@ Then $\mathbb{P}(\{\omega_i\})=\frac{1}{N}$ and $\mathbb{P}(A)=|A|/N$.
             Then
             \[\Pr(E)=\frac{1}{\binom{52}{13}}\]
         \item Now let $E$ denote the event that north does not receive all 4 suits of any value, so $E^c$ is the event that North receives all 4 of some suit.
-            Thus $\Pr(E)&=1-\Pr(E^c)$.
+            Thus $\Pr(E)=1-\Pr(E^c)$.
             Let $V_k=$ denote the event that North gets all suits of suit $k$.
             Then
             \begin{align*}
@@ -793,7 +793,7 @@ Then
 \begin{align*}
     \Var x &= \E((X-\mu)^2)\\
            &= \sum\limits_{k=1}^\infty(x_k-2\mu x_k+\mu^2)\Pr(X=x_k)\\
-           &= \sum\limits_{k=1}^\infty x_k^2\Pr(X=x_k)-2\mu\sum\limits_{k=1}^\inftyx_k\Pr(X=x_k)+\mu^2\sum\limits_{k=1}^\infty\Pr(X=x_k)\\
+           &= \sum\limits_{k=1}^\infty x_k^2\Pr(X=x_k)-2\mu\sum\limits_{k=1}^\infty x_k\Pr(X=x_k)+\mu^2\sum\limits_{k=1}^\infty\Pr(X=x_k)\\
            &= \E(X^2)-(\E(X))^2
 \end{align*}
 \begin{proposition}
@@ -840,7 +840,7 @@ Then
           &= \sum\limits_{k=1}^n\binom{n}{k}\left.\frac{\d{}}{\d{t}}\right\rvert_{t=1}(t^k)p^k(1-p)^{n-k}\\
           &= \left.\frac{\d{}}{\d{t}}\right\rvert_{t=1}\left(\sum\limits_{k=0}^n\binom{n}{k}(tp)^k(1-p)^{n-k}\right)\\
           &= \left.\frac{\d{}}{\d{t}}\right\rvert_{t=1}\left((tp+1-p)^n\right)\\
-          &= \left.\left(n(tp-p+1)^{n-1}\cdot p\right)\rvert_{t=1}=np
+          &= \left.\left(n(tp-p+1)^{n-1}\cdot p\right)\right\rvert_{t=1}=np
 \end{align*}
 We can also compute
 \begin{align*}
@@ -1396,5 +1396,203 @@ In particular, $Z$ is standard normal if $f_Z(x)=f(x)+\frac{1}{\sqrt{2\pi}}e^{-x
 \end{example}
 \[0.96\leq \Pr\left(\left\lvert\frac{X}{n}-p\right\rvert\leq 0.02\right)=\cdots\]
 will get $Cp(1-p)\leq n$, and this holds for $C/4\leq n$.
+\subsection{Exponential Distribution}
+Let $\lambda>0$.
+Then $X\sim\Exp(\lambda)$ if its density is
+\[f_X(x)=\begin{cases}0 &:x<0\\\lambda e^{-\lambda x} &: x\geq 0\end{cases}\]
+We thus have
+\begin{align*}
+    \E(X^k) &= \int_0^\infty x^k\lambda e^{-\lambda x}\d{x}\\
+            &= \frac{k}{\lambda}\int_0^\infty x^{k-1}e^{-\lambda x}\d{x}\\
+            &\quad\vdots\\
+            &= \frac{k!}{\lambda^k}
+\end{align*}
+In particular, $\Var(X)=\E(X^2)-\E(X)^2=1/\lambda^2$ so $\sigma=1/\lambda$.
+This has the memoryless property: if $X\sim\Exp(\lambda)$, and $t,s>0$, then $\Pr(X>t)=1-\Pr(X\leq t)=e^{-\lambda t}$.
+Then
+\[\Pr(X>t+s|X>s) = \frac{\Pr(X>s+t\cap X>s)}{\Pr(X>s)}=e^{-\lambda t}\]
+Let $X$ be a random variable with density $f_X(x)$ and distribution function $F_X(x)$.
+Let $Y=k(X)$ for some function $k:\R\to\R$.
+\begin{proof}
+    Suppose $k(x)$ is increasing.
+    Then $F_Y(y)=\Pr(Y\leq y)=\Pr(k(X)\leq y)=\Pr(X\leq k^{-1}(y))=F_X(k^{-1}(y))$.
+    By differentiation, $f_Y(y)=f_X(k^{-1}(y))\frac{\d{}}{\d{y}}(k^{-1}(y))$.
+    The case when $k$ is decreasing is analgous.
+\end{proof}
+\begin{example}
+    Suppose $H\sim\UNI[-\pi/2,\pi/2]$ and $k(x)=\tan(x)$.
+    Then
+    \[f_X(x)=f_H(\tan^{-1}(x))\cdot\left\lvert\frac{\d{}}{\d{x}}\tan^{-1}(x)\right\rvert=\frac{1}{\pi}\cdot\frac{1}{1+x^2}\]
+    This distribution is called the standard Cauchy distribution and its expected value does not exist.
+\end{example}
+\begin{definition}
+    The joint distribution (cumulative) function of $X$ and $Y$ is $F:\R^2\to\R$ by
+    \[F(x,y)=\Pr(X\leq x,Y\leq y)\]
+\end{definition}
+Note that $\lim_{y\to\infty}F(x,y)=F_X(x)$, the marginal distribution function of $X$.
+Similarly, $\lim_{y\to-\infty}F(x,y)=0$ for any fixed $x\in\R$.
+We also require $\Pr(a_1<X\leq b_1,a_2<Y\leq b_2)=F(b_1,b_2)-F(a_1,b_2)-F(b_1,a_2)+F(a_1,a_2)\geq0$ as a probability on any rectangle.
+\begin{definition}
+    Let $X,Y$ be discrete random variables.
+    Then $p(x_k,y_l)=\Pr(X=x_k\cap Y=y_l)$ (and 0 otherwise).
+\end{definition}
+\begin{example}
+    Suppose there are 2 white, 2 red, and 1 blue ball in a box.
+    Draw 2 balls, and let $X$ count the number of red and $Y$ count the number of blue.
+    Then $p(x,y)$ is given by
+    \begin{center}
+        \begin{tabular}{c|c|c|c|c}
+            $X,Y$&0&1&2\\
+            \hline
+            0&$\frac{1}{10}$&$\frac{4}{10}$&$\frac{1}{10}$&$\frac{6}{10}$\\
+            \hline
+            1&$\frac{2}{10}$&$\frac{2}{10}$&$0$&$\frac{4}{10}$\\
+            \hline
+            &$\frac{3}{10}$&$\frac{6}{10}$&$\frac{1}{10}$&
+        \end{tabular}
+    \end{center}
+\end{example}
+\begin{definition}
+    We say $X$ and $Y$ are jointly absolutely continuous if there exists $f:\R^2\toR$ so that $\Pr((X,Y)\in D)=\iint_D f(x,y)\d{x}\d{y}$ for any Borel set $D\subset\R^2$.
+\end{definition}
+We thus have
+\[F(a_1,a_2)=\int_{-\infty}^{a_1}\int_{-\infty}^{a_2}f(x,y)\d{x}\d{y}\]
+so that
+\[\frac{\partial F}{\partial x}=\int_{-\infty}^{a_2}f(a_1,y)\d{y},\qquad\frac{\partial F^2}{\partial x\partial y}(x,y)=f(x,y)\geq 0\]
+If $(X,Y)$ are jointly absolutely continuous, then $X$ is absolutely continuous and $Y$ is absolutely continuous.
+Furthermore,
+\[f_X(x)=\int_{-\infty}^\infty f(x,y)\d{y}\]
+However, the converse can fail to hold:
+\begin{example}
+    Say $X$ is an arbitrary absolutely continuous variable, and $Y\equiv X$.
+    But then $(X,Y)=(X,X)$ is restricted to a measure 0 subset, so no such density function $f(x,y)$ exists.
+\end{example}
+\begin{example}
+    Suppose $X$ and $Y$ have joint density
+    \[f(x,y)=
+        \begin{cases}
+            2e^{-x}e^{-2y} &: x,y>0\\
+            0 & \text{otherwise}
+        \end{cases}
+    \]
+    Then
+    \[f_X(x)=\int_{-\infty}^\infty f(x,y)\d{y}=
+        \begin{cases}
+            0 &: x\leq 0\\
+            e^{-x} &: x>0
+        \end{cases}
+    \]
+    and
+    \[f_X(y)=\int_{-\infty}^\infty f(x,y)\d{y}=
+        \begin{cases}
+            0 &: x\leq 0\\
+            2e^{-y} &: x>0
+        \end{cases}
+    \]
+    We can also compute
+    \begin{align*}
+        \Pr(X\geq Y) &= \int_{-\infty}^\infty \int_{-\infty}^x f(x,y)\d{y}\d{x}\\
+                     &= \int_0^{\infty}\int_0^x 2e^{-2y}e^{-x}\d{y}\d{x}\\
+                     &= \int_0^\infty (-e^{-3x}+e^{-x})\d{x}\\
+                     &= \frac{2}{3}
+    \end{align*}
+\end{example}
+\begin{definition}
+    Let $D$ be a domain in $\R^2$ with finite measure.
+    Then $(X,Y)$ is uniformly distributed on $D$ if their joint density satisfies
+    \[f(x,y)=
+        \begin{cases}
+            0 &: (x,y)\notin D\\
+            \frac{1}{\mu(D)} &: (x,y)\in D
+        \end{cases}
+    \]
+\end{definition}
+\begin{example}
+    Let $D$ denote the triangle with vertices $(0,0)$, $(3,0)$, and $(0,1)$.
+    Then
+    \[f(x,y)=
+        \begin{cases}
+            \frac{2}{3}&: (x,y)\in D\\
+            0 &:\text{otherwise}
+        \end{cases}
+    \]
+    so that
+    \[f_X(x)=\int_{-\infty}^\infty f(x,y)\d{y}=
+        \begin{cases}
+            0 &: x\notin[0,3]\\
+            \frac{2}{3}\left(1-\frac{x}{3}\right) &: x\in[0,3]
+        \end{cases}
+    \]
+    \[f_X(x)=\int_{-\infty}^\infty f(x,y)\d{y}=
+        \begin{cases}
+            0 &: y\notin[0,1]\\
+            2-2y &: y\in[0,1]
+        \end{cases}
+    \]
+\end{example}
+\begin{definition}
+    $X$ and $Y$ are independent if for any pair of intervals $I,J$,
+    \[\Pr(X\in I,Y\in J)=\Pr(X\in I)\cdot\Pr(Y\in J)\]
+    or equivalently, $F(x,y)=F_X(x)\cdot F_Y(y)$.
+\end{definition}
+In general, $(X,Y)$ uniform on $D$ are not independent unless $D$ is a cartesian product of subsets of $\R$.
+\begin{example}
+    Consider $f(x,y)=Axy$ whenever $x+y\leq $ and $x,y\in[0,1]$, and 0 otherwise.
+    Then
+    \[f_X(x)=
+        \begin{cases}
+            0 &: x\leq 0, x\geq 1\\
+            \int_0^{1-x}Axy\d{y}=Ax(1-x)^2/2
+        \end{cases}
+    \]
+    so that $A=24$.
+    \[f_Y(y)=
+        \begin{cases}
+            0 &: y\leq 0, y\geq 1\\
+            \int_0^{1-y}Axy\d{y}=Ay(1-y)^2/2
+        \end{cases}
+    \]
+\end{example}
+\begin{example}
+    A woman and a man agree to meet at some location between noon and 1pm.
+    Both arrive at a random time, uniformly distributed within this hour independently.
+    What is the probability that the one who arrives first has to wait more than 10 minutes?
 
+    Let $X\sim\operatorname{UNI}[0,60]$, $Y\sim\operatorname{UNI}[0,60]$.
+    Then $\Pr(|X-Y|>10)=\frac{50^2}{60^2}$
+\end{example}
+\begin{example}
+    Consider a table ruled with parallel equidistant lines (2cm apart), on which we flip a needle of length 1cm.
+    If $X$ is the distance of the midpoint of the needle to the closest line, then $X\sim\operatorname{UNI}[0,1]$.
+    Let $H$ denote the angle that the needle makes with the horizontal.
+    Then
+    \[f(\theta,x)=\frac{2}{\pi}\]
+    whenever $0<x<1$ and $0<\theta<\pi/2$ so that
+    \begin{align*}
+        \Pr(\text{intersection}) &= \Pr(X<\frac{1}{2}\cos\theta)\\
+                                 &= \iint_D f(x,\theta)\d{x}\d{\theta}\\
+                                 &= \frac{2}{\pi}\int_0^{\pi/2}\int_0^{\cos\theta/2}\d{x}\d{\theta}\\
+                                 &= \frac{1}{\pi}\int_0^{\pi/2}\cos\theta\d{\theta}\\
+                                 &= \frac{1}{\pi}
+    \end{align*}
+\end{example}
+Let's now consider sums of independent random variables.
+If $X$ and $Y$ are independent with known distributions, what is the distribution of $X+Y$?
+If $X,Y$ are discrete and integer valued,
+\begin{align*}
+    \Pr(X+Y=k) &= \sum\limits_{l=-\infty}^\infty \Pr(X+Y=k|X=l)\Pr(X=l)\\
+               &= \Pr(Y=k-l)\Pr(X=l)
+\end{align*}
+Suppose $X$ has density $f_X(x)$ and $Y$ has density $f_Y(y)$.
+What can we say about the distribution of $Z=X+Y$?
+We have $f(x,y)=f_X(x)f_Y(y)$ so that
+\begin{align*}
+    F_Z(z) &= \Pr(Z\leq z)\\
+           &=\Pr(X+Y\leq z)\\
+           &= \iint_{H}f(x,y)\d{x}\d{y}\\
+           &= \int_{-\infty}^\infty \int_{-\infty}^{z-x}f_X(x)f_Y(y)\d{y}\d{x}\\
+           &= \int_{-\infty}^\infty f_X(x)\left(\int_{-\infty}^{z-x}f_Y(y)\d{y}\right)\d{x}
+\end{align*}
+and
+\[f_Z(z)=\frac{\d{F_z}}{\d{z}}(z)=\int_{-\infty}^\infty f_X(x)f_Y(z-x)\d{x}\]
 \end{document}
