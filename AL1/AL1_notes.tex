@@ -731,7 +731,51 @@ Then $|M\cdot N|=|G|$, so $MN=G$.
     Thus there exists some $(g,g,\ldots,g)\in T$ with $g\neq 1$, so $g^p=1$ and $o(g)\neq $, so $o(g)=p$.
 \end{proof}
 In fact, this shows that $|\{g\in G:g^p=1\}|=0\pmod{p}$.
-    
+\begin{theorem}
+    Suppose $|G|=pq$, with $p<q$ primes, and assume $q\neq 1\pmod{p}$.
+    Then $G\cong C_{pq}$.
+\end{theorem}
+\begin{proof}
+    By Lagrange, $o(g)$ can be $1,p,q,pq$.
+    By Cauchy, there exists $x,y\in G$ so that $o(x)=p$, $o(y)=q$.
+    Now consider $H\leq G$, so $H=\{1\}$, $H\cong C_p$, $H\cong C_q$, or $H=G$.
+
+    Since $|C_g|||G|$, we have $|C_g|\cdot|C_G(g)|=|G|$.
+    So $|C_g|=1$ or $p$ or $q$.
+
+    By Cauchy, get $o(x)=p$, $o(y)=q$ and let $A=\langle x\rangle$, $B=\langle y\rangle$.
+    If $C\leq G$, then $|C|=q$, $C\cong C_q$, $C=\langle z\rangle$ cyclic.
+    $B\tranglelefteq G$, and it is the only subgroup of order $q$ in $G$: if $C\leq G$ and $|C|=q$, then $C=1,z,z^2,\ldots,z^{q-1}$.
+    Since $p<q$, $B,Bz,\ldots,Bz^{q-1}$ is a set of $q$ cosets, so some of them must overlap, say $Bz^a=Bz^b$.
+    Then $z^{b-a}\neq 1$ and $z^{b-a}\in C$, so $\{1\}\neq B\cap C\leq B$.
+    Then $|B\cap C|=q$ by Lagrange and $|B\cap C|=|B|$ so $B=C$.
+    Since $B\triangleleq G$ (since it is the only subgroup of order $q$), $B$ is a union of some conjugacy classes of size $1$ or $p$.
+    Let $m$ denote the number of conjugacy classes of size 1, so $m=|B\cap Z(G)|$, so $m||B|=q$ so $m=q$.
+    Thus there are at least 2 conjugacy classes of size $1$, so there exists $1\neq w\in B$ with $|C_w|=1$ and $w\in Z(G)$.
+    Thus $|Z(G)\cap B|>1$, so $Z(G)\cap B=B$ so $B\leq Z(G)$.
+
+    Recall that $B=\langle x\rangle$, $A=\langle x\rangle$ and $o(y)=q$ and $o(x)=p$, so $x\notin B$.
+    Consider $C_G(x)$.
+    $Z(G)\leq C_G(x)$, so $B\leq C_G(x)$, and since powers of $x$ commute with $x$, $A\leq C_G(x)$.
+    Then $q|C_G(x)$ and $p|C_G(x)$, so $|C_G(x)|=pq$.
+    Thus $C_G(x)=G$ so $x\in Z(G)$.
+    Thus $Z(G)=G$.
+
+    Now $A\trianglelefteq G$ and $B\trianglelefteq G$, $A\cap B=\{1\}$ by Lagrange, and $|A|\cdot|B|=|G|$.
+    Thus $G\cong A\times B=C_p\times C_q\cong C_{pq}$.
+\end{proof}
+\begin{theorem}[First Sylow]
+    If $G$ is a finite group and $p^d||Q|$ for $p$ prime, then there exists $H\leq G$ with $|G|=p^d$.
+\end{theorem}
+If $d$ is maximal, then $H$ is called a Sylow $p-$subgroup of $G$.
+We say $\operatorname{Syl}_p(G)=\{H\leq G:|H|=p^d\}$.
+\begin{example}
+    Consider $|D_6|=12$.
+    Then
+    \[\operatorname{Syl}_2(G)=\left\{\{1,r^3,s,sr^3\},\{1,r^3,sr,sr^4\},\{1,r^3,sr^2,sr^5\}\right\}\]
+    and
+    \[\operatorname{Syl}_3(G)=\left\{\{1,r^2,r^4\}\right\}\]
+\end{example}
 \chapter{Examples of Finite Groups and Rings}
 \section{Examples of Finite Groups}
 \subsection{Cyclic Groups}

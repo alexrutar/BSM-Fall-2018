@@ -940,7 +940,7 @@ It is possible that $\chi(G)>\omega(G)$; for example, in the 5-cycle.
 \end{theorem}
 \begin{proof}[Mycielski's Construction]
     We construct a sequence of graphs $M_2,M_3,\ldots,M_k,\ldots$ such that for all $i$, $\omega(G_i)=2$, $\chi(G_i)=i$.
-    Define $M_2=$ \begin{tikzpicture} \node[vtx] (a) at (0,0){};\node[vtx](b) at (1,0);\draw[thick](a) -- (b);\end{tikzpicture}.
+    Define $M_2=$ \begin{tikzpicture} \node[vtx] (a) at (0,0){};\node[vtx](b) at (1,0){};\draw[thick](a) -- (b);\end{tikzpicture}.
     Now define 
     \begin{align*}
         V(M_{k+1})&:=V(M_k)\cup\{u_i:i=1,\ldots,n=|V(M_k)|\}\cup\{z\}\\
@@ -1450,6 +1450,84 @@ Note that every quadrangulation on the sphere is 2-choosable (since we have no o
         \sum\limits_{e,F,e\in F}l(e,F) &= \sum\limits_{F}\left(\sum\limits_{e\in F} l(e,F)\right)
                                        &= 0
     \end{align*}
+\end{proof}
+\begin{center}
+    \begin{tikzpicture}
+    \end{tikzpicture}
+\end{center}
+\section{Perfect Graphs}
+\begin{definition}[Claude Berge]
+    A graph $G$ is called \textbf{perfect} if for every induced subgraph $G'\subseteq G$, we have $\chi(G')=\omega(G')$.
+\end{definition}
+\begin{tabular}{c|c}
+    perfect graph & imperfect graph\\
+    $K_{n_1,n_2,\ldots,n_k}$ & $C_{2k+1}$, $k\geq 1$\\
+    Bipartite graphs & $L(G)$ where $|G|$ is odd and regular\\
+    complements of bipartite graph &\\
+    line graph of bipartite graph &\\
+    complements of line graphs of bipartite graphs
+\end{tabular}
+Let $G$ be bipartite.
+Then $F=L(G)$ is perfect.
+$\chi(\overline{F})=\tau(G)$
+$\omega(\overline{F})=\nu(G)$
+The induced subgraph of the complement of the line graph is the complement of the line graph of some bipartite graph.
+
+$\omega(\overline{C_{2k+1}})=k$
+$\chi(\overline{C_{2k+1}})=k+1$ since $x\geq|V|/\alpha$ where $\alpha=2$ is the independence number
+\begin{theorem}[Perfect Graph Conjecture]
+    $G$ is perfect if and only if $\overline{G}$ is perfect.
+\end{theorem}
+\begin{theorem}[Strong Perfect Graph Conjecture]
+    $G$ is perfect if and only if neither $G$ nor $\overline{G}$ contains an induced $C_{2k+1}$ with $k\geq 2$.
+\end{theorem}
+\begin{proof}[Chudnovsky-Robertson-Seymour-Thomas]
+\end{proof}
+\begin{theorem}[Lovasz]
+    A graph $G$ is perfect if and only if for every induced subgraph $G'$ of $G$, then $\alpha(G')\cdot\omega(G')\geq|V(G')|$.
+\end{theorem}
+This implies PGC since when taking complements, $\alpha$ and $\omega$ switch.
+\begin{proof}[Gasparyan]
+    The forward direction is clear since $\chi(G')\alpha(G')\geq|V(G')|$ being true for any subgraph, and perfection implying $\chi(G')=\omega(G')$ for all $G'\subseteq G$.
+
+    To prove the reverse, it is enough to prove that if $G$ is a minimal imperfect graph, then for every $v\in V(G)$, then $\alpha(G)\cdot\omega(G)<|V(G)|$.
+    Thus we assume $G$ is minimally imperfect.
+    If $A\subseteq V(G)$ is an independent set, then $\omega(G\setminus A)=\omega(G)$.
+    This is obvious if $A=\emptyset$, then $\omega(G\setminus A)=\chi(G\setminus A)\geq\chi(G)-1>\omega(G)-1$ since $G$ is minimally imperfect.
+    Since $\omega(G\setminus A)\leq\omega(G)$, this implies equality.
+
+    Now we select $\alpha\omega+1$ independent sets $A_0,A_1,\ldots,A_{\alpha\omega}$ as follows:
+    \begin{itemize}[nolistsep]
+        \item Let $A_0=\{a_1,a_2,\ldots,a_{\alpha}\}$ be an arbitrary fixed independent set of size $\alpha$.
+            Then $\omega(G\setminus\{a_1\})=\omega$ and $G\setminus\{a_1\}$ is perfect, so $\chi(G\setminus\{a_1\})=\omega$.
+            Let $A_1,A_2,\ldots,A_\omega$ be the colour classes of an $\omega-$colouring of $G\setminus\{a_1\}$.
+        \item For each $i=2,3,\ldots,\alpah$, let $A_{(i-1)\omega+1},A_{(i-1)\omega+2},\ldots,A_{i\omega}$ be the colour classes of an $\omega-$colouring of $G\setminus\{a_i\}$.
+        \item We also select $\alpha\omega+1$ cliques $Q_0,Q_1,\ldots,Q_{\alpha\omega}$ as follows: for all $i$, let $Q_i$ be an $\omega-$size clique disjoint from $A_i$.
+            Such a choice is possible since $\omega(G\setminus A_i)=\omega$.
+    \end{itemize}
+    We claim that $A_i\cap Q_j=\emptyset$ if and only if $i=j$.
+    The reverse claim follows by the choice of $Q_j$, so we prove the forward direction.
+    First take $j=0$.
+    Then $Q_0$ is an $\omega-$clique, so in every $G\setminus\{a_r\}$, so all colour classes of an optimal colouring of $G\setminus\{a_r\}$ should intersect $Q_0$.
+    Thus $Q_0\cap A_1\neq\emptyset$ for $i=1,2,\ldots,\alpha\omega$.
+    This implies the case for $j=0$.
+
+    Now assume $A_0\cap Q_j)\neq\emptyset$, let $A_0\cap Q_j=\{a_l\}$.
+    For $r\neq l$, $Q_j$ is an $\omega-$clique in $G\setminus\{a_r\}$, so it must intersect all the colour classes in an $\omega-$colouring of $G\setminus\{a_r\}$.
+    In $G\setminus\{a_l\}$ we have $\omega-1$ vertices of $Q_j$, so it intersects all but 1 colour class of an $\omega-$colouring of $G\setminus\{a_l\}$.
+    So again only 1 of the $A_i$'s can be disjoint of $Q_j$, so it must be $A_j$.
+
+    Now define a matrix $A$ with $\alpha\omega+1$ rows and $n$ columns, where
+    \[A[j,i]=
+        \begin{cases}
+            1 &: v_i\in A_j\\
+            0 &:\text{otherwise}
+        \end{cases}
+    \]
+    Let $B$ be a similar matrix with $n$ rows and $\alpha\omega+1$ matrix, where $B[i,j]=1$ exactly when $v_i\in Q_j$.
+    Let $D=AB$, so $D[j,l]=|A_j\cap Q_l|=1-\delta_{jl}$ with rank $\alpha\omega+1$.
+    As well, the rank of $D$ is at most $n$.
+    Thus $\alpha\omega+1\leq n$.
 \end{proof}
 
 \end{document}

@@ -1523,4 +1523,219 @@ We then have
 \begin{corollary}
     In the same context, let $f:X\to\C$ be measurable, $\supp f\subset A$, and $\mu(A)<\infty$ and $|f|\leq 1$.
     Then there exists $g_n\in C_c(X)$ with $|g_n|\leq 1$ and $\lim g_n(x)=f_n(x)$ almost everywhere.
+\end{corollary}
+\section{Complex Measures}
+Let $\mathcal{M}$ be a $\sigma-$algebra in $X$.
+\begin{definition}
+    $\mu:\mathcal{M}\to\overline{R}$ is called a \textbf{signed measure} if it is countably addivite, and $+\infty$ and $-\infty$ are not in the range at the same time.
+\end{definition}
+\begin{definition}
+    $\mu:\mathcal{M}\to\C$ is called a \textbf{complex measure} if it is countably additive: if $E_i$ are disjoint, then
+    \[\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)=\sum\limits_{i=1}^\infty \mu(E_i)\]
+\end{definition}
+\begin{definition}
+    For a set $E\in\mathcal{M}$, a partition of $E$ is $\{E_i:i=1,2,\ldots\}$ so that $E_i\cap E_j=\emptyset$ and $\bigcup\limits_{i=1}^\infty E_i=E$ and $E_i\in\mathcal{M}$ for all $I$.
+\end{definition}
+\begin{definition}
+    Let $\mu$ be a complex or signed measure.
+    Its total variation
+    \[|\mu|:\mathcal{M}\to[0,+\infty]=\sup\left\{\sum\limits_{i=1}^\infty |\mu(E_i)|:\{E_i\}\text{ is a partition of $E$}\right\}\]
+\begin{theorem}
+    $|\mu|$ is a positive measure.
+\end{theorem}
+\begin{proof}
+    Let $E\in\mathcal{M}$, and $\{E_i\}$ an arbitrary partition of $E$.
+    We first see that $\sum|mu|(E_i)\leq|\mu|(E)$.
+    Let $t_i<|\mu|(E_i)$, so there exists a partition $\{A_{ij}:j\}$ of $E_i$ so that
+    \[\sum\limits_{j=1}^\infty|\mu(A_{ij})|>t_i\]
+    for all $i$.
+    Then $\{A_{ij}\}_{i,j}$ is a partition of $E$, and
+    \[\sum\limits_{i=1}^\infty t_i\leq\sum\limits_{i=1}^\infty\sum\limits_{j=1}^\infty|\mu(A_{ij})|\leq|\mu|(E)\]
+    and since this holds for all $i$, we must have
+    \[\sum\limits_{i=1}^\infty|\mu|(E_i)\leq\mu(E)\]
+    We now see the opposite direction.
+    Let $\{A_j\}_j$ be an arbitrary partition of $E$.
+    The set $\{A_j\cap E_i\}_j$ is a partition of $E_i$, while $\{A_j\cap E_i\}_i$ is a partition of $A_j$.
+    Then
+    \begin{align*}
+        \sum\limits_{j=1}^\infty|\mu(A_j)| &= \sum\limits_{j=1}^\infty\left\lvert\sum\limits_{i=1}^\infty \mu(A_j\cap E_i)\right\rvert\\
+                                           &\leq\sum\limits_j\sum\limits_i\sum\limits_j|\mu(A_j\cap E_i)|\\
+                                           &=\sum\limits_i\sum\limits_j|\mu(A_j\cap E_i)|\\
+                                           &\leq \sum\limits_i|\mu|(E_i)
+    \end{align*}
+    and since this holds for an arbitrary partition $\{A_j\}$ of $E$, taking the supremum over all partitions gives the total variation.
+    Thus equality holds.
+\end{proof}
+\begin{lemma}
+    Let $z_1,z_2,\ldots,z_N\in\C$.
+    Then there exists $S\subset\{1,2,\ldots,N\}$ so that
+    \[\left\lvert\sum\limits_{k\in S}\right\rvert\geq\frac{1}{\pi}\sum\limits_{k=1}^N|z_k|\]
+\end{lemma}
+\begin{proof}
+    Let $z_k=|z_k|e^{i\alpha_k}$, and for $\Theta\in[-\pi,\pi]$, let $S(\Theta)=\{k\in\{1,2,\ldots,N\}:\cos(\alpha_k-\Theta)>0\}$.
+    Then
+    \begin{align*}
+        \left\lvert\sum\limits_{k\in S(\theta)}z_k\right\rvert&=\left\lvert\sum\limits_{k\in S(\theta)}|z_k|e^{i\theta}\right\rvert\\
+                                                              &\geq \re\sum\limits_{k\in S(\theta)}e^{-i(\alpha_k-\theta)}\\
+                                                              &= \sum\limits_{k\in S(\theta)}|z_k|\cos(\alpha_k-\theta)\\
+                                                              &= \sum\limits_{k=1}^N|z_k|\cos^+(\alpha_k-\theta):=h(\theta)
+    \end{align*}
+    and $h:[-\pi,\pi]\to\R$ is a continuous function.
+    It has a maximum at some $\theta_0$.
+    Fix $S=S(\theta_0)$ and
+    \begin{align*}
+        \left\lvert\sum\limits_{k\in S}z_k\right\rvert &= h(\theta_0)\\
+                                                       &\geq \frac{1}{2\pi}\int_{-\pi}^\pi h\d{\theta}\\
+                                                       &=\frac{1}{2\pi}\int_{-\pi}&\pi \sum\limits_{k=1}^N|z_k|\cos^+(\alpha_k-\theta)\d{\theta}\\
+                                                       &= \frac{1}{2\pi}\sum\limits_{k=1}^N|z_k|\int_{-\pi}^\pi\cos^+(\alpha_k-\theta)\d{\theta}\\
+                                                       &=\frac{1}{\pi}\sum\limits_{k=1}^N|z_k|
+    \end{align*}
+    since $\int_{-\pi}^\pi\cos^+(\alpha_k-\theta)=2$.
+\end{proof}
+\begin{theorem}
+    If $\mu$ is a complex measure, then $|\mu|(X)<\infty$.
+\end{theorem}
+\begin{proof}
+    Let $E\in\mathcal{M}$ such that $|\mu|(E)=+\infty$.
+    Set $t=\pi(1+|\mu(E)|)$ and since $|\mu(E)|>t$, there exists a partition $\{E_i\}$ of $E$ such that
+    \[\sum\limits_{i=1}^N|\mu(E_i)|>t\]
+    for some $N$.
+    Then by the lemma with $z_k=\mu(E_k)$, let $A=\bigcup\limits_{k\in S}E_k$.
+    By the lemma,
+    \[|\mu(A)|\geq\frac{1}{\pi}\sum\limits_{k=1}^N|\mu(E_k)|>\frac{t}{\pi}\geq 1\]
+    and let $B=E\setminus A$.
+    Then
+    \[|\mu(B)|\geq|\mu(A)|-|\mu(E)|\geq\frac{t}{\pi}-\left(\frac{t}{\pi}-1\right)=1\]
+    so $E=A\cup B$, $\mu(A)>1$ and $\mu(B)>1$.
+
+    Now assume $|\mu|(X)=\infty$ and get $A_1,B_1$ with $|\mu(A_1)|\geq 1$ and $|\mu(B_1)|\geq 1$.
+    As well, at least one of $|\mu|(A_1)$, $|\mu|(B_1)$ is infinity.
+    Without loss of generality, it is $B_1$, so repeat this procedure to $B_1$.
+    Get a sequence $A_1,A_2,\ldots$ with $|\mu(A_i)|\geq 1$ and $A_i$ disjoint.
+    As well, $\mu\left(\cup A_i)=\sum \mu(A_i)$ where the LHS is finite, but the RHS does not converge, a contradoction.
+\end{proof}
+Recall that $\mu:\mathcal{M}\to\C$ is a complex measure if it is countably additive.
+Then the total variation of $\mu$ is given by
+\[|\mu|(E)=\sup\left\{\sum\limits_{i=1}^\infty|\mu(E_i)|:\{E_i\}\text{ is a partition}\right\}\]
+Then $|\mu|$ is a positive measure and $|\mu|(X)<\infty$.
+If $\mu,\lambda:\mathcal{M}\to\C$ are complex measures, then $(\mu+\lambda)(E)=\mu(E)+\lambda(E)$ and $(c\cdot\mu)(E)=c\cdot\mu(E)$.
+Thus the set of complex measures is a vector space.
+Let $\norm{\mu}:=|\mu|(X)$.
+
+If $\mu$ is a signed measure $(\mu:\mathcal{M}\to\overline{R})$, then the total variation is defined in the same way.
+\begin{definition}
+    Let $\mu$ be a signed measure.
+    The \textbf{positive variation} of $\mu$ is $\mu_+:=\frac{1}{2}(|\mu|+\mu)$ and the \textbf{negative variation} of $\mu$ is $\mu_i:=\frac{1}{2}(|\mu|-\mu)$.
+\end{definition}
+These are positive measures since $|\mu|(E)\geq|\mu(E)|$.
+We have $\mu=\mu_+-\mu_-$; this is called the Jordan decomposition, and $|\mu|=\mu_++\mu_-$.
+\section{Absolute Continuity and Singular Measures}
+\begin{definition}
+    Let $\mu$ be a positive measure and $\lambda$ be an arbitrary (positive, signed, or complex) measure.
+    Then $\lambda$ is \textbf{absolutely continuous} with respect to $\mu$ if $\mu(E)=0\Rightarrow\lambda(E)=0$.
+    We write $\lambda\ll\mu$.
+\end{definition}
+\begin{definition}
+    $\lambda$ is concentrated on a set $A\in\mathcal{M}$ if $\lambda(E)=\lambda(E\cap A)$ for all $E\in\mathcal{M}$.
+\end{definition}
+\begin{proposition}
+    $\lambda$ is concentrated on $A$ if and only if $\lambda(E)=0$ if $E\cap A=\emptyset$.
+\end{proposition}
+\begin{proof}
+    Let $E\cap A=\emptyset$.
+    Then $\lambda(E)=\lambda(E\cap A)=\lambda(\emptyset)=0$.
+
+    Conversely, let $E\in\mathcal{M}$.
+    Then $\lambda(E)=\lambda(E\cap A)+\lambda(E\cap A^c)=\lambda(E\cap A)$.
+\end{proof}
+\begin{definition}
+    $\lambda_1$ and $\lambda_2$ are called mutually singular if there exist disjoint sets $A$ and $B$ such that $\lambda_1$ is concentrated on $A$ and $\lambda_2$ is contentrated on $B$.
+    Then $\lamda_1\perp\lambda_2$.
+\end{definition}
+\begin{proposition}
+    Let $\mu$ be a positive measure, $\lamda,\lambda_1,\lambda_2$ be arbitrary measures (positive, signed, or complex).
+    Then
+\end{proposition}
+\begin{proposition}
+    \begin{enumerate}
+        \item $\lambda$ is concentrated on $A$ implies $|\lambda|$ is also concentrated on $A$.
+        \item $\lambda_1\perp\lambda_2\Rightarrow|\lambda_1|\perp|\lambda_2|$
+        \item $\lambda_1\perp\mu$ and $\lambda_2\perp\mu$ implies $\lambda_1+\lambda_2\perp\mu$.
+        \item $\lambda_1\ll\mu$ and $\lambda_2\ll\mu$ implies $\lambda_1+\lambda_2\ll\mu$.
+        \item $\lambda\ll\mu$ implies $|\lambda|\ll\mu$
+        \item $\lambda_1\ll\mu$ and $\lambda_2\perp\mu$ implies $\lambda_1\perp\lambda_2$
+        \item $\lambda\ll\mu$ and $\lambda\perp\mu$ implies $\lambda=0$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    \begin{enumerate}
+        \item $\lambda(E)=0$ if $E\cap A=\emptyset$.
+            Let $E\cap A=\emptyset$ and let $E=\cup E_i$ be a partition.
+            Then $E_i\cap A=\emptyset$ so $\lambda(E_i)=0$ and $\sum|\lambda(E_i)|=0$.
+        \item 
+        \item
+        \item Let $\mu(E)=0$.
+            Then $\lambda_1(E)=0$ and $\lambda_2(E)=0$ so $(\lambda_1+\lambda_2)(E)=0$.
+        \item Let $\mu(E)=0$ and let $E=\cup E_i$.
+            Then $\mu(E_i)=0$ for all $i$, so $\lambda(E_i)=0$ for all $i$.
+            Otherwise, if $\sum|\lambda(E_i)|=0$ for all partitions, then $|\lambda|(E)=0$ so $|\lambda|\ll\mu$.
+        \item $\lambda_2\perp\mu$ implies that there exist disjoint sets $A,B$ so $\lambda_2$ is concentrated on $A$ and $\mu$ is concentrated on $B$.
+            We will see that $\lambda_1$ is also concentrated on $B$.
+            Let $E\cap B=\emptyset$ so $\mu(E)=0$ and $\lambda_1(E)=0$, so $\lambda_1$ is concentrated on $B$.
+        \item $\lambda$ is concentrated on $A$, $\mu$ is concentrated on $B$, and let $E\in\mathcal{M}$ be arbitrary.
+            Then $\lambda(E)=\lambda(E\cap A)=0$ since $\mu(E\cap A)=0$ and $\lambda\ll\mu$.
+            Thus $(E\cap A)\cap B=\emptyset$.
+    \end{enumerate}
+\end{proof}
+\begin{proposition}
+    Let $\mu$ be a positive measure, $\lambda$ a complex measure.
+    Then the following are equivalent:
+    \begin{enumerate}
+        \item $\lambda\ll\mu$
+        \item For any $\epsilon>0$, there exists $\delta>0$ such that $\mu(E)<\delta$ so $|\lambda(E)|<\epsilon$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    $(2\Rightarrow 1)$.
+    Let $\epsilon>0$ and choose $\delta$ satisfying the requirement.
+    Then let $\mu(E)=0$, so $\mu(E)<\delta$ and $|\lambda(E)|<\epsilon$.
+    This holds for any $\epsilon>0$ so $\lambda(E)=0$.
+
+    $(1\Rightarrow 2)$.
+    Assume the opposite: get $\epsilon>0$ so that for each $\delta=1/2^n$, there exists a set $E_n$ so that $\mu(E_n)<1/2^n$ but $|\lambda(E_n)|\geq\epsilon$.
+    Let $A_n=\bigcup\limits_{k=n}^\infty E_k$ and $A=\bigcap\limits_{n=1}^\infty A_n$.
+    Then
+    \[\mu(A_n)\leq\sum\limits_{k=n}^\infty\mu(E_k)\leq\sum\limits_{k=n}^\infty=\frac{1}{2^{n-1}}\]
+    so $\mu(A)=0$ since $\mu(A_1)<\infty$.
+    Since $\lambda\ll\mu$, then $|\lambda|\ll\mu$ so $|\lambda|(A)=0$.
+    However, $\lim|\lambda|(A_n)=|\lambda|(A)=0$ while $|\lambda(E_n)\geq\epsilon$ implies $|\lambda|(E_n)\geq\epsilon$ implies $|\lambda|(A_n)\geq\epsilon$ implies $\lim|\lambda(A_n)\geq\epsilon$, a contradiction.
+If $\lambda$ is not finite, this may not hold.
+Set $f(x)=1/|x|$, $\lambda(E)=\int_Ef\d{\mu}$, and $\mu$ is the Lebesgue measure.
+However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^n$.
+\begin{lemma}
+    If $\mu$ is a positive, $\sigma-$finite measure $(X=\cup X_n,\mu(X_n)<\infty)$, then there exists $w\in L^1(\mu)$ so that $0<w<1$.
+\end{lemma}
+\begin{proof}
+    Let $X=\bigcup\limits_{n=1}^\infty X_n$, and $\mu(X_n)<\infty$.
+    Let
+    \[w_n(x)=
+        \begin{cases}
+            0 &:x\in X\setminus X_n\\
+            \frac{1}{2^n(1+\mu(X_n))} &: x\in X_n
+        \end{cases}
+    \]
+    and $w(x)=\sum\limits_{n=1}^\infty w_n(x)$.
+    By construction, $0<w<1$ and $\int_X w\d{\mu}=\sum\int w_n\d{\mu}<\sum 1/2^n=1$ so $w\in L^1(\mu)$.
+\end{proof}
+\section{$L^2(\mu)$}
+Let $(X,\mathcal{M},\mu)$ be a measure space, and set $\norm{f}_2=\left(\int_X |f|^2\d{\mu}\right)^{1/2}$.
+Let $L^2(\mu)=\{f:X\to\C:f\text{ measurable, }\norm{f}_2<\infty\}$.
+This is a normed space if functions which are equal almost everywhere are identified.
+We also define
+\[\inner{x}{y}=\int_Xf\overline{g}\d{\mu}\]
+$L^2$ is the infinite dimensional generalization of $\R^k$.
+\begin{theorem}[Riesz-Fisher]
+    $L^2(\mu)$ is complete (every Cauchy sequence of functions converges w.r.t. the $L^2$ norm).
+\end{theorem}
+
 \end{document}

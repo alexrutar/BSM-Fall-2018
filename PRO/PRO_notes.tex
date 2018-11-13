@@ -1595,4 +1595,34 @@ We have $f(x,y)=f_X(x)f_Y(y)$ so that
 \end{align*}
 and
 \[f_Z(z)=\frac{\d{F_z}}{\d{z}}(z)=\int_{-\infty}^\infty f_X(x)f_Y(z-x)\d{x}\]
+Suppose $X$ and $Y$ are independentt with densities $f_X(x)$ and $f_Y(y)$ respectively.
+Write $Z=X+Y$ and it has density
+\[f_Z(z)=\int_{-\infty}^\infty f_X(x)f_Y(z-x)\d{x}\]
+\begin{example}
+    Suppose $X,Y\sim\operatorname{UNI}[0,1]$.
+    Then
+    \[f_Z(z)=\int_{-\infty}^\infty f_X(x)f_Y(z-x)\d{x}=
+        \begin{cases}
+            0 &: z\leq 0,z\geq 2\\
+            z &: 0<z\leq 1\\
+            2-z & 1<z<2
+        \end{cases}
+    \]
+\end{example}
+\begin{lemma}
+    Let $X\sim\mathcal{N}(0,1)$ and $Y\sim\mathcal{N}(0,\sigma^2)$ are independent, then $X+Y\sim\mathcal{N}(0,1+\sigma^2)$.
+\end{lemma}
+\begin{proof}
+    First recall that $\E(X+Y)=\E(X)+\E(Y)$ and since $X,Y$ are independent, $\E(X\cdot Y)=\E(X)\cdot\E(Y)$ so $\Var(X+Y)=\Var(X)+\Var(Y)$.
+    Thus it suffices to check that $X+Y$ is normally distributed.
+    First note that
+    \[f_X(x)f_Y(z-x)=C_0e^{-x^2/2}e^{-(z-x)^2/(2\sigma^2)}=C_0e^{-(Ax^2+Bzx+Dz^2)/2}\]
+    so we have
+    \begin{align*}
+        f_Z(z) &= C_0e^{-Ez^2}\int_{-\infty}^\infty e^{-\frac{1}{2}A(x-Fz)^2}\d{x}\\
+               &= C_0e^{-Ez^2}\int_{-\infty}^\infty e^{-\frac{A}{2}A(\tilde x)^2}\d{\tilde x}\\
+               &= C_0C_1e^{-Ez^2}
+    \end{align*}
+    is normally distributed.
+\end{proof}
 \end{document}
