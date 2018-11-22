@@ -1415,6 +1415,43 @@ This implies the theorem since any planar drawing can be made an almost-triangul
             This can be extended to a list colouring of $G$ since $u$ shares no colour in its list with any $\{v_1,\ldots,v_k\}$, and at least one of $\delta$ or $\gamma$ will not be used in $w$.
     \end{enumerate}
 \end{proof}
+\begin{proposition}[Voigt]
+    There exists a planar graph with choice number 5.
+\end{proposition}
+\begin{solution}
+    \begin{center}
+        \begin{tikzpicture}[every node/.style={circle, inner sep=2pt,draw=black},scale=3,rotate=90,every edge/.style=thick]
+            \node (l) at (-1,0){3};
+            \node (r) at (1,0){2};
+            \node (t) at (0,2){1};
+            \node (b) at (0,-2){1};
+            \draw[thick] (l) -- (r);
+            \draw[thick] (l) -- (t) -- (r) -- (b) -- (l);
+
+            \node (t1) at (0,0.4){1};
+            \node (t2) at (-0.25,0.8){2};
+            \node (t3) at (0.25,0.8){3};
+            \draw[thick] (t1) -- (t2) -- (t3) -- (t1);
+            \draw[thick] (t) -- (t2);
+            \draw[thick] (t) -- (t3);
+            \draw[thick] (l) -- (t1);
+            \draw[thick] (l) -- (t2);
+            \draw[thick] (r) -- (t1);
+            \draw[thick] (r) -- (t3);
+
+            \node (b1) at (0,-0.4){1};
+            \node (b2) at (-0.25,-0.8){2};
+            \node (b3) at (0.25,-0.8){3};
+            \draw[thick] (b1) -- (b2) -- (b3) -- (b1);
+            \draw[thick] (b) -- (b2);
+            \draw[thick] (b) -- (b3);
+            \draw[thick] (l) -- (b1);
+            \draw[thick] (l) -- (b2);
+            \draw[thick] (r) -- (b1);
+            \draw[thick] (r) -- (b3);
+        \end{tikzpicture}
+    \end{center}
+\end{solution}
 \begin{definition}
     A graph on a surface is called a \textbf{quadrangulation} if every face is a quadrangle.
 \end{definition}
@@ -1529,5 +1566,111 @@ This implies PGC since when taking complements, $\alpha$ and $\omega$ switch.
     As well, the rank of $D$ is at most $n$.
     Thus $\alpha\omega+1\leq n$.
 \end{proof}
+\begin{definition}
+    A \textbf{poset} is a set along with a partial order (a binary relation that is irreflexive, antisymmetric, and transitive).
+\end{definition}
+\begin{definition}
+    A graph $G$ is a comparability graph if there exists a poset $(P,\alpha)$ such that
+    \[V(G)=P,\qquad E(G)=\{\{a,b\}:a<b\text{ or }b<a\}\]
+\end{definition}
+\begin{proof}
+    Observe that induced subgraphs of comparability graphs are also comparability graphs, so it is enough to prove that every comparibility graph $G$ satisfies $\chi(G)=\omega(G)$.
+    Let $G$ be the comparability graph of the poset $(P,<)$, and orient the edges of $G$ according to $<$.
+    Let $t(G)$ be the number of vertices in a longest oriented path in this orientation.
+    We need to show that $\chi(G)\leq\omega(G)$; in particular, we show that $t(G)\leq\omega(G)$ and $\chi(G)\leq t(G)$.
+    \begin{enumerate}[nolistsep]
+        \item Along an oriented path, all pairs of vertices should be adjacent by the transitivity of $<$.
+        \item We give a proper colouring of $G$ as follows.
+            Colour all sinks (vertices with outdegree 0) with colour 1, and delete them.
+            Continue doing this until all the vertices get coloured.
+            This gives a proper colouring with some number of colours, say $k$.
+            We show there exists an oriented path of length at least $k$.
+            Every edge of colour class $i$ has an edge to colour class $i-1$ (or it would have been coloured earlier), and repeat this, until we have an oriented edge through all colour classes.
+    \end{enumerate}
+\end{proof}
+Here is another operation preserving perfection: edge substitution to a vertex.
+We denote this by $F=G_{v\gets\{v_a,v_b\}}$.
+Given $G,v\in V(G)$, $V(F)=(V(G)\setminus\{v\})\cup\{v_a,v_b\}$ and
+\[E(G)=\{\{u,w\}\in E(G):u,w\neq v\}\cup\{\{v_a,w\},\{v_b,w\}: \{v,w\}\in E(G)\}\cup\{\{v_a,v_b\}\}\]
+We essentially double the vertex and connect all vertices adjacent to $v$ to both $v_a$ an $v_b$, and join those two edges.
+\begin{proposition}
+    If $G$ is perfect, then $G_{v\gets\{v_a,v_b\}}$ is perfect.
+\end{proposition}
+Note that this follows since $\overline{G}$ is perfect as well: take complements, perform the operation in the complement, and take the complement again, and we are left with a perfect graph.
+\begin{proof}
+    Let $G$ be our perfect graph and we substitute edge $\{v',v''\}$ in place of the original vertex $v$.
+    Observe that every induced subgraph is either an induced subgraph of $G$, or it is obtained by substituting the same edge into an induced subgraph of $G$.
+    Thus we show $\chi(\hat G)=\omega(\hat G)$.
+    There are two cases
+    \begin{enumerate}
+        \item If $v$ is the element of some largest clique of $G$, then $\omega(\hat G)=\omega+1=\chi+1$.
+            But then $\chi(\hat G)\leq\chi+1$ is obvious, so equality holds.
+        \item $v$ is not contained in any $\omega-$size clique.
+            Then consider an $\omega-$colouring of $G$, and let the colour class containing $v$ be $A_0$.
+            Consider $F=G\setminus(A_0\setminus\{v\})$.
+            Observe that $\omega(F)=\omega-1$ since $A_0$ must contain a vertex of every $\omega-$clique, but $v$ is none of those.
+            By the perfectness of $G$, we can colour $F$ by $\omega(F)=\omega-1$ colours.
 
+            In the same way, colour $\hat G\setminus\left((A_0\setminus\{v\})\cup\{v''\}\right)$ with $\omega-1$ colours.
+            Then get uncoloured vertices from the set $(A_v\setminus\{v\})\cup\{v''\}$ which is a independent set, so we can colur the vertices in it with one more colour.
+    \end{enumerate}
+\end{proof}
+Let $S(G)$ denote the independent sets in $G$.
+\begin{definition}
+    A \textbf{fractional colouring} of a graph $G$ is a function
+    \[f:S(G)\to\R_+\cup\{0\}\]
+    such that for every $v\in V(G)$, $\sum\limits_{A\in S(G),A\ni v}f(A)\geq 1$.
+\end{definition}
+\begin{definition}
+    The \textbf{fractional chromatic number} of a graph $G$ is
+    \[\chi_f(G):=\min_f\sum\limits_{A\in S(G)}f(A)\]
+    where the minimum is taken over all fractional colourings of $G$.
+\end{definition}
+Since every proper colouring is a fractional colouring with weights $\{0,1\}$ with total value $\chi(G)$, we have $\chi_f(G)\leq\chi(G)$.
+
+A linear program is a system of equations of the form $Ax\geq b$, $x\geq 0$ in which we want to minimize some quantity $c\cdot x$.
+Every LP has a dual, in this case, it is given by $y\cdot A\leq c$, $y\geq 0$ and we maximize $y\cdot b$.
+
+Linear programming has strong duality: $\max y\cdot b=\min c\cdot x$ when both are feasible (exists some value satisfying the constraints), or one is infeasible and the other is unbounded.
+Weak duality follows since $yb\leq y(Ax)=(yA)x\leq cx$.
+
+Let's return to the question of fractional colourings.
+We have $m=|S(A)|$, and $x_i:= f(A_i)$.
+Set $x=(1,1,\ldots,1)$.
+Then the matrix $A$ has columns which are the characteristic vectors of the independent sets for each independent set $A_i$.
+
+Then the dual problem is to find non-negative weights on the vertex such that the sum of the weights in every independent set is at most 1.
+We want to maximize the total weight.
+This number is called the \textbf{fractional clique number} (it is the clique number when we require integer values).
+\begin{theorem}
+    We must have $\chi_f(G)\geq|V(G)|/\alpha(G)$.
+\end{theorem}
+\begin{proof}
+    We show $\omega_f(G)\geq\frac{|V(G)|}{\alpha(G)}$, which follows since $g(v)=\frac{1}{\alpha(G)}$ is a fractional clique.
+\end{proof}
+\begin{definition}
+    A graph $G$ is vertex-transitive if, for any vertices $u,v$, there exists an automorphism satisfying $f(u)=v$.
+\end{definition}
+\begin{proof}
+    We know that $\chi_f(G)\geq\frac{|V(G)|}{\alpha(G)}$ for any graph $G$.
+    Let $k(G)$ be the number of $\alpha(G)-\text{size}$ independent sets containing a given $v\in V(G)$.
+    By vertex transitivity, it does not depend on $v$.
+
+    Then $|V(G)|\cdot k(G)=\left\lvert\{(v,A):v\in V(G),A\in S(G),|A|=\alpha,v\in A\}\right\rvert$ so that $|S^*(G)|\alpha(G)$ has the same value.
+    Thus
+    \[\frac{|V(G)|}{\alpha(G)}=\frac{|S^*(G)|}{k(G)}\]
+    and a colouring which assigns weight $1/k(G)$ to every largest independent set (every element of $S^*(G)$) gives an optimal fractional colouring.
+\end{proof}
+\begin{theorem}[Larrsen-Propp-Ullman]
+    We have $\chi_f(M(G))=\chi_f(G)+\frac{1}{\chi_f(G)}$, where $M(G)$ is the Mycielsky construction.
+\end{theorem}
+As a result, there exist graphs with $\omega(G)=2$ but $\chi_f(G)\geq d$ for any $d$.
+\begin{definition}
+    A graph homomorphism between graphs $F$ and $G$ is a map $f:V(F)\to V(G)$ so that if $\{u,v\}\in E(F)$, then $\{f(u),f(v)\}\in E(G)$.
+\end{definition}
+We have some conditions for $F\to G$: if such a homomorphism exists, then $\omega(F)\leq\omega(G)$ and $\chi(G)\leq\chi(G)$.
+The second statement follows since $\chi(G)=\min\{n:G\to K_n\}$.
+If $F\to G\to K_{\chi(G)}$, then $\hat f(v)=g(f(u))$ gives a proper $\chi(G)-$colouring of $F$, so $\chi(G)\leq\chi(G)$.
+
+Thus $\chi_f(G)=\inf\left\{\frac{n}{k}:G\to \KG(n,k)\right\}$.
 \end{document}

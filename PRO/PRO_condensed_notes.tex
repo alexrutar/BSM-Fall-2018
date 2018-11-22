@@ -140,5 +140,19 @@
             \item $\Var(X)=\E(X^2)-\E(X)^2$
             \item $\Var(aX+b)=a^2\Var(X)$
         \end{enumerate}
+    \item Let $(\Omega,\mathcal{M},\Pr)$ be a measure space, and let $X:\Omega\to\R$ be a random variable.
+        Then define $P_X$ on $\R$ by $P_X(E)=\Pr(X^{-1}(E))$, which is a Borel measure on $\R$ called the \textbf{distribution} of $X$.
+        Then the function
+        \[F(t)=P_X((-\infty,t])\] %)
+        is called the \textbf{(cumulative) distribution function} of $X$.
+        A family of functions $\{X_\alpha\}_{\alpha\in A}$ is \textbf{identically distributed} if $P_{X_\alpha}=P_{X_\beta}$ for any $\alpha,\beta\in A$.
+        In the special case $\Omega=\R$ and $\Pr$ is the standard Lebesgue measure on $\R$, $X:\R\to\R$ is a Lebesgue measureable function.
+        There is a particularly nice class of random variables called \textbf{absolutely continuous} random variables, in which the measure $P_X$ has a nice form.
+        We say $X$ is absolutely continuous if there exists some $f_X:\R\to\R$ so that for any $E\in\mathcal{B}$,
+        \[P_X(E)=\int_E f_X(x)\d{x}\]
+
+
+        If we have a collection of random variables $(X_1,\ldots,X_n)$ then we can consider them as a map $(X_1,\ldots,X_n):\Omega\to\R^n$, and the corresponding measure is called the \textbf{joint distribution} of $X_1,\ldots,X_n$.
+        Often, we take $\Omega=\R^n$ and $\Pr$ to be the standard Lebesgue measure on $\R^n$.
 \end{enumerate}
 \end{document}

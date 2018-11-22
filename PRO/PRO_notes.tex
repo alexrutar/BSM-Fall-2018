@@ -1625,4 +1625,151 @@ Write $Z=X+Y$ and it has density
     \end{align*}
     is normally distributed.
 \end{proof}
+Consider $x_0,y_0$ fixed and $\d{y}$ small.
+Then
+\begin{align*}
+    \lim_{h\to 0}\Pr(X\leq x_0|y_0<y\leq y_0+h) &= \lim_{h\to 0}\frac{\Pr(X\leq x_0\cap Y\leq y_0+h)-\Pr(X\leq y_0\cap Y\leq y_0)}{\Pr(Y\leq y_0+h)-\Pr(Y\leq y_0)}\\
+                                                &= \lim_{h\to 0}\frac{F(x_0,y_0+h)-F(x_0,y_0)}{F_Y(y_0+h)-F_Y(y_0)}\\
+                                                &= \lim_{h\to 0}\frac{\frac{F(x_0,y_0+h)-F(x_0,y_0)}{h}}{\frac{F_Y(y_0+h)-F_Y(y_0)}{h}}\\
+                                                &= \frac{\frac{\partial F}{\partial y}(x_0,y_0)}{\frac{F'_Y(y_0)}}\\
+                                                &= \frac{\int_{-\infty}^{x_0}\frac{\partial^2F}{\partial x\partial y}(t,y_0)\d{t}}{f_Y(y_0)}\\
+                                                &= \int_{-\infty}^{x_0}\frac{f(x,y_)}{f_Y(y_0)}\d{y}
+\end{align*}
+This inspires the following definition:
+\begin{definition}
+    Let $y_0\in\R$ be such that $f_Y(y_0)>0$.
+    Then the conditional density of $X$, given $Y=y_0$, is
+    \[f_{X|Y}(X|Y=y_0)=\frac{f(x,y_0)}{f_Y(y_0)}\]
+\end{definition}
+\begin{example}
+    Let $f(x,y)$ be uniform on the triangle with vertices $(0,0)$, $(0,1)$, and $(1,0)$.
+    Determine the conditional distribution of $Y$ given some $X=x_0$.
+
+    Firstly, we have
+    \[f_X(x_0)=\int_{-\infty}^\infty f(x_0,y)\d{y}=\begin{cases}\int_0^{x_0}2\d{y}=2x_0 &:0<x_0<1\\0&:\text{otherwise}\end{cases}\]
+    so that
+    \begin{align*}
+        f_{Y|X}(y|X=x_0)=\frac{f(x_0,y)}{f_X(x_0)}=\frac{f(x_0,y)}{2x_0}=
+        \begin{cases}
+            \frac{1}{x_0} &: 0<y<x_0\\
+            0 &:\text{otherwise}
+        \end{cases}
+    \end{align*}
+\end{example}
+If $(X,Y)$ are jointly uniformly distributed on some domain $D$, then the conditional distributions are always uniform on the relevant intervals.
+The marginal distributions are, generally, not uniform.
+\begin{example}
+    Let $X\sim\operatorname{UNI}[0,1]$ and $Y|X=x_0\sim\operatorname{UNI}[0,x_0]$.
+    Then
+    \[f_{Y|X}(y|X=x)=\begin{cases}\frac{1}{x} &:0<y<x\\0\text{otherwise}\end{cases}\]
+    so that
+    \begin{align*}f(x,y) &= f_{Y|X=x}(y|X=x)\cdot f_X(x)=\begin{cases}\frac{1}{x} &:0<x<1,0<y<x\\0&:\text{otherwise}\end{cases}\end{align*}
+    Then
+    \[f_Y(y)=\int_{-\infty}^\infty f(x,y)\d{x}=\begin{cases}\int_y^1\frac{1}{x}\d{x}=-\ln(y)&:0<y<1\\0\text{otherwise}\end{cases}\]
+\end{example}
+\section{Expectation}
+Let $f(x,y)$ be the joint density function for $(X,Y)$.
+Then $\E(g(X,Y))=\iint g(x,y)f(x,y)\d{x}\d{y}$.
+Suppose $g(x,y)$ is uniformly distributed 
+\begin{align*}
+    \E(|X-Y|) &= \iint_{[0,60]^2}\frac{|x-y|}{60^2}\d{x}\d{y}\\
+              &= 2\int_0^{60}\int_0^x\frac{x-y}{60^2}\d{y}\d{x}\\
+              &= \frac{1}{60^2}\int_0^{60}\left[xy-\frac{y^2}{2}\right]_{y=0}^{y=x}\d{x}\\
+              &= \frac{2}{60^2}\int_0^{60}\frac{x^2}{2}\d{x}\\
+              &= 20
+\end{align*}
+As an application, suppose $X$ is hypergeometric where $\Pr(X=k)=\frac{\binom{M}{k}\cdot\binom{N-M}{n-k}}{\binom{N}{n}}$.
+\begin{example}
+    Suppose there are $N$ hunters waiting for a flock of $K$ ducks to fly by.
+    Each hunter picks a duck at ranom and hits it with probability $p$.
+    Let $X$ count the number of ducks which survive.
+    What is $\E(X)$?
+
+    Let $\eta_i=1$ if duck $i$ survives, and 0 otherwise.
+    Then $\E(\eta_i)=\left(1-\frac{p}{K}\right)^N$ for all $i$.
+    Thus $\E(X)=K\E(\eta_i)$.
+\end{example}
+\begin{example}
+    Suppose $X\sim\operatorname{Neg.Binom}(r,p)$.
+    Then $\Pr(X=k)=\binom{k-1}{r-1}p^rq^{k-r}$ for each $k=r,r+1,\ldots$.
+    Let $T_j$ denote the number of trials in which success $j$ happens after turn $(j-1)$, so $T_j\sim\operatorname{Geom}(P)$.
+    Then $\E(T_j)=1/p$ and $\E(X)=r/p$.
+\end{example}
+\begin{example}
+    Suppose we have $M$ ``$A$'' symbols and $N$ ``$B$'' symbols, where any of the $(M+N)!$ arrangements are equally likely.
+    Let $R$ denote the number of runs.
+    What is $\E(R)$?
+
+    Write $R=X+Y$ where $X$ counts the number of ``$A$'' runs, and $Y$ the number of ``$B$'' runs.
+    Let $X=X_1+X_2+\cdots+X_{M+N}$ where
+    \[X_k=
+        \begin{cases}
+            1 &\text{if an $A$ run starts at position $k$}\\
+            0 &\text{otherwise}
+        \end{cases}
+    \]
+    We have
+    \[\E(X_1)=\Pr(\text{first symbol $A$})=\frac{M}{M+N}\]
+    and for $k\geq 2$
+    \[\E(X_k)=\Pr(\text{symbol $k-1$ is $B$, symbol $k$ is $A$})=\frac{N\cdot m}{(M+N)(M+N-1)}\]
+    Thus
+    \begin{align*}
+        \E(R) &= \E(X)+\E(Y)\\
+              &= \sum\limits_{k=1}^{M+N}\E(X_k)+ \sum\limits_{k=1}^{M+N}\E(Y_k)\\
+              &= \E(X_1)+(M+N-1)\E(X_k) + \E(Y_1)+(M+N-1)\E(Y_k)\\
+              &= \frac{M}{M+N}+\frac{MN}{M+N}+\frac{N}{M+N}+\frac{MN}{M+N}\\
+              &= 1+\frac{2MN}{M+N}
+    \end{align*}
+\end{example}
+\begin{definition}
+    For two variables $X$ and $Y$, let $\operatorname{Cov}(X,Y)=\E(X\cdot Y)-\E(X)\cdot\E(Y)=\E((X-\E(X))(Y-\E(Y)))$.
+\end{definition}
+If $X$ and $Y$ are independent, then $\E(XY)=\E(X)\E(Y)$, so $\operatorname{Cov}(X,Y)=0$.
+\begin{example}
+    Let $X$ be $-1$, $0$, or $1$ with probability $1/3$ each, and $Y=X^2$.
+    Then $\E(X)=0$ and $\E(XY)=\E(X)=0$, so $\operatorname{Cov}(X,Y)=0$.
+\end{example}
+\begin{proposition}
+    \begin{enumerate}
+        \item $\Cov(X,X)=\E(X^2)-\E(X)^2=\Var(X)\geq 0$ is almost surely positive definite.
+        \item $\Cov(X,Y)=\Cov(Y,X)$
+        \item Given variables $X_1,X_2,Y$ and constans $a_1,a_2,c\in\R$,
+            \[\Cov(a_1X_1+a_2X_2,Y)=a_1\Cov(X_1,Y)+a_2\Cov(X_2,Y)\]
+            so the covariance is bilinear.
+        \item $|\Cov(X,Y)|\leq\sigma(X)\sigma(Y)$.
+            We often define $\rho(X,Y)=\frac{\Cov(X,Y)}{\sigma(X)\sigma(Y)}$ is the correlation coefficient of $X$ and $Y$.
+            Note that $\rho(aX+c,bY+d)=\frac{ab\Cov(X,Y)}{|a||b|\sigma(X)\sigma(Y)}=\rho(X,Y)\sgn(a)\sgn(b)$.
+    \end{enumerate}
+\end{proposition}
+\begin{example}
+    Suppose $N$ phones are distributed randomly among $N$ people, where $X$ is the number of matches.
+    Write $X=\eta_1+\eta_2+\cdots+\eta_N$, where $\eta_k$ is 1 if person $k$ is matched with her phone, and 0 otherwise.
+    Then $\E(X)+N\E(\eta_1)=1$.
+    Similarly,
+    \begin{align*}
+        \Var(X)&=\E(X^2)-\E(X)^2\\
+               &= 2-2\sum\limits_{i<j}\E(\eta_i\eta_j)\\
+               &= 2-2\binom{N}{2}\frac{1}{N(N-1)}\\
+               &= 1
+    \end{align*}
+    since
+    \[\E(\eta_i\eta_j)=\frac{1}{N}\Pr(\eta_j=1|\eta_i=1)=\frac{1}{N}\cdot\frac{1}{N-1}\]
+\end{example}
+\begin{lemma}
+    $\rho(X,Y)\in[-1,1]$ and $\rho(X,Y)=1$ iff $Y=mX+b$ for some $m>0$ (and $-1$ for some $m<0$).
+\end{lemma}
+\begin{proof}
+    Let $\sigma_X,\sigma_Y$ denote the stanard deviations, and $Z=\frac{X}{\sigma_X}+\frac{Y}{\sigma_Y}$.
+    We then have
+    \begin{align*}
+        0\leq\Var(Z) &= \Var\left(\frac{X}{\sigma_X}+\frac{Y}{\sigma_Y}\right)\\
+                     &= \Var\left(\frac{X}{\sigma_X}\right)+\Var\left(\frac{Y}{\sigma_Y}\right)+2\Cov\left(\frac{X}{\sigma_X}+\frac{Y}{\sigma_Y}\right)\\
+                     &= \frac{\Var X}{\sigma_X^2}+\frac{\Var Y}{\sigma_Y^2}+2\frac{\Cov(X,Y)}{\sigma_X\sigma_Y}\\
+                     &= 2(1+\rho(X,Y))
+    \end{align*}
+    In other words that $1+\delta(X,Y)\geq 0$ if and only $\rho(X,Y)\geq -1$, while $\Var(Z)=0$ if and only if $\rho(X,Y)=-1$.
+    Then $\frac{X}{\sigma_X}+\frac{Y}{\sigma_Y}=d$ almost surely, so $Y=mX+b$ for $m<0$.
+    The same argument works for $W=\frac{X}{\sigma_X}-\frac{Y}{\sigma_Y}$ in the positive case.
+\end{proof}
+
 \end{document}
