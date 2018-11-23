@@ -22,6 +22,7 @@
 \DeclareMathOperator{\re}{Re}
 \DeclareMathOperator{\im}{Im}
 \DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vol}{vol}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -1320,8 +1321,7 @@ If we assume additionally that $\mu(\cup E_i)<\infty$, then $\bigcup_{i=1}^\inft
     and, since $\mu(K)<\infty$, because this holds for any $\epsilon>0$, we are done!
 \end{proof}
 \section{Regularity Properties of Borel Measures}
-We have the Riesz representation theorem in a locally compact Hausdorff space.
-Our aim is to intruduce the Lebesgue measure in $\R^k$ which respects translation as well.
+At the beginning of the Riesz Representation Theorem, we introduced a variety of conditions which we will summarize here independetly.
 \begin{definition}
     A measure defined on the family of Borel sets is called a \textbf{Borel measure}.
 \end{definition}
@@ -1333,77 +1333,84 @@ Our aim is to intruduce the Lebesgue measure in $\R^k$ which respects translatio
         \item $\mu$ is called \textbf{regular} if every $E\in\mathcal{B}$ is inner and outer regular.
     \end{enumerate}
 \end{definition}
+The next condition is a finiteness condition: naturally, we like spaces that aren't too big.
 \begin{definition}
     A set $E\subset X$ is called \textbf{$\sigma-$compact} if $E=\bigcup\limits_{n=1}^\infty E_n$, for $E_n$ compact.
 \end{definition}
+The sets in the next definition are standard in real analysis.
 \begin{definition}
     A $G_\delta$ set is one of the form $\bigcap\limits_{n=1}^\infty A_n$ with $A_n$ open, and a $F_\sigma$ set is one of the form $\bigcup\limits_{n=1}^\infty B_n$ for $B_n$ closed.
 \end{definition}
+Measure spaces $(X,\mathcal{M},\mu)$ which satisfy these properties are particularly nice.
+To be precise, by ``nice'', we have the following theorem:
 \begin{theorem}
     Let $X$ be a locally compact, $\sigma-$compact Hausdorff space.
     Let $\mathcal{M}\supset\mathcal{B}$ be a $\sigma-$algebra, $\mu:\mathcal{M}\to[0,+\infty]$ be a measure such that
     \begin{enumerate}[nolistsep,label=(\roman*)]
-        \item $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$
-        \item $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$, $\mu(E)<\infty$
-        \item $\mu(K)<\infty$ for $K$ compact.
+        \item $\mu(E)=\inf\{\mu(G):E\subset G\in\tau\}$ (outer regularity)
+        \item $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$, $\mu(E)<\infty$ (inner regularity for finite measure sets)
+        \item $\mu(K)<\infty$ for $K$ compact (finite on compact sets)
     \end{enumerate}
     Then
     \begin{enumerate}[nolistsep]
-        \item For all $E\in\mathcal{M}$ and $\epsilon>0$, there exists $F$ closed and $G$ open so that $F\subset E\subset G$ and $\mu(G\setminus F)<\infty$.
+        \item For all $E\in\mathcal{M}$ and $\epsilon>0$, there exists $F$ closed and $G$ open so that $F\subset E\subset G$ and $\mu(G\setminus F)<\epsilon$.
         \item $\mu$ is regular
         \item For all $E\in\mathcal{M}$, there exists a $F_\sigma$ set $A$ and a $G_\delta$ set $B$ so $A\subset E\subset B$ and $\mu(B\setminus A)=0$.
     \end{enumerate}
 \end{theorem}
+Thankfully, the proof is not too hard.
 \begin{proof}
-    Since $X$ is $\sigma-$compact, $X=\bigcup\limits_{n=1}^\infty K_n$, $K_n$ compact.
-    \begin{enumerate}
+    Since $X$ is $\sigma-$compact, write $X=\bigcup\limits_{n=1}^\infty K_n$, $K_n$ compact.
+    \begin{enumerate}[nolistsep]
         \item By (iii), we have $\mu(K_n\cap E)<\infty$.
             Thus by (i), get $G_n$ open so that $G_n\supset K_n\cap E$ with $\mu(G_n\setminus(K_n\cap E))<\frac{\epsilon}{2^{n+1}}$.
-            Let $G=\bigcup\limits_{n=1}^\infty G_n$ be open, so that $G\setminus E\subset\bigcup(G_n\setminus(K_n\cap E))$ and $\mu(G\setminus U)<\frac{\epsilon}{2}$.
+            Let $G=\bigcup\limits_{n=1}^\infty G_n$ be open, so that
+            \begin{equation*}G\setminus E\subset\bigcup\limits_{n=1}^\infty G_n\setminus(K_n\cap E)\end{equation*}
+            and
+            \begin{equation*}
+                \mu(G\setminus E)\leq\sum\limits_{n=1}^\infty\mu(G_n\setminus(K_n\cap E))<\frac{\epsilon}{2}
+            \end{equation*}
             Repeat this for $E^c$: get an open set $H$ such that $\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
             Then $F=H^c\subset E$ satisfies $\mu(E\setminus F)=\mu(F^c\setminus E^c)=\mu(H\setminus E^c)<\frac{\epsilon}{2}$.
-            Then $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
-            Then $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
+            Thus $\mu(G\setminus F)\leq\mu(G\setminus E)+\mu(E\setminus F)<\epsilon$.
         \item $E$ is outer regular by (i).
-            If $\mu<\infty$, then $E$ is inner regular by (ii).
-            If $\mu(E)=\infty$, let $F\subset E$ be given by 1.
-            Then $\mu(F)=+\infty$, or $\mu(E)$ would be finite.
-            Let $H_n=\bigcup\limits_{k=1}^n(F\cap K_k)$ compact, $H_n\subset F$.
-            Then $\bigcup\limits_{n=1}^\infty H_n=F$, and $\mu(H_n)\to\mu(F)=\infty$.
+            If $\mu(E)<\infty$, then $E$ is inner regular by (ii), so $E$ is regular; thus suppose $\mu(E)=\infty$.
+
+            Let $F\subset E$ be given by 1, so that $\mu(F)=+\infty$ (or $\mu(E)$ would be finite).
+            Note that $H_n:=\bigcup_{k=1}^n(F\cap K_k)$ is a compact set, so that $H_n\subset F$.
+            Then $\bigcup_{n=1}^\infty H_n=F$, and $\mu(H_n)\to\mu(F)=\infty$.
             Thus $\mu(E)=\sup\{\mu(K):K\subset E\text{ compact}\}$.
         \item Apply 1 wih $\epsilon=1/j$ for $j\in\N$.
             Then there exists $F_j\subset E\subset G_j$ so $\mu(G_j\setminus F_j)<\frac{1}{j}$.
-            Let $A=\bigcup\limits_{j=1}^\infty F_j$ and $B=\bigcap\limits_{j=1}^\infty G_j$.
-            Then $A\subset E\subset B$ and $\mu(B\setminus A)\leq\mu(G_j\setminus F_j)<\frac{1}{j}$, so $\mu(B\setminus A)=0$.
+            Define
+            \[A=\bigcup\limits_{j=1}^\infty F_j,\qquad B=\bigcap\limits_{j=1}^\infty G_j\]
+            Then $A\subset E\subset B$ and $\mu(B\setminus A)\leq\mu(G_j\setminus F_j)<\frac{1}{j}$ for any $j\in\N$, so $\mu(B\setminus A)=0$.
     \end{enumerate}
 \end{proof}
+As a corollary to this, if we assume that $X$ is a locally compact and $\sigma-$compact space and $\Lambda$ is a positive linear functional on $C_c(X)$, then the measure $\mu$ representing $\Lambda$ is a regular measure.
+More generally, if we assume that \textit{every} open set is $\sigma-$compact, we have the following theorem:
 \begin{theorem}
     Let $X$ be locally compact and Hausdorff, and assume that every open set is $\sigma-$compact.
-    Let $\lambda:\mathcal{B}\to[0,\infty]$ be a Borel measure such that $\lambda(K)<\infty$.
+    Let $\lambda:\mathcal{B}\to[0,\infty]$ be a Borel measure such that $\lambda(K)<\infty$ for any compact set $K$.
     Then $\lambda$ is regular.
 \end{theorem}
 \begin{proof}
     Let $\Lambda f=\int_X f\d{\lambda}$.
     Then $\Lambda:C_c(X)\to\C$ is a positive linear functional.
     By the Riesz representation theorem, there exists $\mu:\mathcal{M}\to[0,\infty]$ such that $\int_Xf\d{\mu}=\Lambda f=\int_Xf\d{\lambda}$.
-    We see that $\lambda=\mu$ on $\mathcal{B}$.
+    We see that $\lambda=\mu$ on $\mathcal{B}$, so that $\lambda$ is regular since $\mu$ is.
+
     We first prove this for open sets.
-    Let $G\in\tau$; then there exists $K_n$ so $G=\bigcup\limits_{n=1}^\infty K_n$.
+    Let $G\in\tau$; then there exists compact $K_n$ so $G=\bigcup_{n=1}^\infty K_n$.
     By Urysohn's lemma, there exists $f_i$ such that $K_i\prec f_i\prec G$.
     Let $g_n=\max\{f_1,f_2,\ldots,f_n\}$, so $g_n\in C_c(X)$, and $g_n\to\chi_G$ pointwise.
-    But then
+    But then applying Lebesgue's Monotone Convergence theorem (and the fact that $\lambda=\mu$ on $C_c(X)$),
     \begin{align*}
-        \lambda(G) &= \int_X\chi_G\d{\lambda}\\
-                   &= \int_X\lim_{n\to\infty}g_n\d{\lambda}\\
-                   &= \lim_{n\to\infty}\int_X g_n\d{\lambda}\\
-                   &= \lim_{n\to\infty}\int_X g_n\d{\mu}\\
-                   &= \int_X\lim_{n\to\infty}g_n\d{\mu}\\
-                   &= \int_X\chi_G\d{\mu}\\
+        \lambda(G) &= \int_X\chi_G\d{\lambda}= \int_X\lim_{n\to\infty}g_n\d{\lambda}= \lim_{n\to\infty}\int_X g_n\d{\lambda}\\
+                   &= \lim_{n\to\infty}\int_X g_n\d{\mu}= \int_X\lim_{n\to\infty}g_n\d{\mu}= \int_X\chi_G\d{\mu}\\
                    &=\mu(G)
     \end{align*}
-
-    Now for any $E\in\mathcal{B}$, apply (i).
-    Then $F\subset E\subset G$, $\mu(G\setminus F)<\epsilon$.
+    Now for any $E\in\mathcal{B}$, get $F$ closed, $G$ open so that $F\subset E\subset G$ and $\mu(G\setminus F)<\epsilon$.
     Since $G\setminus F$ is open, $\lambda(G\setminus F)=\mu(G\setminus F)<\epsilon$ so $\lambda(G)\leq\lambda(E)+\epsilon$.
     Thus $|\mu(E)-\lambda(E)|<\epsilon$ for all $\epsilon>0$ so $\lambda(E)=\mu(E)$.
 \end{proof}
@@ -1420,7 +1427,7 @@ We have the Riesz Representation Theorem in a locally compact Hausdorff space.
 We know that $\vol(W+x)=\vol(W)$ for any $k-$cell $W$ and $x\in\R$.
 \begin{theorem}
     There exists a $\sigma-$algebra $\mathcal{M}$ in $\R^k$ and a complete measure $m:\mathcal{M}\to[0,+\infty]$ satisfying
-    \begin{enumerate}
+    \begin{enumerate}[nolistsep]
         \item $m(W)=\vol(W)$ for any $k-$cell $W$.
         \item $\mathcal{M}\supset\mathcal{B}$ and $E\in\mathcal{M}$ if and only if there exists $A\in F_\sigma,B\in G_\delta$ such that $A\subset E\subset B$ and $m(B\setminus A)=0$.
         \item $m$ is translation invarient: $m(E+x)=m(E)$.
@@ -1431,13 +1438,13 @@ We know that $\vol(W+x)=\vol(W)$ for any $k-$cell $W$ and $x\in\R$.
 \begin{proof}
     For $f\in C_c(\R^k)$, let $\Lambda f=\int_{R^k}f(x)\d{x}$ (the Riemann Integral).
     Then $\Lambda:C_c(\R^k)\to\C$ is a positive linear functional, so by the Riesz representation theorem, there exists a unique measure $m$ and $\mathcal{M}\supset\mathcal{B}$ so for all $f\in C_c(\R^k)$, $\Lambda f=\int_{\R^k}f\d{m}$.
-
-    We first see (i).
-    By the definition of $m$, for an open $k-$cell $W$, $m(W)=\sup\{\Lambda f:f\prec W\}=\vol(W)$ (by definition of the Riemann integral).
-    If $W$ is an arbitrary $k-$cell, then there exist open $k-$cells $W_n$ such that $W=\bigcap\limits_{n=1}^\infty W_n$.
-    Then $\vol(W_n)\to\vol(W)$, so $m(W_n)\to m(W)$, and $\vol(W_n)=m(W_n)$.
-    Thus $\vol(W)=m(W)$.
-
+    Let's prove that this measure has the appropriate properties:
+    \begin{enumerate}[nolistsep]
+        \item By the definition of $m$, for an open $k-$cell $W$, $m(W)=\sup\{\Lambda f:f\prec W\}=\vol(W)$ (by definition of the Riemann integral).
+            If $W$ is an arbitrary $k-$cell, then there exist open $k-$cells $W_n$ such that $W=\bigcap\limits_{n=1}^\infty W_n$.
+            Then $\vol(W_n)\to\vol(W)$, so $m(W_n)\to m(W)$, and $\vol(W_n)=m(W_n)$.
+            Thus $\vol(W)=m(W)$.
+    \end{enumerate}
     \textit{Let $\lambda$ be a Borel measure.
     If $\lambda(W)=m(W)$ for all $W$ $k-$cells, then $\lambda(E)=m(E)$ for all $E\in\mathcal{B}$.}
     For any $G$ open, $G=\bigcup\limits_{n=1}^\infty W_n$ disjointly, so $\lambda(G)=m(W)$.
@@ -1473,22 +1480,29 @@ We know that $\vol(W+x)=\vol(W)$ for any $k-$cell $W$ and $x\in\R$.
     \[\bigcup\limits_{t\in\Q}A_t=\cup(A\cap(E+t))=A\cap\left(\bigcup\limits_{t\in\Q}(E+t)\right)=A\cap\R=A\]
     so $m(A)=0$ as well.
 \end{proof}
+\section{Measurability and Continuity}
 Let $X$ be a locally compact, Hausdorff topological space.
 Let $\mathcal{M}$ be a $\sigma-$algebra, $\mu$ be a measure satisfying the properties in the Riesz representation theorem.
 We then have
 \begin{theorem}[Lusin]
-    Let $F:X\to\C$ be a measurable function, with $\supp f\subset A$ and $\mu(A)<\infty$.
+    Let $f:X\to\C$ be a measurable function, with $\supp f\subset A$ and $\mu(A)<\infty$.
     Then for any $\epsilon>0$, there exists $g\in C_c(X)$ such that $\mu(\{x\in X:f(x)\neq g(x)\})<\epsilon$ and $\sup_X|G|\leq\sup_X|f|$.
 \end{theorem}
 \begin{proof}
-    If $\supp g\subset A$, then $f(x)=0=g(x)$ if $x\in A^c$ and $\{x\in X:f(x)\neq g(x)\}=\{x\in A:f(x)\neq g(x)\}$.
-    Then $\mu(A)<\infty$ so there exists $K\subset A$ compact, with $\mu(A\setminus K)<\epsilon/2$.
+    It suffices to assume that we can do this for compact $K$.
+    Assuming so, let $\mu(A)<\infty$ and get $K\subset A$ compact with $\mu(A\setminus K)<\epsilon/2$.
+    Define $\hat f$ so that $\hat f=f$ on $K$ and $\hat f=0$ otherwise, so $\sup\hat f\subset K$ and $f'$ is measurable.
+    By assumption, get $g$ so that $\mu(\{x:g(x)\neq f'(x)\})<\epsilon/2$.
     Then
-    \[\mu\left(\{x\in A:f(x)\neq g(x)\}\right)\leq\mu\left(\{x\in K:f(x)\neq g(x)\}\right)+\frac{\epsilon}{2}\]
-    We may assume that $A$ is compact.
+    \begin{align*}
+        \mu\left(\{x\in X:f(x)\neq g(x)\}\right) \leq \mu(A\setminus K)+\mu\left(\{x\in K\cup A^c:\hat f(x)\neq g(x)\}\right)< \frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon
+    \end{align*}
+    since $f'=f$ on $(A\setminus K)^c$.
+    Now, let's prove the statement for $A$ compact.
 
-    We first prove this for $0\leq f\leq 1$.
-    For $t\geq 0$ and each $N\in\N$, let $k_n(t)$ satisfy $k_n(t)\leq t\cdot 2^n<k_n(t)+1$, and define
+    We first assume that $0\leq f\leq 1$.
+    For $t\geq 0$ and each $N\in\N$, define $k_n(t)=[2^n\cdot t]$, so $k_n(t)\in\Z$ and $k_n(t)\leq t\cdot 2^n<k_n(t)+1$.
+    Then define
     \[\phi_n(t)=
         \begin{cases}
             k_n(t)\cdot 2^{-n},&0\leq t\leq n\\
@@ -1496,59 +1510,71 @@ We then have
         \end{cases}
     \]
     Let $s_n(x)=\phi_n(f(x))$ and $t_n=s_n-s_{n-1}$.
-    Then since
+    Observe that $f=\sum\limits_{n=1}^\infty t_n$; I claim that $2^n\cdot t_n\in\{0,1\}$.
+    To see this, first note that
     \[k_{n-1}(t)\leq t\cdot 2^{n-1}<k_{n-1}(t)+1\Longrightarrow 2k_{n-1}(t)\leq t\cdot 2^n<2k_{n-1}(t)+2\]
-    is the largest even number below $t\cdot 2^n$.
-    Then $k_n-2k_{n-1}\in\{0,1\}$ for all $t$.
-    Since $0\leq f\leq 1$,
-    \[t_n(x)=\phi_n(f(x))-\phi_{n-1}(f(x))=2^{-n}\cdot k_n(f(x))-2^{-(n-1)}\cdot k_{n-1}(f(x))\]
-    this becomes
-    \[2^n\cdot t_n(x)=k_n(f(x))-2\cdot k_{n-1}(f(x))\in\{0,1\}\]
-    which is the characteristic function of some set, which we denote $T_n$.
-    Furthermore, $f(x)=\sum\limits_{n=1}^\infty t_n(x)$.
-    Let $V\supset A$ be open so that $\overline{V}$ is compact.
-    Let $K_n$ be compact, $V_n$ be an open set such that $K_n\subset T_n\subset V_n\subset V$ with $\mu(V_n\setminus K_n)<\epsilon/2^n$.
+    so $2k_{n-1}(t)$ is the largest even number below $t\cdot 2^n$.
+    Thus $k_n-2k_{n-1}\in\{0,1\}$ for all $t$.
+    Since $0\leq f\leq 1$, for all $n$ and $x$,
+    \begin{align*}
+        2^n\cdot t_n(x) &= 2^n\cdot \left(\phi_n(f(x))-\cdot \phi_{n-1}(f(x))\right)\\
+                        &=2^n\left(2^{-n}\cdot k_n(f(x))-2^{-(n-1)}\cdot k_{n-1}(f(x))\right)\\
+                        &= k_n(f(x))-2k_{n-1}(f(x))\in\{0,1\}
+    \end{align*}
+    as required.
+    Thus $2^n\cdot t_n$ is the characteristic function of some set $T_n\subset A$, so $\mu(T_n)<\infty$.
+
+    Let $V\supset A$ be open so that $\overline{V}$ is compact; this set exists since $X$ is locally compact and $A$ is compact (by assumption).
+    \textit{To construct it, for each $x\in A$, let $V_x\subset F_x$ be a compact neighbourhood of $x$.
+        Since $\{V_x\}_{x\in A}$ is an open cover for $A$, there exists a subcover $\{V_{x_i}\}_{i=1}^n$.
+        Then $A\subset \overline{\bigcup_{i=1}^nV_x}\subset \bigcup_{i=1}^n F_{x_i}$ is a closed subset of a compact set, and thus compact.
+    }
+    Since $\mu(T_n)<\infty$, get $K_n$ compact, $V_n$ open, so that $K_n\subset T_n\subset V_n$ with $\mu(V_n\setminus K_n)<\epsilon/2^n$.
+    We can assume $V_n\subset V$ since we can always take $V_n\cap V$, which is open.
+
     By Urysohn's lemma, there exists $h_n\in C_c(X)$ with $K_n\prec h_n\prec V_n$.
-    Let $g=\sum\limits_{n=1}^\infty 2^{-n}\cdot h_n$, which converges uniformly so that $g$ is continuous and $\supp g\subset\overline{V}$.
+    Define $g=\sum_{n=1}^\infty 2^{-n}\cdot h_n$ is a uniform limit, so $g$ is continuous and $\supp g\subset\overline{V}$.
     If $x\in K_n$, then $h_n(x)=1$ and $t_n(x)=2^{-n}$, so $2^{-n}\cdot h_n(x)=t_n(x)$.
-    If $x\notin V_n$, then $h_n(x)=0$ so $t_n(x)=0$, so $2^{-n}\cdot h_n(x)=t_n(x)$.
+    If $x\notin V_n$, then $h_n(x)=0$ so $t_n(x)=0$ and $2^{-n}\cdot h_n(x)=t_n(x)$.
     Thus
     \[S=\{x\in A:f(x)\neq g(x)\}\subset\bigcup\limits_{n=1}^\infty\left(V_n\setminus K_n\right)\]
-    and $\mu(S)\leq\sum \mu(V_n\setminus K_n)<\epsilon$.
+    and $\mu(S)\leq\sum_{n=1}^\infty\mu(V_n\setminus K_n)<\epsilon$.
 
-    Now if $f$ is bounded, $0\leq f/M\leq 1$ follows directly by the above.
-
-    For $f$ bounded and real valued, note that $0\leq f+k\leq 2K$ and get $g\in C_c(x)$ near $f+K$.
-    Then $g-K$ satisfies the required values.
-
-    Now for any real valued function, let $B_n=\{x\in X:|f(x)|>n\}\Rightarrow\bigcap\limits_{n=1}^\infty B_n=\emptyset$, with $\mu(B_1)\leq\mu(\supp f)<\infty$ and $B_{n+1}\subset B_n$ for all $n$.
+    If $-A\leq f\leq A$, then $0\leq f+A\leq 2A$ and apply the above theorem to $(f+A)/(2A)$ and get some $\hat g$.
+    Then $2A\hat g-A$ has the desired properties.
+    Additionally, for any real valued function, let $B_n=\{x\in X:|f(x)|>n\}$.
+    Then $\bigcap_{n=1}^\infty B_n=\emptyset$, $\mu(B_1)\leq\mu(\supp f)<\infty$, and $B_{n+1}\subset B_n$ for all $n$.
     Thus $\mu(B_n)\to\mu(\bigcap B_n)=0$.
-    Let $N$ be such that $\mu(B_N)<\epsilon/2$, so if $x\notin B_N$, $f(x)\leq N$ and define $\tilde f(x)=(1-\chi_{B_n(x)})f(x)$.
-    Then $\tilde f$ is bounded, and get $\tilge g\in C_c(x)$ to $\tilde f$.
-    In particular, $\mu(\tilde f\neq\tilde g)<\epsilon/2$.
-    Then let $g=\tilde g$ and
-    \[\mu(g\neq f)\leq\mu(f\neq \tilde f)+\mu(\tilde f\neq\tilde g)=\epsilon\]
-
-    Finally, let $f$ be complex valued and $f=f_1+if_2$.
-    Then get $g_1,g_2\in C_c(X)$ and set $g=g_1+ig_2$.
+    Let $N$ be such that $\mu(B_N)<\epsilon/2$, so if $x\notin B_N$, $f(x)\leq N$, and define $\tilde f(x)=(1-\chi_{B_n(x)})f(x)$.
+    Then $\tilde f$ is bounded, and apply the above to get $g\in C_c(x)$ so that $\mu\left(\{x:\tilde f(x)\neq g(x)\}\right)<\epsilon/2$.
+    But then
+    \[\mu\left(\{x:g(x)\neq f(x)\}\right)\leq\mu(\{x:f(x)\neq \tilde f(x)\})+\mu(\{x:\tilde f(x)\neq g(x)\})=\epsilon\]
+    All that is left is to do this for complex valued functions, satisfying the additional constraint.
+    To be precise, let $f$ be complex valued and write $f=f_1+if_2$.
+    Then for $\epsilon>0$, get $g_1,g_2\in C_c(X)$ satisfying the requirements for $\epsilon/2$ and set $g=g_1+ig_2$.
     We will prove that $\sup|G|\leq\sup|f|$.
     If $\sup|f|=\infty$ we are done, so let $R=\sup_X|f|$.
     Let
     \[\phi(z)=
         \begin{cases}
             z &:|z|\leq R\\
-            \frac{R\cdot z}{|Z|}&: |z|>R
+            \frac{R\cdot z}{|z|}&: |z|>R
         \end{cases}
     \]
     then $\phi$ is continuous and $|\phi|\leq R$.
-    We already have $g\in C_c(X)$ so that $\mu(f\neq g)<\epsilon$.
-    Let $\tilde g=\phi\circ g$, which is also continuous and $|g_1|\leq R$.
-    Finally, $\mu\{\tilde g\neq f\}=\mu\{\phi\circ f\neq\phi\circ g\}\leq\mu\{g\neq f\}<\epsilon$.
+    We already have $g\in C_c(X)$ so that $\mu(\{x\in X:f(x)\neq g(x)\})<\epsilon$.
+    Let $\tilde g=\phi\circ g$, which is also continuous and $|\tilde g|\leq R$.
+    Finally, if $\tilde f\neq\tilde g$, then certainly $f\neq g$, so
+    \begin{equation*}\mu\{\tilde g\neq f\}=\mu\{\phi\circ f\neq\phi\circ g\}\leq\mu\{g\neq f\}<\epsilon\end{equation*}
+    and we are done.
 \end{proof}
 \begin{corollary}
     In the same context, let $f:X\to\C$ be measurable, $\supp f\subset A$, and $\mu(A)<\infty$ and $|f|\leq 1$.
     Then there exists $g_n\in C_c(X)$ with $|g_n|\leq 1$ and $\lim g_n(x)=f_n(x)$ almost everywhere.
 \end{corollary}
+\begin{proof}
+    Apply the above theorem with $\epsilon=1/n$ for each $g_n$.
+\end{proof}
 \section{Complex Measures}
 Let $\mathcal{M}$ be a $\sigma-$algebra in $X$.
 \begin{definition}
