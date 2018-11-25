@@ -913,7 +913,7 @@ The Monotone Convergence Theorem is a special case of this theorem.
 \begin{remark}
     For the Riemann integral, we have $\int\lim f_n=\lim\int f_n$ as long as the convergence of $f_n$ is uniform.
 \end{remark}
-\chapter{The Lebesgue measure}
+\chapter{Construction of Regular Measures}
 \section{The Vector Space $L^1(\mu)$}
 \subsection{Almost Everywhere}
 Let $(X,\mathcal{M},\mu)$ be a measure space.
@@ -1487,7 +1487,6 @@ We know that $\vol(W+x)=\vol(W)$ for any $k-$cell $W$ and $x\in\R$.
     \[\bigcup\limits_{t\in\Q}A_t=\cup(A\cap(E+t))=A\cap\left(\bigcup\limits_{t\in\Q}(E+t)\right)=A\cap\R=A\]
     so $m(A)=0$ as well.
 \end{proof}
-\chapter{Complex Measures}
 \section{Measurability and Continuity}
 Let $X$ be a locally compact, Hausdorff topological space.
 Let $\mathcal{M}$ be a $\sigma-$algebra, $\mu$ be a measure satisfying the properties in the Riesz representation theorem.
@@ -1584,6 +1583,69 @@ For the following corollary, we require the same context for $(X,\mathcal{M},\mu
 \begin{proof}
     Apply Lusin's theorem with $\epsilon=1/n$ for each $g_n$.
 \end{proof}
+\chapter{Complex Measures}
+\section{Hilbert Spaces}
+\subsection{Basic Definitions}
+A complex vector space $H$ is called an inner product space if there is a pairing $\inner{\cdot}{\cdot}:H\to\C$ satisfying, for any $x,y\in H$ and $\alpha\in\C$
+\begin{enumerate}[nolistsep]
+    \item $\inner{x}{y}=\overline{\inner{y}{x}}$
+    \item $\inner{\alpha x+y}{z}=\alpha\inner{x}{z}+\inner{y}{z}$
+    \item $\inner{x}{x}\geq 0$
+    \item $\inner{x}{x}=0$ if and only if $x=0$
+\end{enumerate}
+One can define a norm by $\norm{x}=\sqrt{\inner{x}{x}}$.
+The fact that this is acutally a norm is a consequence of the following proposition:
+\begin{proposition}
+    On an inner product space $H$, the following inequalities hold:
+    \begin{enumerate}[nolistsep]
+        \item \textbf{Cauchy-Schwarz:} $|\inner{x}{y}|\leq\norm{x}\norm{y}$
+        \item \textbf{Triangle:} $\norm{x+y}\leq\norm{x}+\norm{y}$
+    \end{enumerate}
+\end{proposition}
+From the triangle inequality, we can define a metric $d(x,y)=\norm{x-y}$.
+Thus we call $H$ a Hilbert space if it is also complete with respect to this metric.
+
+There are some standard continuous functions on $H$:
+\begin{proposition}
+    For a fixed $y\in H$, the mappings
+    \[x\mapsto\inner{x}{y},\quad x\mapsto\inner{y}{x},\quad x\mapsto\norm{x}\]
+    are continuous functions.
+\end{proposition}
+The first map is particularly important since, to some $x\in H$, we can associate the continuous linear functional $\phi_x$ defined by $\phi_x(y)=\inner{x}{y}$.
+More importantly, in Hilbert spaces, the converse holds as well.
+The first part is the content of (the original) Riesz representation theorem:
+\begin{theorem}
+    Let $H$ be a Hilbert space, and $H^*$ be the vector space of continuous linear functions on $H^*$.
+    \begin{enumerate}[nolistsep]
+        \item For each $L\in H^*$, then there exists a unique $y\in H$ such that
+            \[Lx=\inner{x}{y}\]
+            for all $x\in H$.
+        \item $H^*$ is a Hilbert space with inner product
+            \[\inner{\phi_u}{\phi_v}=\inner{v}{u}\]
+            and is isomorphic (as a Hilbert space) to $H$, where $\phi_x(y)=\inner{x}{y}$.
+    \end{enumerate}
+\end{theorem}
+\subsection{The space $L^2(\mu)$}
+In particular, consider the space $L^2(\mu)$ where $(X,\mathcal{M},\mu)$ has $X$ compact, and $\mu$ is a regular complex measure on $\mathcal{M}$.
+Then $L^2(\mu)=\{f:X\to\C:f\text{ measurable, }\norm{f}_2<\infty\}$ and we have
+\[\inner{f}{g}=\int_Xf\overline{g}\d{\mu},\quad\norm{f}_2=\left(\int_X |f|^2\d{\mu}\right)^{1/2}\]
+is the inner product on this space.
+We also have
+\begin{theorem}[Riesz-Fisher]
+    $L^2(\mu)$ is complete (every Cauchy sequence of functions converges w.r.t. the $L^2$ norm).
+\end{theorem}
+so this inner product space is indeed a Hilbert space.
+Given a continuous linear functional $\Lambda$ on $H$, the Riesz representation theorem states that
+\[\Lambda f=\inner{f}{g}=\int_X f\overline{g}\d{\mu}\]
+for some $g\in\mathcal{M}$.
+But then define $\phi(E)=\int_E\overline{g}\d{\mu}$ as the image measure of $\overline{g}$, so
+\[\int_Xf\overline{g}\d{\mu}=\int_X f\d{\phi}\]
+In other words, $\Lambda f=\int_Xf\d{\phi}$, which looks much more similar to the standard Riesz representation theorem.
+
+$L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\inty$}\}$ is a Hilbert space (complete) with the inner product $\inner{f}{g}=\int_Xf\cdot\overline{g}\d{\mu}$.
+\begin{theorem}
+    If $H$ is a Hilbert space, $L:H\to\C$ is continuous and linear, then there exits a unique $y\in H$ so that $L(X)=\inner{x}{y}$ for all $x\in H$.
+\end{theorem}
 \section{Complex Measures}
 Let $\mathcal{M}$ be a $\sigma-$algebra on $X$.
 \begin{definition}
@@ -1593,6 +1655,8 @@ Let $\mathcal{M}$ be a $\sigma-$algebra on $X$.
     $\mu:\mathcal{M}\to\C$ is called a \textbf{complex measure} if it is countably additive: if $E_i$ are disjoint, then
     \[\mu\left(\bigcup\limits_{i=1}^\infty E_i\right)=\sum\limits_{i=1}^\infty \mu(E_i)\]
 \end{definition}
+For now, it is not at all obvious how to define integration with respect to a complex measure.
+This will appear following the proof of the Lebesgue-Radon-Nikodym theorem.
 \begin{definition}
     For a set $E\in\mathcal{M}$, a \textbf{(measurable) partition} of $E$ is $\{E_i:i=1,2,\ldots\}$ so that $E_i\cap E_j=\emptyset$ and $\bigcup_{i=1}^\infty E_i=E$ and $E_i\in\mathcal{M}$ for all $I$.
 \end{definition}
@@ -1717,53 +1781,52 @@ Additionally, we have $|\mu|=\mu_++\mu_-$.
 \begin{proof}
     Let $E\cap A=\emptyset$.
     Then $\lambda(E)=\lambda(E\cap A)=\lambda(\emptyset)=0$.
-
     Conversely, let $E\in\mathcal{M}$.
     Then $\lambda(E)=\lambda(E\cap A)+\lambda(E\cap A^c)=\lambda(E\cap A)$.
 \end{proof}
 \begin{definition}
-    $\lambda_1$ and $\lambda_2$ are called mutually singular if there exist disjoint sets $A$ and $B$ such that $\lambda_1$ is concentrated on $A$ and $\lambda_2$ is contentrated on $B$.
+    $\lambda_1$ and $\lambda_2$ are called \textbf{mutually singular} if there exist disjoint sets $A$ and $B$ such that $\lambda_1$ is concentrated on $A$ and $\lambda_2$ is contentrated on $B$.
     Then $\lambda_1\perp\lambda_2$.
 \end{definition}
+Let's summarize a number of properties concerning the aforementioned definitions and the total variation of a measure.
 \begin{proposition}
     Let $\mu$ be a positive measure, $\lamda,\lambda_1,\lambda_2$ be arbitrary measures (positive, signed, or complex).
     Then
-\end{proposition}
-\begin{proposition}
-    \begin{enumerate}
-        \item $\lambda$ is concentrated on $A$ implies $|\lambda|$ is also concentrated on $A$.
-        \item $\lambda_1\perp\lambda_2\Rightarrow|\lambda_1|\perp|\lambda_2|$
-        \item $\lambda_1\perp\mu$ and $\lambda_2\perp\mu$ implies $\lambda_1+\lambda_2\perp\mu$.
-        \item $\lambda_1\ll\mu$ and $\lambda_2\ll\mu$ implies $\lambda_1+\lambda_2\ll\mu$.
-        \item $\lambda\ll\mu$ implies $|\lambda|\ll\mu$
-        \item $\lambda_1\ll\mu$ and $\lambda_2\perp\mu$ implies $\lambda_1\perp\lambda_2$
-        \item $\lambda\ll\mu$ and $\lambda\perp\mu$ implies $\lambda=0$.
+    \begin{enumerate}[nolistsep]
+        \item If $\lambda$ is concentrated on $A$, then $|\lambda|$ is also concentrated on $A$.
+        \item If $\lambda_1\perp\lambda_2$, then $|\lambda_1|\perp|\lambda_2|$
+        \item If $\lambda_1\perp\mu$ and $\lambda_2\perp\mu$, then $\lambda_1+\lambda_2\perp\mu$.
+        \item If $\lambda_1\ll\mu$ and $\lambda_2\ll\mu$, then $\lambda_1+\lambda_2\ll\mu$.
+        \item If $\lambda\ll\mu$, then $|\lambda|\ll\mu$
+        \item If$\lambda_1\ll\mu$ and $\lambda_2\perp\mu$, then $\lambda_1\perp\lambda_2$
+        \item If $\lambda\ll\mu$ and $\lambda\perp\mu$, then $\lambda=0$.
     \end{enumerate}
 \end{proposition}
 \begin{proof}
-    \begin{enumerate}
-        \item $\lambda(E)=0$ if $E\cap A=\emptyset$.
-            Let $E\cap A=\emptyset$ and let $E=\cup E_i$ be a partition.
-            Then $E_i\cap A=\emptyset$ so $\lambda(E_i)=0$ and $\sum|\lambda(E_i)|=0$.
-        \item 
-        \item
+    These are all exercises in the definitions.
+    For simplicity of notation (and so that I don't repeat myself too much), let $\lambda$ be concentrated on $A$, $\lambda_1$ on $A_1$, $\lambda_2$ on $A_2$, and $\mu$ on $B$.
+    \begin{enumerate}[nolistsep]
+        \item Suppose $E\cap A=\emptyset$; we want to show $|\lambda|(E)=0$.
+            Let $\{E_i\}$ be an arbitrary partition of $E$, so $E_i\cap A=\emptyset$ and $\lambda(E_i)=0$ since $\lambda$ is concentrated on $A$.
+            Thus $\sum_{i=1}^n|\lambda(E_i)|=0$ and since the partition was arbitrary, $|\lambda|(E)=0$.
+        \item By (1), $|\lambda_1|$ is also concentrated on $A_1$ and $|\lambda_2|$ is concentrated on $A_2$, and $A_1\cap A_2=\emptyset$.
+        \item Let $\mu$ concentrated on $B_1$ with $B_1\cap A_1=\emptyset$, and $\mu$ is concentated on $B_2$ with $B_2\cap A_2=\emptyset$.
+            If $A_1\cap B=\emptyset$ and $A_2\cap B=\emptyset$, then $\lambda_1+\lambda_2$ is concentrated on $A_1\cup A_2$.
+            Furthermore, $\mu$ is concentrated on $B_1\cap B_2$ since if $E\cap B_1=\emptyset$ or $E\cap B_2=\emptyset$, then $\mu(E)=0$.
         \item Let $\mu(E)=0$.
             Then $\lambda_1(E)=0$ and $\lambda_2(E)=0$ so $(\lambda_1+\lambda_2)(E)=0$.
-        \item Let $\mu(E)=0$ and let $E=\cup E_i$.
+        \item Let $\mu(E)=0$ and let $\{E_i\}$ be a partition of $E$.
             Then $\mu(E_i)=0$ for all $i$, so $\lambda(E_i)=0$ for all $i$.
-            Otherwise, if $\sum|\lambda(E_i)|=0$ for all partitions, then $|\lambda|(E)=0$ so $|\lambda|\ll\mu$.
-        \item $\lambda_2\perp\mu$ implies that there exist disjoint sets $A,B$ so $\lambda_2$ is concentrated on $A$ and $\mu$ is concentrated on $B$.
-            We will see that $\lambda_1$ is also concentrated on $B$.
-            Let $E\cap B=\emptyset$ so $\mu(E)=0$ and $\lambda_1(E)=0$, so $\lambda_1$ is concentrated on $B$.
-        \item $\lambda$ is concentrated on $A$, $\mu$ is concentrated on $B$, and let $E\in\mathcal{M}$ be arbitrary.
-            Then $\lambda(E)=\lambda(E\cap A)=0$ since $\mu(E\cap A)=0$ and $\lambda\ll\mu$.
-            Thus $(E\cap A)\cap B=\emptyset$.
+            Thus  $\sum_{i=1}^\infty|\lambda(E_i)|=0$ for any partition, so $|\lambda|(E)=0$.
+        \item Since $\lambda_2\perp\mu$, get disjoint $A_2,B$ so $\lambda_2$ is concentrated on $A_2$ and $\mu$ is concentrated on $B$.
+            Then $\lambda_1$ is also concentrated on $B$ since, if $E\cap B=\emptyset$, then $\mu(E)=0$ so $\lambda_1(E)=0$ since $\lambda_1\ll\mu$.
+        \item By (6.), $\lambda\perp\lambda$, and $A\cap A=\emptyset$ implies $A=\emptyset$, so $\lambda=0$.
     \end{enumerate}
 \end{proof}
 \begin{proposition}
     Let $\mu$ be a positive measure, $\lambda$ a complex measure.
     Then the following are equivalent:
-    \begin{enumerate}
+    \begin{enumerate}[nolistsep]
         \item $\lambda\ll\mu$
         \item For any $\epsilon>0$, there exists $\delta>0$ such that $\mu(E)<\delta$ so $|\lambda(E)|<\epsilon$.
     \end{enumerate}
@@ -1775,18 +1838,23 @@ Additionally, we have $|\mu|=\mu_++\mu_-$.
     This holds for any $\epsilon>0$ so $\lambda(E)=0$.
 
     $(1\Rightarrow 2)$.
-    Assume the opposite: get $\epsilon>0$ so that for each $\delta=1/2^n$, there exists a set $E_n$ so that $\mu(E_n)<1/2^n$ but $|\lambda(E_n)|\geq\epsilon$.
-    Let $A_n=\bigcup\limits_{k=n}^\infty E_k$ and $A=\bigcap\limits_{n=1}^\infty A_n$.
-    Then
-    \[\mu(A_n)\leq\sum\limits_{k=n}^\infty\mu(E_k)\leq\sum\limits_{k=n}^\infty=\frac{1}{2^{n-1}}\]
-    so $\mu(A)=0$ since $\mu(A_1)<\infty$.
-    Since $\lambda\ll\mu$, then $|\lambda|\ll\mu$ so $|\lambda|(A)=0$.
-    However, $\lim|\lambda|(A_n)=|\lambda|(A)=0$ while $|\lambda(E_n)\geq\epsilon$ implies $|\lambda|(E_n)\geq\epsilon$ implies $|\lambda|(A_n)\geq\epsilon$ implies $\lim|\lambda(A_n)\geq\epsilon$, a contradiction.
-If $\lambda$ is not finite, this may not hold.
+    For contradiction, assume there exists some $\epsilon>0$ so that for each $\delta=1/2^n$, there exists a set $E_n$ so that $\mu(E_n)<1/2^n$ but $|\lambda(E_n)|\geq\epsilon$.
+    As is standard, define
+    \begin{equation*}
+        A_n=\bigcup\limits_{k=n}^\infty E_k,\qquad A=\bigcap\limits_{n=1}^\infty A_n
+    \end{equation*}
+    so that
+    \begin{equation*}\mu(A_n)\leq\sum\limits_{k=n}^\infty\mu(E_k)\leq\sum\limits_{k=n}^\infty\frac{1}{2^n}=\frac{1}{2^{n-1}}\end{equation*}
+    Thus since $\mu(A_1)<\infty$ and $A_1\supset A_2\supset\cdots$, $\mu(A)=0$.
+    Since $\lambda\ll\mu$, $|\lambda|\ll\mu$ so $|\lambda|(A)=0$.
+    However, $\lim_{n\to\infty}|\lambda|(A_n)=|\lambda|(A)=0$ since $|\lambda|$ is a measure, while $|\lambda|(E_n)\geq|\lambda(E_n)|\geq\epsilon$, a contradiction.
+\end{proof}
+If it important that $\lambda$ is finite; if not, then this may not hold.
 Set $f(x)=1/|x|$, $\lambda(E)=\int_Ef\d{\mu}$, and $\mu$ is the Lebesgue measure.
 However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^n$.
+\subsection{The Lebesgue-Radon-Nikodym Theorem}
 \begin{lemma}
-    If $\mu$ is a positive, $\sigma-$finite measure $(X=\cup X_n,\mu(X_n)<\infty)$, then there exists $w\in L^1(\mu)$ so that $0<w<1$.
+    If $\mu$ is a positive, $\sigma-$finite measure (that is, $X=\bigcup_{n=1}^\infty X_n$ where $\mu(X_n)<\infty$), then there exists $w\in L^1(\mu)$ so that $0<w<1$.
 \end{lemma}
 \begin{proof}
     Let $X=\bigcup\limits_{n=1}^\infty X_n$, and $\mu(X_n)<\infty$.
@@ -1797,25 +1865,11 @@ However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^
             \frac{1}{2^n(1+\mu(X_n))} &: x\in X_n
         \end{cases}
     \]
-    and $w(x)=\sum\limits_{n=1}^\infty w_n(x)$.
-    By construction, $0<w<1$ and $\int_X w\d{\mu}=\sum\int w_n\d{\mu}<\sum 1/2^n=1$ so $w\in L^1(\mu)$.
+    and $w(x)=\sum_{n=1}^\infty w_n(x)$.
+    By construction, $0<w<1$ and
+    \[\int_X w\d{\mu}=\sum\limits_{n=1}^\infty\int w_n\d{\mu}<\sum\limits_{n=1}^\infty 1/2^n=1\]
+    by Lebesgue's Monotone Convergence Theorem, so $w\in L^1(\mu)$.
 \end{proof}
-\section{$L^2(\mu)$}
-Let $(X,\mathcal{M},\mu)$ be a measure space, and set $\norm{f}_2=\left(\int_X |f|^2\d{\mu}\right)^{1/2}$.
-Let $L^2(\mu)=\{f:X\to\C:f\text{ measurable, }\norm{f}_2<\infty\}$.
-This is a normed space if functions which are equal almost everywhere are identified.
-We also define
-\[\inner{x}{y}=\int_Xf\overline{g}\d{\mu}\]
-$L^2$ is the infinite dimensional generalization of $\R^k$.
-\begin{theorem}[Riesz-Fisher]
-    $L^2(\mu)$ is complete (every Cauchy sequence of functions converges w.r.t. the $L^2$ norm).
-\end{theorem}
-
-\section{Hilbert Spates}
-$L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\inty$}\}$ is a Hilbert space (complete) with the inner product $\inner{f}{g}=\int_Xf\cdot\overline{g}\d{\mu}$.
-\begin{theorem}
-    If $H$ is a Hilbert space, $L:H\to\C$ is continuous and linear, then there exits a unique $y\in H$ so that $L(X)=\inner{x}{y}$ for all $x\in H$.
-\end{theorem}
 
 \begin{theorem}[Lebesgue-Radon-Nikodym]
     Let $\mu$ be a positive, $\sigma-$finite measure, $\lambda$ be a complex measure on $\mathcal{M}$.
@@ -1828,7 +1882,7 @@ $L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\inty$}\}$ is a Hilbert 
 \begin{proof}
     Let's first see that the decomposition is unique.
     Assume $\lambda=\lambda_a+\lambda_s=\lambda_a'+\lambda_s'$, so $\lambda_a-\lambda_a'=\lambda_s'-\lambda_s$.
-    We proved that $\lambda_a-\lambda_a'\ll\mu$ and $\lambda_s'-\lambda_s\perp\mu$, so $\lambda_a-\lambda_a'=0=\lambda_s'-\lambda_s$.
+    Then since  $\lambda_a-\lambda_a'\ll\mu$ and $\lambda_s'-\lambda_s\perp\mu$, we have $\lambda_a-\lambda_a'=0=\lambda_s'-\lambda_s$.
     We also see that $h$ is unique.
     Assume $h^*$ is another one, so $\lambda_a(E)=\int_E h^*\d{\mu}$.
     Write $h=h_1+ih_2$, $h^*=h_1^*+ih_2^*$.
@@ -1837,46 +1891,60 @@ $L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\inty$}\}$ is a Hilbert 
     In particular,
     \[\int_{A_1}h\d{\mu}=\int_{A_1}h^*\d{\mu}\Rightarrow\int_{A_1}(h-h^*)\d{\mu}=0\]
     so $\mu(A_1)=0$.
-    We can argue similarly with $A_2$.
+    We can argue similarly with $A_2$, so $h_1=h_1^*$.
+    In the exact same way, $h_2=h_2^*$ a.e., showing uniqueness.
 
-    We now show existence of $\lambda_a$, $\lambda_s$, $\mu$.
+    Now, for the hard part of the theorem, we show existence of $\lambda_a$, $\lambda_s$, $\mu$.
     Write $\lambda=\lambda_1^+-\lambda_1^-+i(\lambda_2^+-\lambda_2^i)$ and argue separately for each $\lambda_i^\pm$.
     We thus assume without loss of generality that $\lambda$ is a positive, finite measure.
-    From the previous lemma, get $w\in L^1(\mu)$ such that $0<w<1$, and introduce $\phi(E)=\lambda(E)+\int_E w\d{\mu}$, so $\phi$ is a positife finite measure.
-    We have $\int_X f\d{\mu}=\int_X f\d{\lambda}+\int_X fw\d{\mu}$.
-    This holds or $f=\chi_E$, so it holds for simple functions as well, and for arbitrary functions by Lebesgue Monotone Convergence.
+    From the previous lemma, get $w\in L^1(\mu)$ such that $0<w<1$, and define $\phi(E)=\lambda(E)+\int_E w\d{\mu}$, so $\phi$ is a positive finite measure.
+    We have $\int_X f\d{\phi}=\int_X f\d{\lambda}+\int_X fw\d{\mu}$; this holds for characteristic functions, and thus for simple functions, and finally for any non-negative measurable $f$.
     Let $f\in L^2(\phi)$, so
     \begin{align*}
         \left\lvert \int_X f\d{\lambda}\right\rvert &\leq \int_X|f|\d{\lambda}\\
                                                     &\leq\int_X|f|\d{\phi}=\int_X 1\cdot|f|\d{\phi}\\
                                                     &= \inner{1}{|f|}_{L^2(\phi)}\\
-                                                    &\leq\sqrt{\int_X 1\d{\phi}}\cdot\sqrt{\int_X|f|^2\d{\phi}}
+                                                    &\leq\sqrt{\int_X 1\d{\phi}}\cdot\sqrt{\int_X|f|^2\d{\phi}}\\
+                                                    &<\infty
     \end{align*}
-    Let $T(f)=\int_X f\d{\lambda}$, so $T:L^2(\phi)\to\C$ is a bounded linear functional.
-    By the Riesz theorem, there exists $g\in L^2(\phi)$ so that $T(f)=\inner{f}{g}=\int_Xf\cdot g\d{\phi}$.
+    since $\phi(X)<\infty$ by finiteness of $\lambda,\mu$ and the second term since $f\in L^2(\phi)$.
+    Let $T(f)=\int_X f\d{\lambda}$, so $T:L^2(\phi)\to\C$ is a bounded (and therefore continuous) linear functional.
+    By the Riesz theorem for Hilbert spaces, there exists $\overline{g}\in L^2(\phi)$ so that $T(f)=\inner{f}{\overline{g}}=\int_Xf\cdot g\d{\phi}$.
     Thus
-    \[\int_X f\d{\lambda}=\int_X f\cdot g\d{\phi}\]
-    Let's see that $0\leq g\leq 1$ a.e.$[\phi]$
-    Let $f=\chi_E$ so $\lambda(E)=\int_E f\d{\phi}$.
-    Let $A_1=\{x\in X:g(x)<0\}$.
-    Then $0\leq \lambda(A_1)=\int_{A_1}g\d{\phi}<0$ if $\phi(A_1)>0$.
-    Similarly, let $A_2=\{x\in X:g(x)>1\}$, so $\lambda(A_2)=\int_{A_2}g\d{\phi}>\phi(A_2)\geq\lambda(A_2)$, so $\phi(A_2)=0$.
-    We thus have
-    \[\int_X f\d{\lambda}=\int_X fg\d{\lambda}+\int_X fgw\d{\mu}\Rightarrow\int_X f(1-g)\d{\lambda}=\int_X fgw\d{\mu}\]
-    Let $A=\{x\in X:0\leq g(x)<1\}$, $B=\{x\in X:g(x)=1\}$.
-    Then $A\cup B=X_1$, $A\cap B=\emptyset$.
-    Define $\lambda_a(E)=\lambda(E\cap A)$, $\lambda_s(E)=\lambda(E\cap B)$.
-    Apply the above with $f=\chi_B$, so $\chi_B(1-g)=0$ everywhere.
-    We thus have $\int_B w\d{\mu}=0$ so $\mu(B)=0$.
-    Thus $\mu$ is concentrated on $A$ and by definition, $\lambda_s$ is concentrated on $B$.
-    Thus $\lambda_s\perp\mu$.
+    \begin{equation*}\int_X f\d{\lambda}=\int_X fg\d{\phi}\tag{1}\end{equation*}
+    Thus substituting $f=\chi_E$, $\lambda(E)=\int_E g\d{\phi}$.
+    Let's see that $0\leq g\leq 1$ a.e.$[\phi]$.
+    Define
+    \[A_1=\{x\in X:g(x)<0\},\quad A_2=\{x\in X:g(x)>1\}\]
+    Then $0\leq \lambda(A_1)=\int_{A_1}g\d{\phi}<0$ if $\phi(A_1)>0$, so $\phi(A_1)=0$.
+    Similarly, $\lambda(A_2)=\int_{A_2}g\d{\phi}>\phi(A_2)\geq\lambda(A_2)$, so $\phi(A_2)=0$.
+    We thus have by (1) and the definition of $\phi$,
+    \begin{equation*}\int_X f\d{\lambda}=\int_X fg\d{\lambda}+\int_X fgw\d{\mu}\imp\int_X f(1-g)\d{\lambda}=\int_X fgw\d{\mu}\tag{2}\end{equation*}
+    Let $A=\{x\in X:0\leq g(x)<1\}$, $B=\{x\in X:g(x)=1\}$, so $A\cap B=\emptyset$ and $\mu(X\setminus(A\cup B))=0$.
+    Finally, we can define
+    \[\lambda_a(E)=\lambda(E\cap A),\quad\lambda_s(E)=\lambda(E\cap B)\]
 
-    Now apply $(*)$ with $f=(1+g+g^2+\cdots+g^n)\chi_E$ with $E\in\mathcal{M}$ for each $n\in\N$.
-    We thus have
-    \[\int_E(1-g^{n+1})\d{\lambda}=\int_{E\cap A}(1-g^{n+1})\d{\lambda}+\int_{E\cap B}(1-g^{n+1})\d{\lambda}\]
-    so $\lambda(E\cap A)=\lambda_a(E)$.
-    Thus by LMC, the RHS goes to $\lambda_E h\d{\lambda}$.
-    Thus $\lambda_a(E)=\int_E h\d{\lambda}$ for all $E\in\mathcal{M}$, so $\lambda_a\ll\mu$ and $h\in L^1(\mu)$, $\lambda_a(X)<\infty$.
+    Let's prove that they have the desired properties.
+    Substitute $f=\chi_B$ into (2), so $\chi_B(1-g)=0$ everywhere.
+    We thus have $\int_B w\d{\mu}=0$ so $\mu(B)=0$.
+    Thus $\mu$ is concentrated on $A$ and, by definition, $\lambda_s$ is concentrated on $B$, so $\lambda_s\perp\mu$.
+
+    Now apply (2) with $f=(1+g+g^2+\cdots+g^n)\chi_E$ for any $E\in\mathcal{M}$ and every $n\in\N$.
+    On the LHS of (2), we have
+    \begin{align*}
+        \lim_{n\to\infty}\int_E(1-g^{n+1})\d{\lambda} &= \lim_{n\to\infty}\int_{E\cap A}(1-g^{n+1})\d{\lambda}+\lim_{n\to\infty}\int_{E\cap B}(1-g^{n+1})\d{\lambda}\\
+                                                      &= \int_{E\cap A}\lim_{n\to\infty}(1-g^{n+1})\d{\lambda}\\
+                                                      &=\int_{E\cap A}1\d{\lambda}\\
+                                                      &=\lambda(E\cap A)=\lambda_a(E)
+    \end{align*}
+    by the monotone convergence theorem, since $1-g^{n+1}=0$ on $B$ and $1-g^{n+1}\to 1$ on $A$ monotonically.
+    On the RHS of (2), we have
+    \begin{align*}
+        \lim_{n\to\infty} \int_Eg(1+g+\cdots+g^n)w\d{\mu} &= \int_E \lim_{n\to\infty} g(1+g+\cdots+g^n)w\d{\mu}=\int_E h\d{\mu}
+    \end{align*}
+    monotonically, where $h=\lim_{n\to\infty}g(1+g+\cdots+g^n)2$.
+    Thus $\lambda_a(E)=\int_E h\d{\lambda}$ for all $E\in\mathcal{M}$.
+    But then it follows directly that $\lambda_a\ll\mu$ and $h\in L^1(\mu)$, so $\lambda_a(X)<\infty$.
 \end{proof}
 \begin{theorem}
     Let $\mu$ be a complex measure.
@@ -1890,18 +1958,23 @@ $L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\inty$}\}$ is a Hilbert 
     Let $A_r=\{x\in X:|h(x)|<r\}$.
     Let $\{E_j\}$ be a partition of $A_r$.
     Then
-    \[\sum_j|\mu(E_j)|=\sum\limits_j\left\lvert\int_{E_j}h\d{|\mu|}\right\rvert\leq\sum\limits_j\int_{E_j}|h|\d{|\mu|}\leq\sum\limits_j r\cdot|\mu|(E_j)=r|\mu|(A_r)\]
-    for any partition, so taking the supremum, $|\mu|(A_r)\leq r\cdot|\mu|(A_r)$, so $|\mu|(A_r)=0$ when $r<1$.
-    Let $B_r(z)\subset(\overline{B_1(0)})^c$.
-    Let $E=\{x\in X:h(x)\in B_r(z)\}$.
-    Then
+    \[\sum\limits_{j=1}^\infty|\mu(E_j)|=\sum\limits_{j=1}^\infty\left\lvert\int_{E_j}h\d{|\mu|}\right\rvert\leq\sum\limits_{j=1}^\infty\int_{E_j}|h|\d{|\mu|}\leq\sum\limits_{j=1}^\infty r\cdot|\mu|(E_j)=r\cdot|\mu|(A_r)\]
+    for any partition, so taking the supremum over all partitions, $|\mu|(A_r)\leq r\cdot|\mu|(A_r)$, so $|\mu|(A_r)=0$ when $r<1$.
+
+    Otherwise, set $S=\C\setminus\overline{B_1(0)}$.
+    Let $B_r(z)\subset S$ for some $z$, and define $E=h^{-1}(B_r(z))$.
+    We want to show that $|\mu|(E)=0$.
+    Assuming so, write $S$ as a countable union of open balls $B_1,B_2,\ldots$ so that
+    \[\mu(\{x:|h(x)|>1\})=\mu(h^{-1}(S))=\sum\limits_{i=1}^\infty\mu(h^{-1}(B_i))=0\]
+    Thus let's show that $\mu(E)=0$.
+    Assume not; then, for any $E$, we have
     \[\left\lvert\frac{1}{|\mu|(E)}\cdot\int_E h\d{|\mu|}\right\rvert=\frac{|\mu(E)|}{|\mu|(E)}\leq 1\]
-    Thus
+    so that
     \begin{align*}
         \left\lvert\frac{1}{|\mu|(E)}\int_E h\d{|\mu|}-z\right\rvert&=  \left\lvert\frac{1}{|\mu|(E)}\cdot\int_E(h-z)\d{|\mu|}\right\rvert\\
                                                                     &\leq\frac{1}{|\mu|(E)}\int_E|h-z|\d{|\mu|}\\
                                                                     &< \frac{r\cdot|\mu|(E)}{|\mu|(E)}=r
     \end{align*}
-    Since we can cover $(\overline{B_1(0)})^c$ with countably many balls, $|h|\leq 1$ almost everywhere.
+    a contradiction, since $B_r(z)\subset S$.
 \end{proof}
 \end{document}
