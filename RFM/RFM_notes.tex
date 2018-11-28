@@ -62,7 +62,7 @@
 \theoremindent0.0cm
 \theoremstyle{nonumberplain}
 \theoremheaderfont{\scshape}
-\theoremsymbol{$\square$}
+\theoremsymbol{$\blacksquare$}
 \newtheorem{proof}{Proof}
 
 %-----------------------------------------------------------------------------------------------------------------
@@ -1946,6 +1946,7 @@ However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^
     Thus $\lambda_a(E)=\int_E h\d{\lambda}$ for all $E\in\mathcal{M}$.
     But then it follows directly that $\lambda_a\ll\mu$ and $h\in L^1(\mu)$, so $\lambda_a(X)<\infty$.
 \end{proof}
+\subsection{Applications of Radon-Nikodym}
 \begin{theorem}
     Let $\mu$ be a complex measure.
     Then there exists a measurable $h$ such that $|h|=1$ and $\mu(E)=\int_E h\d{|\mu|}$.
@@ -1977,4 +1978,71 @@ However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^
     \end{align*}
     a contradiction, since $B_r(z)\subset S$.
 \end{proof}
+\begin{theorem}
+    Let $\mu$ be a positive measure, and $g\in L^1(\mu)$.
+    Let $\lambda(E)=\int_E g\d{\mu}$.
+    Then $|\lambda|(E)=\int_E|g|\d{\mu}$.
+\end{theorem}
+\begin{proof}
+    By the previous theorem, there exists $h$ so that $|h|=1$ and $\lambda(E)=\int_Eh\d{\lambda}$.
+    Then
+    \[\int_E g\d{\mu}=\int_E h\d{\lambda}\imp \int_X fg\d{\mu}=\int_X fh\d{\lambda}\]
+    by monotone convergence, for any measurable $f$.
+    In particular, consider $f=\overline{h}\cdot \chi_E$.
+    Then
+    \[\int_E\overline{h}g\d{\mu}=\int_E\d{|\lambda|}=|\lambda|(E)\]
+    and since the RHS is real and non-negative and $E$ is an arbitrary set, $\overline{h}g$ is real and non-negative almost everywhere.
+    Let $x\in X$ be such that $\overline{h}(x)\cdot g(x)\geq 0$, and let $g(x)=r\cdot e^{i\phi}$, $\overline{h}=e^{i\alpha}$.
+    Then $\overline{h}(x)g(x)=re^{i(\alpha+\phi)}=r=|g|$ since it is non-negative and real, so $\overline{h}\cdot h=|h|$ a.e.$[\mu]$.
+\end{proof}
+With these theorems, we are in place to prove the following decomposition theorem for measures.
+Recall that
+\[\mu^+=\frac{1}{2}(|\mu|+\mu),\quad\mu^-=\frac{1}{2}(|mu|-\mu)\]
+so $\mu=\mu^+-\mu^-$ and $|\mu|=\mu^++\mu^-$.
+\begin{theorem}[Hahn Decomposition]
+    Let $\mu$ be a signed measure.
+    Then there exists $A,B\in\mathcal{M}$ so that $A\cub B=X$, $A\cap B=\emptyset$, and $\mu^+(E)=\mu(E\cap A)$ and $\mu^-(E)=-\mu(E\cap B)$.
+\end{theorem}
+\begin{proof}
+    By the first theorem, get $h$ so that $|h|=1$ and $\mu(E)=\int_E h\d{|\mu|}$.
+    Since $h$ is real-valued, $h=\pm 1$.
+    Let $A=h^{-1}(\{1\})$, $B=h^{-1}(\{-1\})$.
+    Then
+    \[\frac{1}{2}(h(x)+1)=
+        \begin{cases}
+            h(x) &: x\in A\\
+            0 &: x\in B
+        \end{cases}
+    \]
+    so that since $\mu^+=\frac{1}{2}(|\mu|+\mu)$,
+    \[\mu^+(E)=\frac{1}{2}\int_E(1+h)\d{|\mu|}=\int_{E\cap A} h\d{|\mu|}=\mu(E\cap A)\]
+    The same approach works with $\mu^-$.
+\end{proof}
+\begin{corollary}
+    If $\mu=\lambda_1-\lambda_2$, where $\lambda_1,\lambda_2$ are positive measures, then $\lambda_1\geq\mu^+$ and $\lambda_2\geq\mu^-$.
+\end{corollary}
+\begin{proof}
+    Since $\mu(E)\leq\lambda_1(E)$ for all $E$,
+    \begin{equation*}\mu^+(E)=\mu(E\cap A)\leq\lambda_1(E\cap A)\leq\lambda_1(E)\end{equation*}
+    and similarly for $\mu^-$.
+\end{proof}
+\section{Representation Theorem for Bounded Linear Functionals}
+Let $B$ be a Banach space (a complete, normed vector space).
+\begin{definition}
+    $L:B\to\C$ is called a \textbf{bounded linear functional} if $L(\alpha x+y)=\alpha L(x)+L(y)$ for $\alpha\in\C$, $x,y\in B$ and
+    \[\norm{L}:=\sup_{\norm{x}\leq 1}|L(x)|<\infty\]
+    Then $|L(x)|\leq\norm{L}\cdot\norm{x}$.
+    Let $B^*$ denote the collection of bounded linear functionals, called the \textbf{dual space} of $B$.
+    This is a normed vector space with pointwise addition and scalar multiplication.
+\end{definition}
+\begin{proposition}
+    Let $B$ be any normed space.
+    Then $B^*$ is a Banach space.
+\end{proposition}
+A general question in functional analysis is the characterization of the dual soace of a banach space $B$.
+When $B$ is a Hilbert space, the inner product provides this representation via the standard Riesz representation theorem (see Hilbert space section in notes).
+If $B=L^p(\mu)$, it was shown that $B^*=L^q(\mu)$ where $1/q+1/p=1$.
+
+To frame our general approach, note that $C_c(X)$ is not complete (for non-compact $C$).
+For example, when $X=\R$, $1/(1+x^2)$ is not in $C_c(\R)$, but it is the limit of a sequence of functions in $C_c(X)$.
 \end{document}

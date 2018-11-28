@@ -140,6 +140,12 @@
             \item $\Var(X)=\E(X^2)-\E(X)^2$
             \item $\Var(aX+b)=a^2\Var(X)$
         \end{enumerate}
+    \item We say that a discrete random variable is \textbf{Poisson}, i.e. $X\sim\operatorname{Poi}(\lambda)$ if it has image $\{0,1,2,\ldots\}$ and density function
+        \[\Pr(X=k)=e^{-\lambda}\frac{\lambda^k}{k!}\]
+        Poisson random variables arise from Binomial distributions, taking the limit as $n\to\infty$ and $p\to\0$ so that $np\to\lambda$.
+        They also arise as a \textbf{Poisson process} with intensity $\lambda$ if there is a point process such that for any interval $I$ with length $h$, the probability that there is exactly one point in $I$ is $\lambda h$ (with perhaps some sublinear additional terms).
+        If a point process satisfies the above conditions, $I_t$ is an arbitrary interval with length $t$, and $N_t$ counts the number of impacts with $I_t$, then $N_t\sim\operatorname{Poi}(\lambda t)$.
+        A sum of Poisson random variables $X_i$ with parameters $\lamda_i$ is Poisson with paramaters $\sum_{i=1}^n\lambda_i$.
     \item Let $(\Omega,\mathcal{M},\Pr)$ be a measure space, and let $X:\Omega\to\R$ be a random variable.
         Then define $P_X$ on $\R$ by $P_X(E)=\Pr(X^{-1}(E))$, which is a Borel measure on $\R$ called the \textbf{distribution} of $X$.
         Then the function
@@ -150,9 +156,32 @@
         There is a particularly nice class of random variables called \textbf{absolutely continuous} random variables, in which the measure $P_X$ has a nice form.
         We say $X$ is absolutely continuous if there exists some $f_X:\R\to\R$ so that for any $E\in\mathcal{B}$,
         \[P_X(E)=\int_E f_X(x)\d{x}\]
+        In the absolutely continuous case, things are particularly nice.
+        If $g$ is any measurable function and $X$ is a random variable,
+        \[\E(g(X))=\int_{-\infty}^\infty g(x)f_X(x)\d{x}\]
+        and the case $g(x)=x$ gives the standard way to compute the expected value of a random variable.
 
+        Suppose $k$ is a strictly increasing function, $X$ is an absolutely continuous random variable with density $f_X$.
+        Let $Y=k(X)$; then we have
+        \begin{equation*} f_Y(x) = f_X(k^{-1}(x))\frac{\d{}}{\d{x}}k^{-1}(x)=\frac{f_X(k^{-1}(x))}{k'(k^{-1}(x))}\end{equation*}
+        Given random variables $X$ and $Y$, we can compute
+        \[F_{X+Y}(a)=\int_{-\infty}^\infty F_X(a-y)f_Y(y)\d{y}\]
+        which is the \textbf{convolution} of the random variables $X$ and $Y$.
+    \item We say that $\phi$ is a \textbf{standard normal distribution} on $\R$ if it has density
+        \[\phi(x)=\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\]
+        and we denote its CDF by $\Phi(x)$.
+        In this standard form, we have $\E(X)=0$ and $\Var(X)=1$.
+        More generally, we say $X\sim\mathcal{N}(\mu,\sigma^2)$ if $X=\sigma Z+\mu$ where $Z\sim\mathcal{N}(0,1)$.
+        If $X\sim\mathcal{N}(\mu_1,\sigma_1^2)$ and $Y\sim\mathcal{N}(\mu_2,\sigma_2^2)$, then
+        \[X+aY\sim\mathcal{N}(\mu_1+a\mu_2,\sigma_1^2+a^2\sigma_2^2)\]
 
-        If we have a collection of random variables $(X_1,\ldots,X_n)$ then we can consider them as a map $(X_1,\ldots,X_n):\Omega\to\R^n$, and the corresponding measure is called the \textbf{joint distribution} of $X_1,\ldots,X_n$.
+    \item If we have a collection of random variables $(X_1,\ldots,X_n)$ then we can consider them as a map $(X_1,\ldots,X_n):\Omega\to\R^n$, and the corresponding measure is called the \textbf{joint distribution} of $X_1,\ldots,X_n$.
         Often, we take $\Omega=\R^n$ and $\Pr$ to be the standard Lebesgue measure on $\R^n$.
+    \item 
+    \item We say that random variables $X,Y$ are \textbf{independent} if
+        \[\Pr(X\in A,Y\in B)=\Pr(X\in A)\Pr(Y\in B)\]
+        for any Borel sets $A,B$.
+        Equivalently, we require
+        \[F_{X,Y}(a,b)=F_X(a)F_X(b)\]
 \end{enumerate}
 \end{document}

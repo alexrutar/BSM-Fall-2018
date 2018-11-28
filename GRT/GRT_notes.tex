@@ -1673,4 +1673,48 @@ The second statement follows since $\chi(G)=\min\{n:G\to K_n\}$.
 If $F\to G\to K_{\chi(G)}$, then $\hat f(v)=g(f(u))$ gives a proper $\chi(G)-$colouring of $F$, so $\chi(G)\leq\chi(G)$.
 
 Thus $\chi_f(G)=\inf\left\{\frac{n}{k}:G\to \KG(n,k)\right\}$.
+\section{The Chromatic Number of $\KG(n,k)$}
+We know that $\chi(\KG(n,k))\leq n-2k+2$.
+Kneser conjectured in 1955 that equality holds.
+As well, $\chi(G)\geq|V(G)|\geq\alpha(G)=\KG(n,k)$ gives a poor lower bound, so
+\[\frac{n}{k}\leq \frac{|V(\KG(n,k))|}{\alpha(\KG(n,k))}=\chi_f(\KG(n,k))\]
+since
+\[|V(\KG(n,k))|=\binom{n}{k},\quad\alpha(\KG(n,k))\geq\binom{n-1}{k-1}\]
+In fact, equality holds in the second inequality, from the Erd\"os-Ko-Rado theorem, so $\chi_f(\KG(n,k))=\frac{n}{k}$.
+We also have
+\begin{theorem}[Lov\'asz, 1978]
+    $\chi(\KG(n,k))=n-2k+2$
+\end{theorem}
+In order to prove this, we need a result from algebraic topology.
+\begin{theorem}[Borsuk-Ulam]
+    If $f:\mathbb{S}^n\to\R^n$ is a continuous mapping, then there exists some $x\in\mathbb{S}^n$ such that $f(x)=f(-x)$.
+\end{theorem}
+With this result, we can prove the following theorem.
+\begin{theorem}[Lyusternik-Shnirel'man]
+    If $\mathbb{S}^n$ is covered by closed subsets $A_1,A_2,\ldots,A_m$ and for all $i$, there does not exist $x\in\mathbb{S}^n$ such that $\{x,-x\}\in A_i$, then $m\geq n+2$.
+\end{theorem}
+\begin{proof}
+    Assume that $\mathbb{S}^n$ is covered by closed subsets $A_1,A_2,\ldots,A_{n+1}$.
+    Define
+    \[f(x):=(d(x,A_1),d(x,A_2),\ldots,d(x,A_n))\]
+    Get some $x$ so that $f(x)=f(-x)$.
+    If $f(x)_i=0$ for some $i$, then $x\in A_i$ and $-x\in A_i$, a contradiction.
+    Otherwise, $x\in A_{n+1}$, $-x\in A_{n+1}$.
+\end{proof}
+This is also true if the $A_i$ are all open, or if we have a mixed of open and closed sets.
+We can prove that Borsuk-Ulam implies Lyusternik-Shnirel'man.
+\begin{lemma}[Gale]
+    One can put $n$ points on $\mathbb{S}^{n-2k}$ such that every open hemisphere contains at least $k$ of the points.
+\end{lemma}
+We now have B\'ar\'am's proof of the Lov\'asz-Kneser theorem.
+\begin{proof}
+    Take $\KG(n,k)$ properly coloured with $m$ colours, say $\{1,2,\ldots,m\}$.
+    As well, take $\mathbb{S}^{n-2k}$ and put $n$ points on it in the way of Gale's Lemma.
+    Define $A_1,\ldots,A_m\subseteq \mathbb{S}^{n-2k}$ as follows:
+    \[A_i:=\left\{x\in\mathbb{S}^{n-2k}:H(x)\text{ contains $k$ points of our $n$, that as a vertex of $\KG(n,k)$ is coloured $i$}\right\}\]
+    where $H(x)$ is the hemisphere centered at $x$.
+    By the choice of such $x$, $\bigcup_{i=1}^m A_i=\mathbb{S}^{n-2k}$, and $A_i$ is open for all $i$.
+    Furthermore, if $x\in A_i$, $-x\notin A_i$ since the colouring of $\KG(n,k)$ is proper.
+    But then by LSo, $m\geq n-2k+2$.
+\end{proof}
 \end{document}

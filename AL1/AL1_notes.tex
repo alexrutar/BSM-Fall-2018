@@ -1052,4 +1052,93 @@ We say that a ring is a zero-ring if $xy=0$ for all $x,y\in R$.
 This is the ring $\Z[i]=\{a+bi:a,b\in\Z\}\leq\C$.
 We have division with remainder: for any $x,y\in\Z[i]$, there exists $q,r\in\Z[i]$ so that $x=qy+r$ and $|r|^2<|y|^2$.
 Note that $|r|^2=a^2+b^2\in Z_{\geq 0}$.
+
+Suppose $x^2+4=y^3$ for $x,y\in\Z$.
+Then in $\Z[i]$, we have $(x+2i)(x-2i)=y^3$.
+If both $x$ and $y$ are odd, write $x=2z+1$ and say $\gcd(x+2i,x-2i)=d$.
+Thus $d|2z+2i+1$ and $d|2z-2i+1$, so $d|4z+2$ and $d|4i$.
+Thus $d|4z$ so $d|2$.
+Thus $d|x$ so $d|2z$ and $d|2z+1$, so $d|1$ and $d\in\Z[i]^\times=\{1,i,-1,-i\}$.
+Thus write $x+2i=(a+bi)^3$ for some $a,b\in\Z$ so $x=a^3-3ab^2$ and $2i=(3a^2b-b^3)i$.
+Working through the cases for $x$, we get $x=\pm 2$ or $2=\pm 11$.
+
+Thus $x=\pm 11$, $y=5$ is a solution.
+\begin{definition}
+    A commutative ring with identity and no zero divisors is called an \textbf{integral domain}.
+\end{definition}
+For example, $\Z$, $\Z[i]$, $\Z[x]$, $\R[x]$.
+In the following discussion, $R$ always denotes an integral domain.
+\begin{definition}
+    For $a,b\in R$, $a|b$ iff there exists $x\in R$ so that $ax=b$.
+\end{definition}
+If $a\neq 0$, then $x$ is unique since $ax=ay$ implies $a(x-y)=0$ so $x=y$.
+\begin{definition}
+    We say that $a$ and $b$ are \textbf{associate elements} in $R$ if $a|b$ and $b|a$.
+\end{definition}
+Since this is indeed an equivalence relation, we write $a\sim b$.
+In general, the equivalence class of any $a\in\R$ is given by $aR^\times$.
+Observe that
+\begin{enumerate}[nolistsep]
+    \item $a|b\Leftrightarrow (a)\supseteq(b)$
+    \item $a\sim b\Leftrightarrow (a)=(b)$
+    \item $(a)=R\Leftrightarrow a\in R^\times$
+\end{enumerate}
+\begin{definition}
+    We say that a nonzero, non-unit element $p$ is \textbf{prime} in $R$ if and only if $p|ab\Rightarrow p|a$ or $p|b$.
+    A nonzero, non-unit element $q$ is \textbf{irreducible} in $R$ if and only if $q$ has only trivial divisors in $R$ (that is, units and associates).
+\end{definition}
+Note that $q$ is irreducible if and only if $(q)$ is maximal among the proper principal ideals of $R$.
+To see this, note that $(q)\neq(0)$ and $(q)\neq R$.
+Then if $(q)\subseteq(d)$, then $q|d$ so $d\in R^\times$ or $d\sim q$ so either $(d)=R$ or $(d)=(q)$.
+\begin{lemma}[Properties of Primes]
+    \begin{enumerate}[nolistsep]
+        \item A prime is always irreducible.
+        \item Any associate of a prime is also prime.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $p\in R$ be prime, and let $d|p$.
+            Then there exists $x\in R$ so that $dx=p$.
+            Thus $p|dx$ where $p$ is prime, so either $p|d$ or $p|x$.
+            If $p|d$, then $p\sim d$.
+            Otherwise, if $p|x$, write $x=py$ so $p=dyp$.
+            Then $p(1-dy)=0$, and since $p\neq 0$, $1-dy=0$ so $dy=1$.
+            Thus $d$ is a unit.
+        \item If $p$ is prime and $t\sim p$, then $t|ab\Rightarrow p|ab$ so $p|a$ or $p|b$, but then $t|a$ or $t|b$.
+    \end{enumerate}
+\end{proof}
+\begin{lemma}[Properties of Irreducibles]
+    \begin{enumerate}[nolistsep]
+        \item Any associate of an irreducible is also irreducible.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    \begin{enumerate}[nolistsep]
+        \item If $q$ is irreducible and $t\sim q$, suppose $d|t$.
+            Then $d|q$ so $d\in R^\times$ or $d\sim q$, in which case $d\sim t$.
+    \end{enumerate}
+\end{proof}
+We can talk about irreducible and prime associate classes of $R$.
+\begin{example}
+    Let $T$ denote the real polynomials without linear terms.
+    Then $x^2$ is irreducible in $T$, but $x^2|x^6=x^3\cdot x^3$, so $x^2$ is not a prime in $T$.
+\end{example}
+\begin{definition}
+    For $a,b\in R$, a \textbf{greatest common divisor} of $a$ and $b$ is an element $d$ so that
+    \begin{enumerate}
+        \item $d|a$, $d|b$
+        \item If $c|a$ and $c|b$, then $c|d$.
+    \end{enumerate}
+    We denote the set of greatest common divisors of $a$ and $b$ by $\gcd(a,b)$.
+    Instead of writing $d\in \gcd(a,b)$, we will write $d\sim\gcd(a,b)$.
+\end{definition}
+Note that such an element may not exist, and if it exists, it may not be unique.
+In particular, if $d$ is a greatest common divisor of $a$ and $b$ and $d\sim f$, then $f$ is also a greatest common divisor.
+Furthermore, if $f,d$ are both common divisors of $a$ and $b$, then $d\sim f$.
+Thus
+\begin{proposition}
+    If $\gcd(a,b)$ exists, then it is an associate class of $R$.
+\end{proposition}
+We can define $\lcm(a,b)$ in the same way.
 \end{document}
