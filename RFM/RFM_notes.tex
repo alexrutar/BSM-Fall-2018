@@ -23,6 +23,7 @@
 \DeclareMathOperator{\im}{Im}
 \DeclareMathOperator{\supp}{supp}
 \DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\Meas}{Meas}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -792,7 +793,7 @@ Our next application is a strengthening of the previous result for simple functi
         \item \textit{Let $g=\chi_E$ be a characteristic function.}
             Then
             \begin{equation*}
-                \int_X\chi_E\d{\phi}&=\phi(E)=\int_E f\d{\mu}=\int_X\chi_E f\d{\mu}
+                \int_X\chi_E\d{\phi}=\phi(E)=\int_E f\d{\mu}=\int_X\chi_E f\d{\mu}
             \end{equation*}
         \item \textit{Let $g=\sum\limits_{i=1}^n\alpha_i\chi_{A_i}$ be a simple function.}
             Then
@@ -1195,7 +1196,7 @@ If we assume additionally that $\mu(\cup E_i)<\infty$, then $\bigcup_{i=1}^\inft
     Let's now see the second part.
     For any $\epsilon>0$, there exists some $N\in\N$ so that
     \begin{equation*}
-        \mu\left(\bigcup\limits_{i=1}^\infty E_i\right) &\leq \sum\limits_{i=1}^N\mu(E_i)+\epsilon\leq \mu(K_N)+2\epsilon
+        \mu\left(\bigcup\limits_{i=1}^\infty E_i\right) \leq \sum\limits_{i=1}^N\mu(E_i)+\epsilon\leq \mu(K_N)+2\epsilon
     \end{equation*}
     with $K_N$ compact defined in the same way as above.
     Since $\epsilon>0$ was arbitrary, the result follows directly.
@@ -1642,7 +1643,7 @@ But then define $\phi(E)=\int_E\overline{g}\d{\mu}$ as the image measure of $\ov
 \[\int_Xf\overline{g}\d{\mu}=\int_X f\d{\phi}\]
 In other words, $\Lambda f=\int_Xf\d{\phi}$, which looks much more similar to the standard Riesz representation theorem.
 
-$L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\inty$}\}$ is a Hilbert space (complete) with the inner product $\inner{f}{g}=\int_Xf\cdot\overline{g}\d{\mu}$.
+$L^2(\mu)=\{f:X\to\C:f\text{ is measurable, $\norm{f}_2<\infty$}\}$ is a Hilbert space (complete) with the inner product $\inner{f}{g}=\int_Xf\cdot\overline{g}\d{\mu}$.
 \begin{theorem}
     If $H$ is a Hilbert space, $L:H\to\C$ is continuous and linear, then there exits a unique $y\in H$ so that $L(X)=\inner{x}{y}$ for all $x\in H$.
 \end{theorem}
@@ -1714,7 +1715,7 @@ This property is sometimes summarized by saying ``$\mu$ is of bounded variation'
                                                               &\geq \re\sum\limits_{k\in S(\theta)}e^{-i\theta}z_k\\
                                                               &= \sum\limits_{k=1}^N|z_k|\cos^+(\alpha_k-\theta):=h(\theta)
     \end{align*}
-    where $\cos^+=\max\{\cos,0\}$ is the positive part of $\vos$, and $h:[-\pi,\pi]\to\R$ is a continuous function on a compact set.
+    where $\cos^+=\max\{\cos,0\}$ is the positive part of $\cos$, and $h:[-\pi,\pi]\to\R$ is a continuous function on a compact set.
     Thus it has a maximum at some $\theta_0$.
     Fix $S=S(\theta_0)$ and
     \begin{align*}
@@ -1790,7 +1791,7 @@ Additionally, we have $|\mu|=\mu_++\mu_-$.
 \end{definition}
 Let's summarize a number of properties concerning the aforementioned definitions and the total variation of a measure.
 \begin{proposition}
-    Let $\mu$ be a positive measure, $\lamda,\lambda_1,\lambda_2$ be arbitrary measures (positive, signed, or complex).
+    Let $\mu$ be a positive measure, $\lambda,\lambda_1,\lambda_2$ be arbitrary measures (positive, signed, or complex).
     Then
     \begin{enumerate}[nolistsep]
         \item If $\lambda$ is concentrated on $A$, then $|\lambda|$ is also concentrated on $A$.
@@ -1997,11 +1998,11 @@ However, for each $E=[-1/n,1/n]$, and $\int_Ef\d{\mu}=\infty$ while $\mu(E)=1/2^
 \end{proof}
 With these theorems, we are in place to prove the following decomposition theorem for measures.
 Recall that
-\[\mu^+=\frac{1}{2}(|\mu|+\mu),\quad\mu^-=\frac{1}{2}(|mu|-\mu)\]
+\[\mu^+=\frac{1}{2}(|\mu|+\mu),\quad\mu^-=\frac{1}{2}(|\mu|-\mu)\]
 so $\mu=\mu^+-\mu^-$ and $|\mu|=\mu^++\mu^-$.
 \begin{theorem}[Hahn Decomposition]
     Let $\mu$ be a signed measure.
-    Then there exists $A,B\in\mathcal{M}$ so that $A\cub B=X$, $A\cap B=\emptyset$, and $\mu^+(E)=\mu(E\cap A)$ and $\mu^-(E)=-\mu(E\cap B)$.
+    Then there exists $A,B\in\mathcal{M}$ so that $A\cup B=X$, $A\cap B=\emptyset$, and $\mu^+(E)=\mu(E\cap A)$ and $\mu^-(E)=-\mu(E\cap B)$.
 \end{theorem}
 \begin{proof}
     By the first theorem, get $h$ so that $|h|=1$ and $\mu(E)=\int_E h\d{|\mu|}$.
@@ -2045,4 +2046,412 @@ If $B=L^p(\mu)$, it was shown that $B^*=L^q(\mu)$ where $1/q+1/p=1$.
 
 To frame our general approach, note that $C_c(X)$ is not complete (for non-compact $C$).
 For example, when $X=\R$, $1/(1+x^2)$ is not in $C_c(\R)$, but it is the limit of a sequence of functions in $C_c(X)$.
+\begin{definition}
+    We say $f:X\to\C$ \textbf{vanishes at infinity} if for all $\epsilon>0$, there exists $K\subset X$ compact such that for all $x\notin K$, $|f(x)|<\epsilon$.
+\end{definition}
+Let $C_0(X)$ be the set of comples functions which vanish at infinity, and the norm $\norm{f}=\sup_{x\in X}|f(x)|$.
+Note that $C_c(X)\subset C_0(X)$.
+\begin{proposition}
+    $C_0(X)$ is complete.
+\end{proposition}
+\begin{proof}
+    Let $(f_n)\subset C_0(X)$ be Cauchy.
+    Then for every $\epsilon>0$, get $N$ so that $\norm{f_n-f_m}<\epsilon$ for all $n,m\geq N$.
+    Thus $(f_n(x))\subset\C$ is Cauchy, so $(f_n)\to f$ pointwise.
+    Let's first show that $f$ is continuous.
+    Certainly $\norm{f-f_n}\leq\epsilon$ for all $n\geq N$, but then $f_n\to f$ uniformly, so $f$ is continuous.
+
+    Furthermore, $f$ vanishes at infinity since to any $\epsilon>0$, get $N$ so that $\norm{f-f_N}<\epsilon$, and since $f_N$ vanishes at infinity, get $K$ compact so that $|f_N(x)|<\epsilon$ if $x\notin K$.
+    Thus $|f(x)|<2\epsilon$ if $x\notin K$.
+
+    Note that $f_n(x)-\epsilon<f_m(x)<f_m(x)+\epsilon$ for all $n,m>N$ so that $|f(x)-f_n(x)|\leq\epsilon$ for all $n\geq N$.
+    Let's show that the limit is actually uniform.
+    For any $\epsilon>0$, since $f_n$ vanishes at infinity, get $K_n$ compact so that $f_n<\epsilon$ outside $K_n$.
+\end{proof}
+In fact, $C_c(X)$ is not complete; its closure is $C_0(X)$.
+\begin{definition}
+    Let $\mathcal{M}$ be a $\sigma-$algebra on $X$, and let $\mu:\mathcal{M}\to\C$ be a complex measure.
+    Then there exists $h:X\to\C$ measurable so that $\mu(E)=\int_E h\d{|\mu|}$.
+    Now for any $f:X\to\C$, we define
+    \[\int_E f\d{\mu}=\int_E fh\d{|\mu|}\]
+    where $|\mu|$ is a positive measure.
+\end{definition}
+\begin{definition}
+    A complex measure $\mu$ is regular of $|\mu|$ is regular.
+\end{definition}
+An example of a bounded linear functional on $C_0(X)$ is the map $\phi:C_0(X)\to\C$ given by
+\[\phi(f)=\int_X \d{\mu}\]
+with a given complex measure $\mu$.
+\begin{proposition}
+    $\phi$ is bounded, linear, and $\norm{\phi}\leq\norm{\mu}$.
+\end{proposition}
+\begin{proof}
+    Linearity is clear, so let $f\in C_0(X)$ with $\norm{f}\leq 1$.
+    Then $|f(x)|\leq 1$ for all $x$, so
+    \begin{equation*}|\phi(f)|=\left\lvert\int_X f\cdot h\d{|\mu|}\right\rvert\leq\int_X|f|\d{|\mu|}\leq\int_X 1\d{|\mu|}=|\mu|(X)=\norm{\mu}\end{equation*}
+\end{proof}
+\begin{theorem}
+    Every bounded linear function $\phi:C_0(X)\to\C$ can be given uniquely in the form $\phi(f)=\int_X f\d{\mu}$ and $\norm{\phi}=\norm{\mu}$.
+    In other words, $C_0(X)^*=\operatorname{Meas}(X,\C)$.
+\end{theorem}
+\begin{proof}
+    To see uniqueness, assume $\mu_1,\mu_2\in\Meas(X,\C)$ such that $\phi(f)=\int_X f\d{\mu_i}$ for $i=1,2$.
+    Let $\mu=\mu_1-\mu_2$; we will see that $\mu=0$.
+    Get $h$ so that $\int_Xf\d{\mu}=\int_X fh\d{|\mu|}$, so $\int_X f\cdot h\d{|\mu|}=0$ for all $f\in C_0(X)$.
+    Recall that
+    \[|\mu|(X)=\int_X|h|\d{|\mu|}=\int_X h(f_n-\overline{h})\d{|\mu|}\leq \int_X|h||f_n\overline{h}|\d{|\mu|}\to 0\]
+    since $C_0(X)$ is dense in $L^1(|\mu|)$, we can get $f_n\to\overline{h}$ in $L^1$.
+    Thus $|\mu|(X)=0$ so $|\mu|(E)=0$ for all $E$ so $\mu(E)=0$.
+
+    The real content of this theorem is uniqueness.
+    For $f\geq 0$, define
+    \begin{equation*}
+        \Lambda f=\sup\{|\phi(h)|:h\in C_c(X),|h|\leq f\}
+    \end{equation*}
+    If $f\in C_c(X)$, then $f=f_1^+-f_1^-+i(f_2^+-f_2^-)$ and define $\Lambda f=\Lambda f_1^+-\Lambda f_1^-+i\left(\lambda f_2^+-\Lambda f_2^-\right)$.
+    We will see that $\Lambda:C_c(X)\to\C$ is a positive, linear functional.
+    It suffices to show this for positive functions.
+    Let's see that $\Lambda(f+g)\geq\Lambda f+\Lambda g$.
+    To $f$ and $g$, there exists $h_1,h_2\in C_c(X)$ so that $\Lambda f\leq|\phi(h_1)|+\epsilon$, $\Lambda g\leq|\phi(h_2)|+\epsilon$, and $|h_1|\leq f$, $|h_2|\leq g$.
+    Let $\alpha_i$ be such that $|\phi(h_i)|=\alpha_i\phi(h_i)$, so $|\alpha_i|=1$.
+    Then
+    \begin{align*}
+        \Lambda f+\Lambda g &\leq |\phi(h_1)|+|\phi(h_2)|+2\epsilon\\
+                            &= \phi(\alpha_1h_1+\alpha_2h_2)+2\epsilon\\
+                            &\leq \Lambda(|\alpha_1h_1+\alpha_2h_2|)+2\epsilon\\
+                            &\leq \Lambda(|h_1|+|h_2|)+2\epsilon\\
+                            &\leq \Lambda(f+g)+2\epsilon
+    \end{align*}
+    for any $\epsilon>0$, as required.
+
+    Now, let's see that $\Lambda(f+g)\leq\Lambda f+\Lambda g$.
+    Let $h\in C_c(X)$, such that $|h|\leq f+g$.
+    Let $V=\{x\in X:f(x)+g(x)>0\}$ and define
+    \[h_1=\frac{f\cdot h}{f+g},\qquad h_2=\frac{g\cdot h}{f+g}\]
+    on $V$, and $0$ on $V^c$.
+    One can verify that $h_1,h_2\in C_c(X)$.
+    Then
+    \begin{equation*}
+        |\phi(h)|=|\phi(h_1)+\phi(h_2)|\leq|\phi(h_1)|+|\phi(h_2)|\leq\Lambda f+\Lambda g
+    \end{equation*}
+    and since this is true for all $|h|\leq f+g$, taking supremums, we have $\Lambda(f+g)\leq\Lambda f+\Lambda g$.
+
+    Furthermore, we have
+    \[|\phi(f)|\leq\Lambda(|f|)\leq\norm{f}\]
+    for all $f\in C_c(X)$.
+    This follows since for all $|h|\leq f+g$, $|\phi(h)|\leq\norm{h}\leq\norm{f}$.
+    Thus $\Lambda$ is a positive linear functional on $C_c(X)$, and by the Riesz representation theorem, there exists a positive Borel measure $\lambda$ so that
+    \[\Lambda f=\int_X f\d{\lambda}\]
+    for all $f\in C_c(X)$.
+    Since $\lambda(X)=\sup\{\Lambda f:f\prec X\}$, it follows that$\Lambda f\leq\norm{f}=1$.
+    Then
+    \[|\phi(f)|\leq\Lambda(|f|)=\int_X|f|\d{\lambda}=\norm{f}_{L^1(\lambda)}\]
+    Note that $\phi$ is defined in $C_0(X)$.
+    Since $C_0(X)$ is dense in $L^1(\lambda)$,
+    If $f\in L^1(\lambda)$, then there exists a sequence $(f_n)\subset C_0(X)$ such that $\norm{f_n-f}_{L^1(\lambda)}\to 0$.
+    Thus let $\widetilde{\phi}(f)=\lim_{n\to\infty}\phi(f_n)$ be an extension of $\phi$ to $L^1(\lambda)$.
+    Thus $\widetilde{\phi}:L^1(\lambda)\to\C$ is a bounded linear functional.
+    
+    Since $\widetilde{\phi}\in L^1(\lambda)^*$.
+    Then by the Riesz representation theorem for $L^p$, we have $(L^p)^*=L^q$, so when $p=q$, we have $\tilde\phi \in L^\infty(\lambda)$.
+    Thus there exists a bounded measurable function such that
+    \[\widetilde{\phi}(f)=\int_f\cdot g\d{\lambda}\]
+    for any $f\in L^1(\lambda)$, and $\norm{\widetilde{\phi}}=\sup|g|$, so $|g|\leq 1$.
+    Now define $\mu(E)=\int_Eg\d{\lambda}$.
+
+    If $f=\chi_E$, then $\widetilde{\phi}(\chi_E)=\int_Eg\d{\lambda}=\mu(E)=\int_X\chi_E\d{\mu}$.
+    Thus $\widetilde{\phi}(s)=\int_X s\d{\mu}$, for simple functions, so by LMC, $\widetilde{\phi}(f)=\int_X f\d{\mu}$ for non-negative functions.
+    Thus $\Lambda f=\int_X f\d{\lambda}$ for all $f\in C_c(X)$.
+
+    It remains to prove that $1=\norm{\phi}=\norm{\mu}=|\mu|(X)$.
+    Thus suppose $|f|\leq 1$.
+    Then
+    \[|\phi(f)|=\left\lvert\int_X f\cdot g\d{\lambda}\right\rvert\leq \int_X|f|\cdot|g|\d{\lambda}\leq\int_X|g|\d{\lambda}\]
+    and taking the supremum over all $|f|\leq 1$, we have
+    \[1=\norm{\phi}\leq\int_X|g|\d{\lambda}\leq\int_X 1\d{\lambda}=\lambda(X)\leq 1\]
+    We thus have that $|\mu|(X)=\int_X|g|\d{\lambda}=1$, since $\mu(X)=\int_Xg\d{\lambda}$ (absolute value by some theorem before).
+
+    Thus for $\phi\in C_0(X)^*$, there exists a unique $\mu\in\Meas(X,\C)$ so that $\phi(g)=\int_X f\d{\mu}$, and $\norm{\phi}=\norm{\mu}$.
+\end{proof}
+\begin{corollary}
+    $\Meas(X,\C)$ is complete.
+\end{corollary}
+\begin{proof}
+    The dual space of a normed space is complete.
+\end{proof}
+\chapter{Differentation of Measures}
+Let $f\in L^1(\R)$ and set $\mu(E)=\int_E f\d{\mu}$.
+If $f$ is continuous at $x$, then
+\[\lim_{r\to 0}\frac{\mu((x-r,x+r))}{m((x-r,r+r))}=f(x)\]
+To see this, by continuity, for every $\epsilon>0$ get $\delta$ so that whenever $|x-y|<\delta$, $|f(x)-f(y)|<\epsilon$.
+Let $r<\delta$, and then
+\begin{align*}
+    \left\lvert\frac{\mu((x-r,x+r))}{2r}-f(x)\right\rvert &= \frac{1}{2r}\left\lvert\int_{x-r}^{x+r} f(y)\d{y}-\int_{x-r}^{x+r}f(x)\d{y}\right\rvert\\
+                                                          &\leq \frac{1}{2}\int_{x-r}^{x+r}|f(x)-f(y)|\d{y}\\
+                                                          &< \frac{1}{2r} \cdot \epsilon\cdot 2r=\epsilon
+\end{align*}
+\begin{definition}
+    Let $f\in L^1(\R^k)$.
+    Then $x\in\R^k$ is called a \textbf{Lebesgue point} of $f$ if
+    \[\lim_{r\to 0}\frac{1}{m(B_r(x))}\int_{B_r(x)}|f(x)-f(y)|\d{y}=0\]
+\end{definition}
+\begin{proposition}
+    If $f$ is continuous at $x$, then $x$ is a Lebesgue point.
+\end{proposition}
+\begin{proposition}
+    Let $f\in L^1(\R^k)$, and let $\mu(E)=\int_E f\d{m}$.
+    If $x$ is a Lebesgue point of $f$, then $\lim_{r\to 0}\frac{\mu(B_r(x))}{m(B_r(x))}=f(x)$.
+\end{proposition}
+\begin{definition}
+    Let $x\in\R^k$.
+    A sequence $\{E_i:i\in\N\}$ of sets (in $\R^k$) shrinks regularly to $x$ if for all $\alpha>0$, there exists $(r_i)$ of positive numbers with $r_i\to 0$ and $E_i\subset B_{r_i}(x)$ and $m(E_i)\geq\alpha\cdot m(B_{r_i}(x))$.
+\end{definition}
+\begin{example}
+    \begin{enumerate}[nolistsep]
+        \item $k=1$, $E_i=(x-1/i,x+1/i)$.
+            Then $\alpha=1$ and $r_i=1/i$.
+        \item $k=1$, $E_i=(x,x+1/i)$.
+            Then $\alpha=1/2$ and $r_i=1/i$.
+        \item $k=2$, $x=(0,0)$, $E_i=(-1/i,1/i)\times(-1/i,1/i)$, $r_i=\sqrt{2}/i$, $\alpha=\pi/2$.
+        \item $k=2$, $x=(0,0)$, $E_i=(-1/i,1/i)\times(-1/i^2,1/i^2)$.
+            Then $r_i\geq 1/i$ and $m(B_{r_i}(x))=\pi/i^2$ while $m(E_i)=4/i^3$.
+            But then there does not exist an $\alpha>0$.
+    \end{enumerate}
+\end{example}
+\begin{definition}
+    Let $\mu:\mathcal{B}\to\C$ be a complex Borel measure in $\R^k$.
+    Then $\mu$ is \textbf{differentiable} at a point $x\in\R^k$ if for any sequence $\{E_n:n\in\N\}$ shrinking regularly to $x$, the limit
+    \[\lim_{n\to\infty}\frac{\mu(E_n)}{m(E_n)}\]
+    exists and is finite.
+    This value is called the \textbf{derivative} of $\mu$ at $x$.
+\end{definition}
+Let's quickly see that this value is well-defined (i.e. does not depend on $\{E_n\}$).
+\begin{proof}
+    Let $\{E_n\}$ and $\{F_n\}$ shrink regular to $x$, and let $G_1=E_1$, $G_2=F_1$, $G_3=E_2$, etc.
+    Then $\{G_n\}$ shrinks regularly to $x$ so
+    \[\lim_{n\to\infty}\frac{\mu(G_n)}{m(G_n)}\]
+    exists and has $\mu(E_n)/m(E_n)$ as a subsequence (and similarly for $F_n$).
+\end{proof}
+\begin{theorem}
+    If $\mu\ll m$, then $\mu$ is almost everywhere differentiable and $\mu'=f$ is the Radon-Nikodym derivative of $\mu$.
+\end{theorem}
+\begin{proof}
+    Recall that almost every point is a Lebesgue point of $f$.
+    For such a Lebesgue point $x$, we show $\mu'(x)=f(x)$.
+    Let $\{E_n\}$ be a sequence shrinking regularly to $x$.
+    Then
+    \begin{align*}
+        \left\lvert\frac{\mu(E_n)}{m(E_n)}-f(x)\right\rvert &= \frac{1}{m(E_n)}\cdot\left\lvert\int_{E_n}f(y)\d{y}-\int_{E_n}f(x)\d{y}\right\rvert\\
+                                                            &\leq \frac{1}{\alpha}\cdot m(B_{r_n}(x))\int_{E_n}|f(y)-f(x)|\d{y}\\
+                                                            &\leq\frac{1}{\alpha}\cdot\frac{1}{m(B_{r_n}(x))}\int_{B_{r_n}(x)}|f(x)-f(y)|\d{y}
+    \end{align*}
+    which tends to $0$ as $n$ goes to infinity (and $r_n\to 0$) since $x$ is a Lebesgue point of $f$.
+\end{proof}
+\begin{theorem}
+    If $\mu\perp m$, then $\mu$ is almost everywhere diferentiable and $\mu'=0$ almost everywhere.
+\end{theorem}
+\begin{definition}
+    Let $f\in L^1(\R^k)$.
+    Let $Mf:\R^k\to[0,+\infty]$ be defined by
+    \[(Mf)(x)=\sup_{r>0}\frac{1}{m(B_r(x))}\int_{B_r(x)}|f|\d{m}\]
+\begin{theorem}
+    If $f\in L^1(\R^k)$, then almost every $x$ is a Lebesgue point.
+\end{theorem}
+\begin{lemma}
+    $Mf$ is measurable and $m(\{x\in\R^k:(Mf)(x)>\alpha)\leq\frac{3^k}{\alpha}\cdot\norm{f}_1$.
+\end{lemma}
+\begin{proof}
+    Let $\mu(E)=\int_E f\d{m}$, so $|\mu|(E)=\int_E |f|\d{m}$.
+    Then
+    \[(Mf)(x)=\sup_{r>0}\frac{|\mu|(B_r(x))}{m(B_r(x))}=:(M\mu)(x)\]
+    so $M\mu=Mf$.
+    We need to prove this for a general Borel measure $\mu$.
+\end{proof}
+\begin{lemma}
+    Let $x_1,x_2,\ldots,x_N\in\R^k$, $r_1,r_2,\ldots,r_N>0$.
+    Let $W=\bigcup_{n=1}^N B_{r_n}(x_n)$.
+    Then there exists $S\subset\{1,2,\ldots,N\}$ such that
+    \begin{enumerate}[nolistsep]
+        \item $B_{r_i}(x_i)$ for $i\in S$ are disjoint
+        \item $W\subset\bigcup_{i\in S}B_{3r_i}(x_i)$
+        \item $m(W)\leq 3^k\cdot\sum_{i\in S}m(B_{r_i}(x_i))$.
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    Construct such a set inductively.
+    Let $r_{i_1}$ be the set with largest radius.
+    Let $r_{i_2}$ be the set with largest radius disjoint from $B_{r_{i_1}}(x_{i_1})$, etc.
+\end{proof}
+\begin{lemma}
+    $m(\{x\in \R^k:(M\mu)(x)>\alpha\})\leq 3^k\alpha^{-1}\norm{\mu}$
+\end{lemma}
+\begin{proof}
+    Do this for compact subsets, and take supremums.
+    Since $K$ is covered by open balls with $|\mu|(B_r(x))>\alpha\cdot m(B_r(x))$.
+\end{proof}
+\begin{proof}
+    Define
+    \[(T_rf)(x)=\frac{1}{B_r(x)}\int_{B_r(x)}|f(y)-f(x)|\d{y}\]
+    and
+    \[(Tf)(x)=\lim\sup_{r\to 0}T_rf(x)\]
+    We show that $Tf=0$ almost everywhere, to the limit exists and is 0.
+    Let $\alpha>0$, $n\in\N$ be arbitrary; we prove that $\{Tf>2\alpha\}$ is measurable and $m(\{Tf>2\alpha\})=0$.
+    Let $g\in C(\R^k)$ such that $\norm{f-g}_1<1/n$ by Lusin's theorem, and note that $Tg=0$ since it is continuous.
+    Let $h=f-g$.
+    Then $T_rh\leq Mh+|h|$ and $T_rf<T_rg+T_r$ so as $r\to 0$, $Tf\leq0+Th\leq Mh+|h|$.
+    Thus $\{Tf>2\alpha\}\subset\{Mh>\alpha\}\cup\{|h|>\alpha\}$.
+    By choice of $g$, $m(\{|h|>\alpha\})<\frac{1}{\alpha\cdot n}$.
+    Similarly, $m(\{Mh>\alpha\})\leq 3^k\alpha^{-1}\cdot\frac{1}{n}$.
+    Thus
+    \[m(\{Tf>2\alpha\})\leq\frac{3^k+1}{\alpha\cdot n}\]
+    But then since the inclusion holds for all $n$, it must be 0.
+    Then since $m$ is complete, $\{Tf>2\alpha\}$ is a measurable because t is a subset of a zero measure set.
+\end{proof}
+% TODO: clean up proof above, and re-do proof in the real case to see how nice I can make it
+\section{Theory of Real Functions}
+\begin{proposition}
+    Let $f\in L^1(\R)$, $a\in[-\infty,+\infty)$. %]
+    Let $F(x)=\int_a^x f\d{m}$.
+    Then $F$ is continuous.
+\end{proposition}
+\begin{proof}
+    We have
+    \begin{equation*}
+        |F(x+h)-f(X)| = \left\lvert\int_x^{x+h}f\d{m}\}\right\rvert\leq\int_x^{x+h}|f|\d{m}
+    \end{equation*}
+    Define $\mu(E)=\int_E|f|\d{m}$ so that $\mu\ll m$.
+    Thus to every $\epsilon>0$, get $\delta>0$ so that $m(E)<\delta$ implies $\mu(E)<\epsilon$.
+    But then if $|h|<\delta$,
+    \begin{equation*}
+        \int_x^{x+h}|f|\d{m}<\epsilon\Longrightarrow|F(x+h)-f(x)|<\epsilon
+    \end{equation*}
+\end{proof}
+\begin{proposition}
+    Let $f,a,F$ be as above.
+    Then $F$ is almost everywhere differentiable, and $F'=f$ almost everywhere.
+\end{proposition}
+\begin{proof}
+    Let $x$ be a Lebesgue point of $f$.
+    Since almost every point is a Lebesgue point, it suffices to prove that $F$ is differentiable at $x$ and $F'(x)=f(x)$.
+    We have
+    \begin{align*}
+        \left\lvert\frac{F(x+h)-f(X)}{h}-f(x)\right\rvert &= \left\lvert\frac{1}{h}\int_x^{x+h}f(y)\d{y}-\frac{1}{h}\int_x^{x+h} f(x)\d{y}\right\rvert\\
+                                                          &= \frac{1}{|h|}\int_x^{x+h}|f(y)-f(x)|\d{y}\\
+                                                          &\leq \frac{2}{2|h|}\int_{x-h}^{x+h}|f(y)-f(x)|\d{y}\\
+                                                          &\to 0
+    \end{align*}
+    since $x$ is a Lebesgue point.
+\end{proof}
+% TODO: is this true?
+\begin{proposition}
+    Let $f,a,F$ be as above.
+    Then if $F$ is differentiable at $x$, then $x$ is a Lebesgue point of $f$.
+\end{proposition}
+What can we say about the integral of the derivative?
+When does it hold that $f(x)-f(a)=\int_a^x f'\d{m}$?
+\begin{example}
+    \begin{enumerate}
+        \item Consider $f(x)=x^2\sin(1/x^2)$, a differentiable function.
+            Then $f(0)=0$ and $f'(x)=2x\sin(1/x^2)-\cos(1/x^2)\cdot 2/x$, so $f'\notin L^1$.
+        \item Suppose $f$ is the Cantor function, and let $f(0)=0$, $f(1)=1$.
+            We say
+            \begin{align*}
+                f|_{(1/3,2/3)}=\frac{1}{2}\\
+                f|_{1/9,2/9} = \frac{1}{4},f|_{7/9,8/9}=\frac{3}{4}\\
+            \end{align*}
+            etc and if $F$ denotes the cantor set, define $f(x)=\sup\{f(\xi):\xi<x,\xi\in[0,1]\setminus F\}$.
+            % TODO: what is the Radon-Nikodym here? can we characterize the absolutely continuous part and the perpindicular part?
+            % probably concentrated on Cantor set or something like that, might be a cool measure
+    \end{enumerate}
+\end{example}
+Let's try to characterize functions for which this holds.
+Now, let's assume that $f'\in L^1$, $f(x)-f(a)=\int_a^x f'\d{m}$.
+If $\mu(E)=\int_E f'\d{m}$, then $\mu\ll\m$ so for every $\epsilon>0$, there exists $\delta>0$ so that whenever $m(E)<\delta$, $\mu(E)<\epsilon$.
+If $E$ is a union of disjoint open intervals $(\alpha_i,\beta_i)$, then
+\[\mu(E)=\sum\limits_{i=1}^n \int_{\alpha_i}^{\beta_i}f\d{m}=\sum\limits_{i=1}^n(f(\beta_i)-f(\alpha_i))<\epsilon\]
+whenever $\sum(\beta_i-\alpha_i)<\delta$.
+\begin{definition}
+    We say that $f:[a,b]\to\C$ is called \textbf{absolutely continuous} if for every $\epsilon>0$, there exists $\delta>0$ such that for all $n$ and any family $(\alpha_i,\beta_i)$ for $i=1,\ldots,n$ of disjoint open intervals,
+    \[\sum\limits_{i=1}^n(\beta_i-\alpha_i)<\delta\Longrightarrow\sum\limits_{i=1}^n|f(\beta_i)-f(\alpha_i)|<\epsilon\]
+\end{definition}
+Note that when $n=1$, we have uniform continuity.
+We already proved the following:
+\begin{proposition}
+    Let $f$ be a non-decreasing function.
+    If $f$ is almost everywhere differentiable and $f'\in L^1$, then $\int_a^c f'\d{m}=f(x)-f(a)$, then $f$ is absolutely continuous.
+\end{proposition}
+We will prove the converse, first for non-decreasing functions.
+\begin{theorem}
+    Let $f$ be non-decreasing and continuous.
+    Then the following statements are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item $f$ is AC on $[a,b]$
+        \item If $E\in\mathcal{M}$ and  $m(E)=0$, then $m(f(E))=0$.
+        \item $f$ is almost everywhere differentiable, $f'\in L^1$, and $f(x)-f(a)=\int_a^x f'\d{m}$ for all $x\in[a,b]$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    We showed earlier that (c)$\Rightarrow$(a).
+
+    (a)$\Rightarrow$(b).
+    Let $E\subset[a,b]$, $m(E)=0$.
+    Take $\epsilon>0$, and let $\delta$ be given by AC.
+    Then there exists $V\subset[a,b]$ open with $m(V)<\delta$ and $E\subset V$.
+    Write $V=\bigcup_{i=1}^\infty(\alpha_i,\beta_i)$ and for all $N$, we have
+    \[\sum\limits_{i=1}^N(\beta_i-\alpha_i)<\delta\Longrightarrow\sum\limits_{i=1}^N f(\beta_i)-f(\alpha_i)<\epsilon\]
+    so that $m(f(V))<\epsilon$.
+    Take $\epsilon=1/n$ and let $H_n=\bigcup_{i=1}^n[f(\alpha_i),f(\beta_i)]\supset f(V)\supset f(E)$.
+    Then $m(H_n)<1/n$, so $f(E)\subset\bigcap_{n=1}^\infty H_n$ so by completeness of $E$, $m(f(E))=0$.
+
+    (b)$\Rightarrow$(c).
+    Let $g(x)=f(x)+x$, so $g$ is strictly increasing.
+    It can be shown that $g$ satisfies (b), i.e. $m(g(E))=0$ if $m(E)=0$.
+    Let $\mu(E)=m(g(E))$, which is countably additive (since $g$ is bijective).
+    Then (b) implies that $\mu\ll m$, so by Radon-Nikodym, get $h\in L^1$ so $\mu(E)=\int_E h\d{m}$.
+    Apply this to $E=[a,x]$ so that $g(E)=[g(a),g(x)]$.
+    Then $g(x)-g(a)=m(g(E))=\mu(E)=\int_a^x h\d{m}$ so that $f(x)-f(a)=\int_a^x(h-a)\d{m}$.
+    We have thus proved $f'(x)=h(x)-1$.
+\end{proof}
+Let's extend to monotone functions.
+\begin{definition}
+    Let $f:[a,b]\to\R$.
+    The \textbf{total variation} function of $f$ is
+    \[F_a(X)=\sup\left\{\sum\limits_{i=1}^n|f(t_i)-f(t_{i-1})|:a=t_0<t_1<t_2<\cdots<t_n=x,n\in\N\right\}\]
+    We say that $f$ has \textbf{bounded variation} on $[a,b]$ of $F_a(b)<\infty$.
+\end{definition}
+\begin{example}
+    If $f$ is nondecreasing and bounded, then $f$ has bounded variation.
+\end{example}
+\begin{proposition}
+    Let $f$ have BV on $[a,b]$.
+    Then $F_a$, $F_a+f$, $F_a-f$ are non-decreasing.
+    Let $x<y$, so $t_0=a<t_1<\cdots<t_n=x<y$.
+    Then
+    \[F_a(y)\geq|f(y)-f(x)|+\sum\limits_{i=1}^n |f(t_i)-f(t_{i-1})|\]
+    Take the supremum in $\{t_i\}$, so
+    \[F_a(y)\geq|f(y)-f(x)|+F_a(x)\]
+    so $F_a(y)\geq F_a(x)$ and $F_a$ is nondecreasing.
+    If $|f(y)-f(x)|=f(y)-f(x)$, then $(F_a-f)(y)\geq(F_a-f)(x)$.
+    If $|f(y)-f(x)|=f(x)-f(y)$, then $(F_a+f)(y)\geq(F_a+f)(x)$.
+\end{proposition}
+\begin{proposition}[Jordan Decomposition]
+    If $f$ has BV, then it is the difference of two nondecreasing functions.
+\end{proposition}
+\begin{proof}
+    Take $f=F_a-(F_a-f)$.
+\end{proof}
+\begin{proposition}
+    If $f$ is AC, then $F_a$ is AC.
+\end{proposition}
+The Jordan decomposition gives two non-decreasing AC functions.
+\begin{theorem}
+    The following are equivalent:
+    \begin{enumerate}[nolistsep]
+        \item $f:[a,b]\to\R$ is AC.
+        \item $f$ is differentiable almost wverywhee, $f'\in L^1$, and $f(x)-f(a)=\int_a^x f'\d{m}$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Write $f=f_1-f_2$ where $f_1,f_2$ are non-deceasing, and apply the previous theorem.
+\end{proof}
 \end{document}

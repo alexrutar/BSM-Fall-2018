@@ -21,6 +21,9 @@
 \DeclareMathOperator{\C}{\mathbb{C}}
 \DeclareMathOperator{\F}{\mathbb{F}}
 \DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\KG}{KG}
+\DeclareMathOperator{\SG}{SG}
+\DeclareMathOperator{\ex}{ex}
 
 \usepackage{graphicx}
 \usepackage{enumitem}
@@ -1418,7 +1421,7 @@ This implies the theorem since any planar drawing can be made an almost-triangul
 \begin{proposition}[Voigt]
     There exists a planar graph with choice number 5.
 \end{proposition}
-\begin{solution}
+\begin{proof}
     \begin{center}
         \begin{tikzpicture}[every node/.style={circle, inner sep=2pt,draw=black},scale=3,rotate=90,every edge/.style=thick]
             \node (l) at (-1,0){3};
@@ -1451,7 +1454,7 @@ This implies the theorem since any planar drawing can be made an almost-triangul
             \draw[thick] (r) -- (b3);
         \end{tikzpicture}
     \end{center}
-\end{solution}
+\end{proof}
 \begin{definition}
     A graph on a surface is called a \textbf{quadrangulation} if every face is a quadrangle.
 \end{definition}
@@ -1538,7 +1541,7 @@ This implies PGC since when taking complements, $\alpha$ and $\omega$ switch.
         \item Let $A_0=\{a_1,a_2,\ldots,a_{\alpha}\}$ be an arbitrary fixed independent set of size $\alpha$.
             Then $\omega(G\setminus\{a_1\})=\omega$ and $G\setminus\{a_1\}$ is perfect, so $\chi(G\setminus\{a_1\})=\omega$.
             Let $A_1,A_2,\ldots,A_\omega$ be the colour classes of an $\omega-$colouring of $G\setminus\{a_1\}$.
-        \item For each $i=2,3,\ldots,\alpah$, let $A_{(i-1)\omega+1},A_{(i-1)\omega+2},\ldots,A_{i\omega}$ be the colour classes of an $\omega-$colouring of $G\setminus\{a_i\}$.
+        \item For each $i=2,3,\ldots,\alpha$, let $A_{(i-1)\omega+1},A_{(i-1)\omega+2},\ldots,A_{i\omega}$ be the colour classes of an $\omega-$colouring of $G\setminus\{a_i\}$.
         \item We also select $\alpha\omega+1$ cliques $Q_0,Q_1,\ldots,Q_{\alpha\omega}$ as follows: for all $i$, let $Q_i$ be an $\omega-$size clique disjoint from $A_i$.
             Such a choice is possible since $\omega(G\setminus A_i)=\omega$.
     \end{itemize}
@@ -1691,30 +1694,299 @@ In order to prove this, we need a result from algebraic topology.
 \end{theorem}
 With this result, we can prove the following theorem.
 \begin{theorem}[Lyusternik-Shnirel'man]
-    If $\mathbb{S}^n$ is covered by closed subsets $A_1,A_2,\ldots,A_m$ and for all $i$, there does not exist $x\in\mathbb{S}^n$ such that $\{x,-x\}\in A_i$, then $m\geq n+2$.
+    If $\mathbb{S}^n$ is covered by open or closed subsets $A_1,A_2,\ldots,A_m$ and for all $i$, there does not exist $x\in\mathbb{S}^n$ such that $\{x,-x\}\in A_i$, then $m\geq n+2$.
 \end{theorem}
 \begin{proof}
-    Assume that $\mathbb{S}^n$ is covered by closed subsets $A_1,A_2,\ldots,A_{n+1}$.
+    First assume that $\mathbb{S}^n$ is covered by closed subsets $A_1,A_2,\ldots,A_{n+1}$.
     Define
     \[f(x):=(d(x,A_1),d(x,A_2),\ldots,d(x,A_n))\]
+    which is a continuous map.
     Get some $x$ so that $f(x)=f(-x)$.
-    If $f(x)_i=0$ for some $i$, then $x\in A_i$ and $-x\in A_i$, a contradiction.
+    If $f(x)_i=0$ for some $i$, then by Borsuk-Ulam, $f(-x)_i=0$ and $x\in A_i$ and $-x\in A_i$, a contradiction.
     Otherwise, $x\in A_{n+1}$, $-x\in A_{n+1}$.
 \end{proof}
 This is also true if the $A_i$ are all open, or if we have a mixed of open and closed sets.
-We can prove that Borsuk-Ulam implies Lyusternik-Shnirel'man.
+Now, let's see the proof of Lov\'asz-Kneser.
+\begin{proof}[Josh Greene]
+    Consider $\mathbb{S}^{n-2k+1}$ and put on it $n$ points in general position; in other words, no $n-2k+2$ points are on the same great circle.
+    Fix a proper colouring of $\KG(n,k)$ with $m$ colours.
+    Then define sets $A_1,A_2,\ldots,A_m\subset\mathbb{S}^{n-2k+1}$ by
+    \begin{equation*}A_i:=\left\{x\in\mathbb{S}^{n-2k+1}:H(x)\text{ contains $k$ points that as a vertex of $\KG(n,k)$ is coloured $i$}\right\}\end{equation*}
+    Now for all $i$, $A_i$ is open and $x\in A_i$ implies $-x\notin A_i$.
+    Set $B=\mathbb{S}^{n-2k+1}\setminus\bigcup_{i=1}^m A_i$ where $B$ is a closed set.
+    Note that $B$ also does not contain antipodal pairs, since if $x\in B$, then there does not exist $k$ points of a fixed colour in $H(x)$.
+    If $-x\in B$, then there also do not exist $k$ points of a given colour.
+    Thus $H(x)\cup H(-x)$ contains at most $2(k-1)$ points, so that the complementary great circle contains the remaining $n-2k+2$ points, a contradiction.
+    Therefore, by LSm version of Borsuk-Ulam, $m+1\geq n-2k+1+2$ so $m\geq n-2k+2$.
+\end{proof}
+Let's now consider the following lemma.
 \begin{lemma}[Gale]
     One can put $n$ points on $\mathbb{S}^{n-2k}$ such that every open hemisphere contains at least $k$ of the points.
 \end{lemma}
-We now have B\'ar\'am's proof of the Lov\'asz-Kneser theorem.
+\begin{proof}[Ziegler]
+    We will use a version of the moment curve along with a useful property of it.
+    Define
+    \[f(t):=(1,t,t^2,\ldots,t^d)\]
+    The useful property is that it intersects a hyperplane that goes through the origin in at most $d$ points.
+    Furthermore, if there exists $d$ distinct intersection points, then at each intersection the curve crosses the hyperplane.
+    To see why this is true, on a given hyperplane, its points satisfy an equation $a_1x_1+a_2x_2+\cdots+a_{d+1} x_{d+1}=0$.
+    Thus at every intersection with $f(t)$, we have $a_1+a_2t+a_3t^2+\cdots+a_{d+1}t^d=0$ so intersections are roots of a degree $d$ polynomial.
+    Thus there are at most $d$ of them, and if there are exactly $d$, then the polynomial change sign at every root.
+
+    For the time being, let's work in $\R^{n-2k+1}$.
+    To prove Gale's lemma, take $n=d+2k$ distinct points of $f(t)$, say $w_1,w_2,\ldots,w_{d+2k}$ where $w_i=f(i)$.
+    Our points will be $v_i=(-1)^i w_i$ for $i=1,2,\ldots,d+2k$.
+    We claim that $v_1,v_2,\ldots,v_{d+2k}$ satisfy the statement of Gale's Lemma.
+    Consider any hyperplane $L$ containing $0$.
+    Rotate $L$ slightly so that no $v_i$ are on the opposite side, until it contains exactly $d$ of the $v_i$.
+    Now we have exactly $2k$ points not on $L$, and it is enough to prove there are exactly $k$ on both sides.
+
+    Call $w_i$ and $v_i$ odd if $i$ is odd, and even if $i$ is even.
+    Let $W_{\text{on}}$ be the set of $w_i$ on $L$, and $W_{\text{off}}$ be the set of $w_i$ not on $L$.
+    Take two neighbouring $w_i\in W_{\text{off}}$, say $w_j,w_r$.
+
+    First suppose $r-j$ is even, so there are an odd number of indices between them.
+    Then $w_j$ and $w_r$ are on different sides on $L$, while the parity of $j$ and $r$ are equal modulo 2.
+    Thus $v_j$ and $v_r$ are also on different sides of $L$.
+    If $r-j$ is odd, then there are an even number of indices between them, so $w_j$ and $w_r$ are on the same side as $L$.
+    Then since $r\neq j$ modulo 2, $v_j$ and $v_r$ are on opposite sides of $L$.
+    Thus the $v_i$ belonging to $w_i$ in $W_{\text{off}}$ come alternating on the two sides of $L$, so both sides have exactly $k$ of them.
+    But then since the first coordinate of every point is 1 or $-1$, each point corresponds to a unique point on the sphere, so we are done.
+\end{proof}
+We actually have proven a strengthened version of Gale's Lemma: one can put $n$ points $v_1,v_2,\ldots,v_n$ on $\mathbb{S}^{n-2k}$ so that each open hemisphere contains a $k$ subset of them which does not include neighbouring indices (cyclically).
+In other words, the indices form an independent set of the cycle $C_n$.
+\begin{definition}
+    A subset $A\subset[n]$ is a \textbf{stable} $k-$subset of $[n]$ if $|A|=k$ and there does not exist an $i$ so that $\{i,i+1\}\subset A$ and $\{1,n\}\not\subset A$.
+\end{definition}
+\begin{definition}
+    The Schrijver Graph $\operatorname{SG}(n,k)$ is the induced subgraoh of $\KG(n,k)$ on the stable $k-$subsets.
+\end{definition}
+% We now have B\'ar\'am's proof of the Lov\'asz-Kneser theorem.
+We now provide a modified proof of the Lov\'asz-Kneser theorem for Schrijver graphs:
+\begin{theorem}
+    \begin{enumerate}[nolistsep]
+        \item $\chi(\operatorname{SG}(n,k))=n-2k+2$
+        \item For all $v\in V(\operatorname{SG}(n,k))$, $\chi(\operatorname{S}(n,k)\setminus\{v\})=n-2k+1$, i.e. $\operatorname{SG}(n,k)$ is vertex-colour-critical.
+    \end{enumerate}
+\end{theorem}
 \begin{proof}
     Take $\KG(n,k)$ properly coloured with $m$ colours, say $\{1,2,\ldots,m\}$.
-    As well, take $\mathbb{S}^{n-2k}$ and put $n$ points on it in the way of Gale's Lemma.
+    As well, take $\mathbb{S}^{n-2k}$ and put $n$ points on it in the way of Schrijver's proof of Gale's Lemma.
     Define $A_1,\ldots,A_m\subseteq \mathbb{S}^{n-2k}$ as follows:
     \[A_i:=\left\{x\in\mathbb{S}^{n-2k}:H(x)\text{ contains $k$ points of our $n$, that as a vertex of $\KG(n,k)$ is coloured $i$}\right\}\]
     where $H(x)$ is the hemisphere centered at $x$.
     By the choice of such $x$, $\bigcup_{i=1}^m A_i=\mathbb{S}^{n-2k}$, and $A_i$ is open for all $i$.
     Furthermore, if $x\in A_i$, $-x\notin A_i$ since the colouring of $\KG(n,k)$ is proper.
     But then by LSo, $m\geq n-2k+2$.
+\end{proof}
+Note that the automorphism group of the Kneser graph is $S_n$ (the graph is vertex transitive), while the automorphism group of the Schrijver graph is $D_n$.
+Let's draw some small Schrijver graphs.
+If $n=2k$, then $\SG(2k,k)=K_2$.
+If $n=2k+1$, then $\SG(2k+1,k)=C_{2k+1}$.
+Finally, if $n\geq 2k+2$, this starts to become interesting.
+Let's draw this for $k=2$.
+\begin{center}
+    \begin{tikzpicture}
+        % \node[vtx,label=above:{$\{1,3\}$}] (a) at (0,0){};
+        % \node[vtx,label=above:{$\{1,4\}$}] (b) at (0,1){};
+        % \node[vtx,label=above:{$\{1,5\}$}] (c) at (0,2){};
+        % \node[vtx,label=above:{$\{2,4\}$}] (d) at (0,3){};
+        % \node[vtx,label=above:{$\{2,5\}$}] (e) at (0,4){};
+        % \node[vtx,label=above:{$\{3,5\}$}] (f) at (0,5){};
+
+        \node[vtx] (a1) at (1*60:3cm){};
+        \node[vtx] (a2) at (2*60:3cm){};
+        \node[vtx] (a3) at (3*60:3cm){};
+        \node[vtx] (a4) at (4*60:3cm){};
+        \node[vtx] (a5) at (5*60:3cm){};
+        \node[vtx] (a6) at (6*60:3cm){};
+
+        \node[vtx] (b1) at (1*120+30:1.5cm){};
+        \node[vtx] (b2) at (2*120+30:1.5cm){};
+        \node[vtx] (b3) at (3*120+30:1.5cm){};
+        \draw[thick] (a1) -- (a2) -- (a3) -- (a4) -- (a5) -- (a6) -- (a1);
+        \draw[thick] (b1) -- (b2) -- (b3) -- (b1);
+        \draw[thick] (a1) -- (a4);
+        \draw[thick] (a2) -- (a5);
+        \draw[thick] (a3) -- (a6);
+        \draw[thick] (a2) -- (b1);
+        \draw[thick] (a3) -- (b1);
+        \draw[thick] (a4) -- (b2);
+        \draw[thick] (a6) -- (b3);
+        \draw[thick] (a1) -- (b3);
+        \draw[thick] (a5) -- (b2);
+    \end{tikzpicture}
+\end{center}
+\section{Extremal Graph Theory}
+How man edges can an $n-$vertex graph have if it does not contain $K_3$?
+\begin{theorem}[Mantel]
+    The answer to the question above is $\lfloor n/2 \rfloor\cdot\lceil n/2\rceil$, the only extremal graph being $K_{\left\lfloor\frac{n}{2}\right\rfloor,\left\lceil\frac{n}{2}\right\rceil}$.
+\end{theorem}
+\begin{proof}
+    If $G$ has no $K_3$ subgraph, then
+    \[|E(G)|\leq\tau(G)\cdot\Delta(G)\leq\tau(G)\cdot\alpha(G)=(n-\alpha(G))\cdot\alpha(G)\leq\left\lfloor\frac{n}{2}\right\rfloor\cdot\left\lceil\frac{n}{2}\right\rceil\]
+    For every graph, $\tau(G)+\alpha(G)=|V(G)|$ since if you remove any covering set, you must be left with an independent set, so $\alpha\geq n-\tau$.
+    On the other hand, if you take a maximal independent set, then the remaining vertices must be a covering set, so $\tau\leq n-\alpha$.
+    Thus $\alpha+\tau=n$.
+    $K_{\left\lfloor\frac{n}{2}\right\rfloor,\left\lceil\frac{n}{2}\right\rceil}$ being the only extremal graph can be seen from analysis of the above inequalities.
+\end{proof}
+What is $\max|E(G)|$ if $K_r\not\subseteq G$?
+Our guess is that this is maximized for $(r-1)$-partite graphs.
+\begin{theorem}[Tur\'an]
+    The maximum number of edges one can have in an $n-$vertex graph not containing $K_r$ is the number of edges in the complete $(r-1)-$partite graph with all partite classes having size $\left\lfloor\frac{n}{r-1}\right\rfloor$ or $\left\lceil\frac{n}{r-1}\right\rceil$.
+\end{theorem}
+\begin{proof}
+    We see this by induction on $n$ with steps of size $r-1$.
+    For $n=1,2,\ldots,r-1$, $K_n$ is clearly the only extremal graph.
+
+    Now, if $G$ is such that $K_r\not\subseteq G$ and $n>r-1$ with $|E(G)|$ max, then $K_{r-1}\subseteq G$.
+    Let $U\subset V(G)$ induce such a $K_{r-1}\subseteq G$.
+    Then $|E(G\setminus U)|\leq|E(T_{n-r+1}(r-1))|$ by the induction hypothesis.
+    Thus
+    \[|E(G)|\leq|E(T_{n-r+1}(r-1))+\binom{r-1}{2}+|E(G[U,V\setminus U])|\]
+    where $V=(G)$ and $G[U,V\setminus U]$ is the bipartite graph with edges between $U$ and $V\setminus U$.
+    Thus
+    \[|E(G)|\leq|E(T_{n-r+1}(r-1))|+\binom{r-1}{2}+(r-2)(n-r+1)=|E(T_n(r-1))|\]
+    To see that equality holds if $G=T_n(r-1)$, get some $K_{r-1}$ subgraph induced by $U$.
+    Then any $v\in V\setminus U$ is ``missing'' a unique vertex in $U$ to be its neighbour.
+    If $v$ and $v'$ are distinct partite classes of the $T_{n-r+1}(r-1)$ on $V\setminus U$, then their missed vertex should be different.
+    Otherwise, $K_r\subseteq G$, since the vertices from the same partite class should miss the same vertex of the $K_{r-1}$, so $G=T_n(r-1)$.
+\end{proof}
+\begin{definition}
+    We write $\ex(n,F)=\max\{|E(G)|:F\not\subseteq G,|V(G)|=n\}$.
+\end{definition}
+With this definition, Tur\'an's Theorem states that $\ex(n,K_r)=|E(T_n(r-1))|$.
+Even if we can't determine it exactly, do we know the limiting behaviour?
+For example, what is
+\[\limsup_{n\to\infty}\frac{\ex(n,F)}{\binom{n}{2}}\]
+\begin{theorem}[Erd\"os-Stone]
+    For every $r,s\in\N$ with $r\geq 3$, $s\geq 1$ and for every $\epsilon>0$, there exists $n_0$ so that if $n>n_0$ and $G$ is a graph on $n$ vertices with
+    \[|E(G)|\geq |E(T_n(r-1))|+\epsilon n^2\]
+    then $K_{\underbrace{s,s,\ldots,s}_{r}}\subseteq G$.
+\end{theorem}
+\begin{theorem}[Erd\"os-Simonoritz]
+    For any graph $F$,
+    \[\lim_{n\to\infty}\frac{\ex(n,F)}{\binom{n}{2}}=1-\frac{1}{\chi(F)-1}\]
+\end{theorem}
+As preparation for this proof, let's calculate this for the complete graphs.
+We have
+\begin{align*}
+    \lim_{n\to\infty}\frac{\ex(n,K_r)}{\binom{n}{2}} &= \lim_{n\to\infty}\frac{|E(T_n(r-1))|}{\binom{n}{2}}\\
+                                                     &= \lim_{n\to\infty}\frac{\frac{1}{2}\left(1-\frac{1}{r-1}\right)+o(n^2)}{\binom{n}{2}}\\
+                                                     &= 1-\frac{1}{r-1}
+\end{align*}
+\begin{proof}
+    Let $r=\chi(F)$.
+    Then clearly $F\not\subseteq T_n(r-1)$ since $F\subseteq G$ implies $\chi(F)\leq\chi(G)$ and $\chi(T_n(r-1))=r-1$.
+    Thus $\ex(n,F)\geq |E(T_n(r-1))|$ so, from above,
+    \begin{equation*}\lim_{n\to\infty}\frac{\ex(n,F)}{\binom{n}{2}}\geq 1-\frac{1}{r-1}\end{equation*}
+    
+    For the other direction, suppose for contradiction that the inequality is strict.
+    Then there exists $\delta>0$ so that
+    \begin{equation*}\limsup_{n\to\infty}\frac{\ex(n,F)}{\binom{n}{2}}>\frac{r-2}{r-1}+\delta\end{equation*}
+    Then we have for (infinitely many) large $n$, an $n-$vertex $F-$free graph with
+    \begin{equation*}|E(G)|>|E(T_{r-1}(n))|+\epsilon n^2\end{equation*}
+    with $\epsilon=\delta/3$.
+    Thus by the Erd\"os-Stone theorem, these $F-$free graphs contain some $K_{\underbrace{s,s,\ldots,s}_{r}}$ subgraph for some prescribed $s$.
+    But then
+    \[F\subseteq K_{\underbrace{\alpha(F),\alpha(F),\ldots,\alpha(F)}_{r}}\]
+    so $F\subseteq G$.
+\end{proof}
+What happens if the graph is bipartite, then $\chi(F)=2$?
+The above limit is 0.
+\begin{theorem}[K\"or\'ari-T.S\'os-Tur\'an]
+    There exists a constant $C$ so that
+    \[\ex(n,K_{r,s})\leq Cn^{2-1/r}\]
+    for $r\leq s$.
+\end{theorem}
+Using probabilistic construction methods, one can show that $Cn^{2-2/r}\leq\ex(n,K_{r,s})$.
+Koll\'ar-R\'onyai-Szab\'o (inspited by Alon-R\'onyai-Szab\'o) proved the upper bound being sharp (around $s\approx r!$).
+\begin{proof}
+    Let $G$ be a graph on $n$ vertices with $K_{r,s}\not\subseteq G$.
+    We double count $K_{1,r}$ subgraphs.
+    Then
+    \[\sum\limits_{v\in V(G)}\binom{d(v)}{r}\leq(s-1)\binom{n}{r}\]
+    Recall Jensen's inequality: if $f:\R\to\R$ is convex, then
+    \[\frac{\sum\limits_{i=1}^nf(x_i)}{n}\geq f\left(\frac{\sum\limits_{i=1}^n x_i}{n}\right)\]
+    Define
+    \[f(x)=
+        \begin{cases}
+            \frac{x(x-1)\cdots(x-r+1)}{r!} &: x\geq r-1\\
+            0 &\text{ otherwise}
+        \end{cases}
+    \]
+    so $f(x)$ is convex.
+    Then we can write
+    \begin{align*}
+        (s-1)\binom{n}{r} &\geq \sum\limits_{v\in V(G)}\binom{d(v)}{r}\\
+                          &= \sum\limits_{v\in V(G)} f(d(v))\\
+                          &\geq n\cdot f\left(\frac{\sum\limits_{v\in V(G)}d(v)}{n}\right)\\
+                          &= nf(2m/n)
+    \end{align*}
+    where $m=|E(G)|$.
+    If $2m/n\leq r-1$, then $\m\leq\frac{r-1}{2}\cdot n\leq Cn^{2-1/r}$.
+    Thus we may assume $2m/n>r-1$, so
+    \begin{align*}
+        nf(2m/n) &= \frac{(2m/n)(2m/n-1)\cdots(2/n-r+1)}{r!}\\
+                 &\geq\frac{(2m/n-r+1)^r}{r!}
+    \end{align*}
+    and combining this with the before statement
+    \begin{align*}
+        (s-1)\frac{n^r}{r!} &\geq (s-1)\binom{n}{r}\\
+                            &\geq n\cdot\frac{(2m/n-r+1)^r}{r!}
+    \end{align*}
+    and
+    \begin{align*}
+        \sqrt[r]{s-1}\cdot n&\geq\sqrt[r]{n}(2m/n-r+1)\\
+        \sqrt[r]{s-1}\cdot n^{1-1/r}+r-1&\geq 2m/n\\
+        |E(G)=m &\leq \frac{1}{2}\sqrt[r]{s-1}\cdot n^{2-1/r}+\frac{n}{2}(r-1)\leq Cn^{2-1/r}
+    \end{align*}
+\end{proof}
+\section{Basics of Ramsey Theorem}
+``The baby graph Ramsey theorem''
+\begin{proposition}
+    If $E(K_6)$ are 2-coloured, then a monochromatic $K_3$ always appears.
+\end{proposition}
+\begin{proof}
+    For any point, there exists at least 3 edges of the same colour.
+    On the 3 other endpoints of the edges, either any 2 are joined with a edge having the same colour (and thus a monochromatic $K_3$ is formed), or all the 3 pairs of those 3 vertices are joined by an edge of the opposite colour that also creates a monochromatic $K_3$.
+\end{proof}
+Note that $6$ is optimal, since $K_5$ can be 2-coloured without a monochromatic $K_3$.
+\begin{theorem}
+    For every $r\geq 2$, there exists $n$ such that however the edges of $K_n$ are coloured with 2 colours, there always will appear a monochromatic $K_r$.
+\end{theorem}
+\begin{definition}
+    The smallest such $n$ is denoted by $R(r)$.
+\end{definition}
+Note that a similar statement is true for any number of colours.
+\begin{definition}
+    Let $R(k,l)$ denote the minimum $n$ such that whatever way we colour the edges of $K_n$ with two colours (red and blue), there always appears either a red $K_k$ or a blue $K_l$.
+\end{definition}
+Note that $R(r)=R(r,r)$, so proving the existence of $R(k,l)$ is sufficient.
+\begin{theorem}
+    For all $k,l\geq 2$,
+    \[R(k,l)\leq\binom{k+l-2}{k-1}\]
+\end{theorem}
+\begin{lemma}
+    $R(k,l)\leq R(k-1ml)+R(k,l-1)$.
+\end{lemma}
+\begin{proof}
+    Let $n=R(k-1,l)+R(k,l-1)$ and 2-edge-colour $K_n$.
+    For any $v\in V(K_n)$, there exists either $R(k-1,l)$ red edges or $R(k,l-1)$ blue edges from $v$.
+    Without loss of generality, assume we have $R(k-1,l)$ red edges.
+    By induction on $R(k-1,l)$, there exists either a monochromatic blue $K_l$ or a red $K_{k-1}$.
+    In the first case, we are done; if not, then take $K_{k-1}$ with $v$ and get a red $K_k$.
+\end{proof}
+\begin{proof}
+    For $k=2$ or $l=2$, this holds easily that $R(2,l)=l$ and $R(k,2)=k$.
+    Then for these, we have
+    \[R(2,l)=l=\binom{2+l-2}{2-1}\]
+    By induction, we can do up to $k+l$.
+    Then we may write by the lemma
+    \begin{align*}
+        R(k,l) &\leq R(k-1,l)+R(k,l-1)\\
+               &\leq \binom{k+l-3}{k-2}+\binom{k+l-3}{k-1}\\
+               &= \binom{k+l-2}{k-1}
+    \end{align*}
 \end{proof}
 \end{document}

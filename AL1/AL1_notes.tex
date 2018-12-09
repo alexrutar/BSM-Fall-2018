@@ -1141,4 +1141,100 @@ Thus
     If $\gcd(a,b)$ exists, then it is an associate class of $R$.
 \end{proposition}
 We can define $\lcm(a,b)$ in the same way.
+\begin{definition}
+    A \textbf{principal ideal domain} is an integral domain in which every ideal is principal.
+\end{definition}
+\begin{theorem}
+    In a PID $R$:
+    \begin{enumerate}[nolistsep]
+        \item $\gcd(a,b)$ exists for all $a,b\in R$ and every GCD can be expressed as $xa+by$ for some $x,y\in R$.
+        \item All irreducible elements are prime.
+        \item Irreducible associate classes correspond to proper maximal ideals.
+        \item Any nonzero non-unit element is a product of irreducible elements.
+        \item The decomposition is unique up to reordering and using associates.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    \begin{enumerate}
+        \item Let $a,b\in R$ and consider $J=\{xa+by\}\triangleleq R$.
+            It is easy to check that it is an ideal (closed under addition and multiplication by $R$).
+            Since $R$ is a PID, $J=(d)$ for some $d\in R$.
+            In particular, $d|a$ and $d|b$ so $d$ is a common divisor.
+            As well, $d=xa+yb$ for some $x,y$, so if $c|a$ and $c|b$, then $c|xa+yb$ so $c|d$.
+            Thus $d$ is a greatest common divisor.
+            Now if $f\sim\gcd(a,b)$, then $f\sim d$ so $d=fu$ and $f=(ux)a+(uy)b$.
+        \item Suppose $q\in R$ is irreducible, and $q|ab$.
+            We want to show $q|a$ or $q|b$.
+            Consider $\gcd(q,a)$, which is a divisor of $q$.
+            Since $q$ is irreducible, either $q\sim\gcd(q,a)$ or $1\sim\gcd(1,a)$.
+            In the first case, $q|a$, and in the second case, $1=xq+ya$ for some $x,y$ so $b=xqb+yab$ and $q|xqb+yab=b$.
+        \item We mentioned earlier that $q$ is irreducible if and only if $(q)$ is maximal amount proper principal ideals.
+            Either $q\neq 0$, $q\sim 1$, or $d|q$ implies $d\sim q$ or $d\sim 1$.
+            (TODO later)
+        \item Suppose there exists $x$ which is not a product of irreducible elements, and let $T$ denote the set of such $x$.
+            Then $x$ is not irreducible, so $x=yz$ for some proper divisors $y$ and $z$, which are not units or associates of $x$.
+            Without loss of generality, $y\in T$, so that $(x)\subsetneq(y)$.
+            Repeat this argument and get $x_0,x_1,\ldots$ so that $(x_0)\subsetneq(x_1)\subseteq(x_2)\subseteq\cdots$.
+
+            Now let $J=\bigcup_{i=0}^\infty(x_i)$.
+            $J$ is non-empty since $x_i\in J$, and if $a,b\in J$, then $a\in(x_i)$ and $b\in(x_l)$ so $a,b\in (x_{i+l})$ and $a-b\in(x_{i+l})\subset J$.
+            Closure under products follow similarly.
+            Thus $J\triangleleq R$, and since $R$ is a PID, $J=(d)$ for some $d\in R$.
+            Then $d\in J$, so $d\in(x_l)$ for some $l$.
+            But then $J=(d)\subseteq(x_l)\subsetneq(x_{l+1})\subseteq J$, a contradiction.
+        \item If $m=1$, then $n=1$ otherwise $p_1=q_1q_2\ldots q_n$ is a non-trivial decomposition of $p_1$.
+            By induction, suppose $p_m|q_1q_2\ldots q_n$, so $p_m|q_j$ for some $j$.
+            Since $q_j$ is irreducible, $p_m\sim q_j$.
+            Thus after reordering, $q_n=p_m\cdot u$ for some unit $u$.
+            Thus $p_1p_2\ldots p_m=q_1q_2\ldots q_{n-1} u p_m$ and since there are no zero divisors, $p_1p_2\ldots p_{m-1}=q_1q_2\ldots q'_{n-1}$
+    \end{enumerate}
+\end{proof}
+\begin{example}
+    Consider $W=\{f(x)\in\Q[x]:f(0)\in\Z\}\leq\Q[x]$.
+    In $W$, $x=2\cdot\frac{x}{2}=4\cdot\frac{x}{4}$, etc., so $W$ does not have prime factorization.
+\end{example}
+\begin{definition}
+    An integral domain $R$ is a \textbf{Euclidean domain} if and only if there exists $N:R\setminus\{0\}\to\Z_{\geq 0}$ so that
+    \begin{enumerate}[nolistsep]
+        \item $N(ab)\geq N(a)$ for $a,b\neq 0$.
+        \item For any $ab\in R$ with $b\neq 0$, there exists $q,r\in R$ with $a=qb+r$ and either $N(r)<N(b)$ or $r=0$.
+    \end{enumerate}
+\end{definition}
+\begin{proposition}
+    $\Z[i]$ is a UFD.
+\end{proposition}
+\begin{proof}
+    Define $N(a+bi)=a^2+b^2$.
+    Let $x,y\in\Z[i]$ and $y\neq 0$.
+    Since $x,y\in\C$, $x/y=\alpha+\beta i$ and get $a,b\in\Z$ so $|\alpha-a|\leq 1/2$ and $|\beta-b|\leq 1/2$.
+    Let $q=a+bi$, and let $r=x-qy$.
+    Then $x=qy+r$ and
+    \begin{align*}
+        N(r)&=|r|^2=|x-qy|^2=\left\lvert y\left(\frac{x}{y}-q\right)\right\rvert^2\\
+            &=|y|^2\left\lvert\frac{x}{y}-q\right\rvert^2\\
+            &= N(y)\cdot|(\alpha+\beta i)-(a+bi)|^2\\
+            &= N(y)\cdot|(\alpha-a)+(\beta-b)i|^2\\
+            &= N(y)\cdot\left((\alpha-a)^2+(\beta-b)^2\right)\\
+            &\leq \frac{N(y)}{2}\\
+            &< N(y)
+    \end{align*}
+\end{proof}
+\begin{theorem}
+    Every ED is a PID.
+\end{theorem}
+\begin{proof}
+    Let $R$ be an ED, $\{0\}\neq J\triangleleftleq R$.
+    Pick $0\neq d\in J$ with smallest possible norm.
+    It suffices to show $J\subseteq (d)$.
+    For any $x\in J$, write $x=qd+r$, and $N(r)<N(d)$.
+    Since $r=x-qd\in J$, $r\in J$ so the minimality of $N(d)$ forces $r=0$.
+    Thus $x=qd\in(d)$.
+\end{proof}
+For a ring homomorphism, $\phi:R\to T$ satisfies $R/\ker(\phi)\cong\im(\phi)$.
+\begin{theorem}
+    If $R$ is a UFD, then $R[x]$ is a UFD.
+\end{theorem}
+Consider the map $\phi:\R[X]\to\C$ by $f(x)\mapsto f(i)$.
+Then $\im(\phi)=\C$ and $\ker(\phi)=(x^2+1)$.
+Then $\R[x]/(x^2+1)\cong$
 \end{document}
