@@ -1989,4 +1989,51 @@ Note that $R(r)=R(r,r)$, so proving the existence of $R(k,l)$ is sufficient.
                &= \binom{k+l-2}{k-1}
     \end{align*}
 \end{proof}
+We know that $R(4)=18$.
+
+Is there a graph $F$ with $\omega(F)<6$ such that whatever way one 2-colours its edges, a monochromatic triangle must occur.
+The answer is yes: the graph is a 3-cycle and a 5-cycle, and every edge between them.
+Suppose a 2-edge colouring with no monochromatic $K_3$ exists.
+Then without loss of generality, $ab,bc$ are red, $ac$ is blue (the triangle is $abc$).
+Denote the 5-cycle by $12345$, and every connecting ...
+\begin{theorem}[Folkman]
+    For $K_r$, ...
+\end{theorem}
+\begin{theorem}[Ne\u{s}et\u{r}il-R\"odl]
+    For any (finite simple) graph $H$, there exists a graph $G$ with $\omega(G)=\omega(H)$ such that however we 2-edge-colour $G$, a monochromatic induced copy of $H$ occurs.
+\end{theorem}
+\section{Shannon Capaity of Graphs}
+A channel is a probability matrix in which the rows are input letters, and the columns have probabilities that such a letter is received; in other words, $c_{ij}$ is the probability that letter $i$ is recieved as $j$.
+When communicating over a noisy channel and we insist on zero error, then we need to know what pairs of input letters are confusable and what pairs are surely distinguishable.
+
+In a distinguishability graph, the vertex set $V$ is the input alphabet, and the edges are $\{a,b\}$ with $a,b$ surely distingishable input letters.
+A confusability graph is the complement of the above graph.
+If $G$ is the distinguishability graph, then $\omega(G)$ is the number of 1-length messages that can be sent with zero error.
+What about $t-$length messages?
+The measure of efficiency is the rate $R=\frac{\log_2M}{t}$ where $M$ is the number of possible messages and $t$ is the length of codewords.
+The zero-error capacity of the channel is
+\[c_0=\lim_{t\to\infty}\frac{1}{t}\log_2 M(t)\]
+where $M(t)$ is the number of possible messages with $t$ length.
+$M(t)$ can be interpreted as the clique number of the following graph.
+\begin{definition}
+    The \textbf{OR-product} of $F$ and $G$ is $FG$ with
+    \[V(FG)=V(F)\times V(G),E(FG)=\{{(f_1,g_1),(f_2,g_2)}:\{f_1,f_2\}\in E(F)\text{ or }\{g_1,g_2\}\in E(G)\}\]
+\end{definition}
+If $V(G)$ is our input alphabet, $G$ is the distinguisability, then $M(t)=\omega(G^t)$.
+\begin{definition}
+    The \textbf{Shannon OR-capacity} of $G$ is
+    \[C(G)=\lim_{t\to\infty}\frac{1}{t}\log_2\omega(G^t)\]
+    or, non-logarithmically,
+    \[c_{OR}(G)=\lim_{t\to\infty}\sqrt[t]{\omega(G^t)}\]
+\end{definition}
+We know that $c_{OR}(G)\geq\log_2\omega(G)$, since $\omega(G^t)\geq[\omega(G)]^t$.
+Can it be larger?
+We have $\omega(C_5^2)>4$.
+Write $C_5$ on vertices 01234, then we have a clique $00,12,24,31,34$ in $C^2$.
+
+\begin{proposition}
+    $c_{OR}(G)\leq\chi(G)$ for all $G$.
+\end{proposition}
+\begin{proof}
+\end{proof}
 \end{document}

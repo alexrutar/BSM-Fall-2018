@@ -1805,7 +1805,7 @@ Then $\E(g(X,Y))=\E(\E(g(X,Y)|X))$.
 Note that if $g(X,Y)=h_1(X)\cdot h_2(Y)$ (i.e. the variables separate), then
 \[\E(h_1(X)h_2(Y)|X)=h_1(X)\cdot\E(h_2(Y)|X)\]
 \begin{example}
-    Suppose $X\im\UNI[0,1]$ and $Y|X\sim\UNI[0,X]$.
+    Suppose $X\sim\UNI[0,1]$ and $Y|X\sim\UNI[0,X]$.
     Then
     \[\Cov(X,Y)=\E(XY)-\E(X)\E(Y)\]
     Note that $\E(X)=1/2$ and $\E(Y|X)=X/2$.
@@ -1849,7 +1849,7 @@ so that
     As well,
     \begin{align*}
         \Var(X) &= \E(\Var(X|T))+\Var(\E(X|T))\\
-                &= \lambda\E(T)+\lamda^2\Var(T)\\
+                &= \lambda\E(T)+\lambda^2\Var(T)\\
                 &= \frac{\lambda t}{2}+\frac{\lambda^2 t^2}{12}
     \end{align*}
 \end{example}
@@ -1866,7 +1866,7 @@ Then
 which is minimized by $c=\mu$; in other words, $\mu$ minimizes the mean square displacement from $c$, and the mean square displacement is the variance.
 If instead we minimize the mean difference, we end up with the median.
 \begin{example}
-    Suppose $S\im\mathcal{N}(\mu,\sigma^2)$, and we observe $R|S\sim\mathcal{N}(S,1)$, in other words the signal $S$ with some random noise.
+    Suppose $S\sim\mathcal{N}(\mu,\sigma^2)$, and we observe $R|S\sim\mathcal{N}(S,1)$, in other words the signal $S$ with some random noise.
     If a value $r$ is received, what is our guess for the value sent?
     We want $\E(S|R=r)$.
 
@@ -1920,7 +1920,7 @@ We have some properties of moment generating functions.
 Suppose $X$ and $Y$ are indpendent.
 Then their moment generating functions are also independent.
 This follows since
-\[M_{X+Y}(t)=\E(e^{t(X+Y)})=\E(e^{tX}e^{tY})=\E(e^{tX})\E(e^{tY})=\M_X(t)M_Y(t)\]
+\[M_{X+Y}(t)=\E(e^{t(X+Y)})=\E(e^{tX}e^{tY})=\E(e^{tX})\E(e^{tY})=M_X(t)M_Y(t)\]
 Given two random variables $X_1$ and $X_2$, their joint moment generating function is
 \[M:\R^2\to\R\quad M(t_1,t_2)=\E(e^{(t_1X_1+t_2X_2)})\]
 \section{Multivariate Normal Distribution}
@@ -2032,7 +2032,7 @@ Then
 whenever $1/2<\alpha$.
 This suggests that the order of the fluctuations is actually $\sqrt{n}$.
 \begin{proposition}[Central Limit Theorem]
-    Let $X_1,X_2,\lodts$ be iid random variables with $\E(X_1)=\mu$ and $\Var(X_1)=\sigma^2$.
+    Let $X_1,X_2,\ldots$ be iid random variables with $\E(X_1)=\mu$ and $\Var(X_1)=\sigma^2$.
     Then for any $a\in \R$,
     \begin{equation*}
         \Pr\left(\frac{S_n-n\mu}{\sqrt{n}\cdot\sigma}\leq a)\to\Phi(a)
@@ -2100,8 +2100,17 @@ We now prove the Central Limit Theorem
     \end{align*}
     so that $\E(s_n^2)=\sigma^2$.
 \end{example}
-Get 40 random real number which is a fixed integer value plus a uniform error on $[-1/2,1/2]$.
-They are added up and rounded up to the closest integer $T_1$.
-Let $T_2$ be the sum of the individual errors.
-What is $\Pr(T_1=T_2)$?
+Get 48 random real number which is a fixed integer value plus a uniform error on $[-1/2,1/2]$.
+They are added up and rounded off to the closest integer $S$.
+Let $T$ be the sum of the individual integers.
+What is $\Pr(T=S)$?
+
+Note that $S_{48}=\sum\limits_{i=1}^{48}Y_i$ is a sum of independent and identically distributed random variables with mean 0 and variance $48\cdot 1/12=4$.
+We have
+\begin{align*}
+    \Pr(T=S) &= \Pr\left(\left\lvert\sum\limits_{i=1}^{48}Y_i\right\rvert<0.5\right)\\
+             &= \Pr(-1/2<S_{48}<1/2)\\
+             &= \Pr\left(-1/4<\frac{S_{48}-\E(S_{48})}{\mathbb{D}(S_{48})}<1/4\right)\\
+             &= 2\Phi(1/4)-1
+\end{align*}
 \end{document}

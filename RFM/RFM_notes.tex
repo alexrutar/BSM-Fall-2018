@@ -1243,7 +1243,7 @@ If we assume additionally that $\mu(\cup E_i)<\infty$, then $\bigcup_{i=1}^\inft
             Then since $E$ is locally regular, $E\cap K$ is regular and get a compact set $L\subset E\cap K$ such that $\mu(L)>\mu(E\cap K)-\epsilon/2>\mu(E)-\epsilon$.
             This holds for any $\epsilon>0$, so $E$ is regular.
         \item Set $F_1=E_1$, $F_n=E_n\setminus\left(\bigcup\limits_{i=1}^{n-1}E_i\right)$ so $\bigcup\limits_{i=1}^\infty F_i=\bigcup\limits_{i=1}^\infty E_i$ and the $F_i$ as disjoint.
-            By Claim 4, $\cup F_i$ is regular and $F_i$ are regular (TODO: finiteness requirement?)
+            By Claim 4, $\cup F_i$ is regular and $F_i$ are regular. % (TODO: finiteness requirement?)
     \end{enumerate}
 \end{proof}
 \textbf{Claim 7: $\mathcal{M}$ is a $\sigma-$algebra, $M\subset\tau$, and $\mu$ is countably additive on $\mathcal{M}$.}
@@ -2453,5 +2453,134 @@ The Jordan decomposition gives two non-decreasing AC functions.
 \end{theorem}
 \begin{proof}
     Write $f=f_1-f_2$ where $f_1,f_2$ are non-deceasing, and apply the previous theorem.
+\end{proof}
+\section{Differentiability of Monotone Functions}
+\subsection{The Lebesgue-Stieltjes measure}
+Let $f:[a,b]\to\R$ be a non-decreasing function.
+Then the number of jump discontinuities is at most countable.
+Define
+\begin{align*}
+    f(c-0) &:= \lim_{x\to c^-}f(x)\\
+    f(c+0) &:= \lim_{x\to c^+}f(x)\\
+\end{align*}
+The L-S measure corresponding to $f$ is denoted $m_f$ and satisfies
+\begin{align*}
+    m_f((\alpha,\beta)) &= f(\beta-0)-f(\alpha+0)\\
+    m_f([\alpha,\beta]) &= f(\beta+0)-f(\alpha-0)\\
+\end{align*}
+The definition of the Lebesgue-Stieltjes measure is similar to the Lebesgue measure.
+In the Lebesgue case, we have
+\[\Lambda g=\int_a^b g(x)\d{x}\]
+where $g$ is continuous, and get a measure $m$.
+We now define the Riemann-Stieltjes integral to be the supremum over all partitions
+\begin{equation*}
+    \int_a^b g(x)\d{f(x)} = \sum g(y_i)(f(x_i)-f(x_{i-1})
+\end{equation*}
+Note that the Riemann integral is equal to the Riemann-Stieltjes integral taking $f(x)=x$.
+Then $m_f$ is the corresponding measure to the Riemann-Stieltjes integral.
+\begin{theorem}[Lebesgue]
+    If $f$ is monotone, then $f$ is diferentiable almost everywhere.
+\end{theorem}
+\begin{proof}
+    Without loss of generality, $f$ is non-decreasing.
+    Get the Lebesgue-Stieltjes measure $m_f$.
+    We will see that $f$ is ifferentiable at $x_0$ if $m_f$ is differentiable at $x_0$; in which case, $f'(x_0)=m_f'(x_0)$.
+    In particular, we will see that
+    \begin{equation*}
+        \lim_{n\to\infty}\frac{f(x_n)-f(x_0)}{x_n-x_0}
+    \end{equation*}
+    for all sequences $(x_n)\to x_0$.
+    Let $E_n=[x_0,x_n]$ or $[x_n,x_0]$ which shrink nicely to $x_0$.
+    We have
+    \begin{equation*}
+        \frac{m_f((\alpha,\beta))}{m((\alpha,\beta))} \leq\frac{f(\beta)-f(\alpha)}{\beta-\alpha}\leq\frac{m_f([\alpha,\beta]}{m([\alpha,\beta])}
+    \end{equation*}
+    Now,
+    \begin{equation*}
+        \frac{m_f([x_n,x_0])}{m([x_0,x_n])}\to m_f'(x_0)
+    \end{equation*}
+    and since $(x_0,x_n)$ shrinks nicely to $x_0$,
+    \begin{equation*}
+        \frac{m_f((x_n,x_0))}{m((x_0,x_n))}\to m_f'(x_0)
+    \end{equation*}
+    and the result holds by the squeeze theorem.
+\end{proof}
+\begin{corollary}
+    If $f$ has bounded variation on $[a,b]$, then $f$ is almost everywhere differentiable.
+\end{corollary}
+\begin{theorem}
+    Let $f:[a,b]\to\R$ be non-decreasing.
+    Then $f$ is absolutely continuous if and only if $m_f\ll m$.
+\end{theorem}
+\begin{proof}
+    First let $\epsilon>0$, and let $\delta$ be given by absolute continuity of $f$.
+    We will see that $m(E)<\delta$ implies that $m_f(E)<\epsilon$; this implies that $m_f\ll m$.
+    Let $m(E)<\delta$, so there exists an open set $G\supset E$ such that $m(G)<\delta$.
+    Write $G=\bigcup_{i=1}^\infty(\alpha_i,\beta_i)$ disjointly.
+    Then for all $N\in\N$, we have $\sum_{i=1}^N(\beta_i-\alpha_i)<\delta$ so $\sum_{i=1}^N(f(\beta_i)-f(\alpha_i))<\epsilon$.
+    Thus
+    \[m_f(E)<m_f(G)\leq\sum\limits_{i=1}^\infty m_f((\alpha_i,\beta_i))\leq\epsilon\]
+    as required.
+
+    Conversely, suppose $m_f\ll m$.
+    Let $\epsilon>0$ and get $\delta$ so that $m(E)<\delta$ implies $m_f(E)<\epsilon$.
+    We first see that $f$ is uniformly continuous: if $|x_1-x_2|<\delta$, then set $E=[x_1,x_2]$ and $m(E)<\delta$ so $m_f(E)<\epsilon$ and $|f(x_1)-f(x_2)|<\epsilon$.
+    Now suppose $\sum_{i=1}^n(\beta_i-\alpha_i)<\delta$.
+    Then by continuity,
+    \begin{align*}
+        \sum\limits_{i=1}^n(f(\beta_i)-f(\alpha_i)) =\sum\limits_{i=1}^n m_f((\alpha_i,\beta_i))=m_f\left(\bigcup\limits_{i=1}^n(\alpha_i,\beta_i)\right)<\epsilon
+    \end{align*}
+    as required.
+\end{proof}
+\begin{theorem}
+    Let $f:[a,b]\to\R$ be non-decreasing.
+    Then $f'=0$ almost everywhere if and only if $m_f\perp m$.
+\end{theorem}
+\begin{proof}
+    Let $m_f\perp m$.
+    It can be shown that $m_f'=0$ almost everywhere.
+    We also saw that $f'=m_f'$ almost everywhere.
+
+    Conversely, suppose $f'=0$ almost everywhere.
+    Apply the Lebesgue decomposition theorem to $m_f$, so $m_f=m_1+m_2$ where $m_1\ll m$, $m_2\perp m$.
+    We will see that $m_1$ is the zero measure.
+    Let $g_1(x)=m_1([a,x])$, a continuous non-decreasing function.
+    Let $g_2(x)=m_2([a,x])$.
+    Then $m_{g_1}([a,x])=g_1(x)-g_1(a)=m_1([a,x])-m_1([a,a])=m_1([a,x])$ by absolute continuity.
+    Then $m_{g_1}=m_1$ on intervals, so they are equal.
+    Thus $m_{g_1}\ll m$, so $g_1$ is absolutely continuous, so $g_1(x)-g_1(a)=\int_a^x g'\d{m}$.
+    It remains to show that $g_1'=0$ almost everywhere.
+    Recall that $m_f([a,x])=m_1([a,x])+m_2([a,x])$; if $f$ is continuous at $x$, then $f(x)-f(a)=g_1(x)+g_2(x)$, so $g_2$ is almost everywhere differentiable and thus almost everywhere continuous.
+    Then $m_{g_2}([a,x])=m_2([a,x])$, so $m_{g_2}\perp m$.
+    Thus $g_2'=0$ almost everywhere, so $0=f'=g_1'+g_2'$ so $g_1'=0$ almost everywhere, as required.
+\end{proof}
+\begin{definition}
+    If $\phi_{x_n}$ is consant except for a single jump discontinuity at $x_n$ and $\phi=\sum_{n=1}^\infty \phi_{x_n}$ is convergent, then we call $\phi$ a jump function.
+\end{definition}
+\begin{proposition}
+    If $\phi$ is a jump function, then $\phi'=0$ almost everywhere.
+\end{proposition}
+\begin{theorem}
+    Let $f$ have bounded variation on $[a,b]$.
+    Then there exists an absolutely continuous function $f_1$, a singular function $f_2$, and a jump function $\phi$ so that $f=f_1+f_2+\phi$, unique up to additive constants.
+\end{theorem}
+\begin{proof}
+    It suffices to prove this for non-decreasing $f$.
+    If $x_0$ is a jump point of $f$, let
+    \[\phi_{x_0}=
+        \begin{cases}
+            0 &: x<x_0\\
+            f(x_0)-f(x_0-0) &: x=x_0\\
+            f(x_0+0)-f(x_0-0) &: x>x_0
+        \end{cases}
+    \]
+    Then $f-\phi_{x_0}$ is continuous at $x_0$.
+    Repeat this for each of the countably many jump points $(x_n)$, and define $\phi=\sum_{n=1}^\infty \phi_{x_n}$.
+    I claim that $g:=f-\phi$ is continuous (prove later).
+    Let $m_g=m_1+m_2$ be its Lebesgue decomposition, so $m_1\ll m$ and $m_2\perp m$.
+    Let $g_1(x)=m_1([a,x])$ and $g_2(x)=m_2([a,x])$.
+    Then $m_{g_1}=m_1$ and $m_{g_2}=m_2$ so by the previous theorems, $g_1$ is absolutely continuous and $g_2$ is singular.
+    Since $m_g=m_{g_1}+m_{g_2}$, then $g(x)-g(a)=g_1(x)-g_1(a)+g_2(x)-g_2(a)$, so $g(x)=g_1(x)+g_2(x)+c$ for some constant $c$.
+    Then $f=g+\phi=g_1+g_2+\phi+c$.
 \end{proof}
 \end{document}
